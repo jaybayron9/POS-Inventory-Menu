@@ -186,10 +186,13 @@ class Menu extends Connection {
 
     public function total_product_sale() {
         $result = parent::$conn->query("
-            SELECT SUM(sale) AS total_price FROM products
+            SELECT name, sale FROM products ORDER BY sale DESC LIMIT 1
         ");
         foreach($result as $row){
-            return $row['total_price'];
+            return array(
+                'name' => $row['name'],
+                'sale' => $row['sale']
+            );        
         }
     }
 

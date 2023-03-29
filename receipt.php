@@ -36,8 +36,8 @@ $pdf->Cell(60,5,'Contact no.: ' . Settings::settings('contact_no') ,0,1,'C');
 $pdf->Cell(60,5,'E-mail Address : ' . Settings::settings('email') ,0,1,'C');
 $pdf->Cell(60,5,'FaceBook : ' . Settings::settings('URL') ,0,1,'C');
 
-$pdf->Line(7,38,72,38);
-$pdf->Line(7,48,72,48);
+$pdf->Line(4,38,77,38);
+$pdf->Line(4,48,77,48);
 
 //Line break
 $pdf->Ln(1);
@@ -52,7 +52,7 @@ $pdf->Cell(10,4,mysqli_fetch_array($cashier)['name'],0,1,'');
 $pdf->SetFont('Courier','',8);
 $pdf->Cell(20,4,'Bill To: ',0,0,'');
 
-$pdf->SetFont('Courier','',8);
+$pdf->SetFont('Courier','B',12);
 $pdf->Cell(10,4,$_SESSION['invoice_no'],0,1,'');
 
 $pdf->SetFont('Courier','',8);

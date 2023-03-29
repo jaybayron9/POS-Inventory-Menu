@@ -68,7 +68,7 @@
 
                                     for ($i = 0; $i < count($name); $i++) {
                                     ?>
-                                        <tr class="bg-white border-b hover:bg-rose-200 capitalize">
+                                        <tr class="bg-white border-b hover:bg-green-200 capitalize">
                                             <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap">
                                                 <?= $name[$i] ?>
                                             </th>

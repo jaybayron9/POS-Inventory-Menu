@@ -2,19 +2,7 @@
 
 class Inventory extends Connection {
     public static function inventorytbl() {
-        $product = parent::$conn->query("SELECT * FROM products");
-        $inventory = parent::$conn->query("SELECT * FROM inventory");
-        
-        foreach ($product as $proItem) {
-            $desc = explode(", ", $proItem['description']);
-            for ($i = 0; $i < count($desc); $i++) {
-                $inv = parent::$conn->query("SELECT * FROM inventory WHERE ItemName = '$desc[$i]'");
-                foreach ($inv as $invItem) {
-                    parent::$conn->query("UPDATE inventory SET ReorderPoints = ReorderPoints - 1 WHERE ItemName = '$desc[$i]'");
-                }
-            }
-        }
-        return $inventory;
+        return parent::$conn->query("SELECT * FROM inventory");
     }
 
     public function add_item() {
@@ -22,9 +10,9 @@ class Inventory extends Connection {
 
         $result = parent::$conn->query("
             insert into inventory (
-                ItemName, Description, Quantity, Unit, UnitPrice, TotalValue, Supplier, Location
+                item_name, description, quantity, unit_cost, total_value, reorder_level, supplier, location
             ) values (
-                '$itemName', '$description', '$quantity', '$unit', '$unitPrice', '$totalPrice', '$supplier', '$location'
+                '$itemName', '$description', '$quantity', '$UnitCost', '$totalValue', '$reorderLevel', '$supplier', '$location'
             )
         ");
 
@@ -37,7 +25,7 @@ class Inventory extends Connection {
 
     public function get_item() {
 
-        $inv = parent::$conn->query("select * from inventory where ItemID = '{$_POST['itemId']}'");
+        $inv = parent::$conn->query("select * from inventory where id = '{$_POST['itemId']}'");
 
         foreach($inv as $item) {
             return json_encode($item);
@@ -70,7 +58,7 @@ class Inventory extends Connection {
     public function delete_rows() {
         foreach($_POST['ids'] as $id) {
             $del = parent::$conn->query("
-                DELETE FROM inventory WHERE ItemID = '{$id}'
+                DELETE FROM inventory WHERE id = '{$id}'
             ");
         }
 
@@ -85,9 +73,9 @@ class Inventory extends Connection {
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=posinventory.csv');
         $output = fopen("php://output", "w");
-        fputcsv($output, array('ItemID', 'ItemName', 'Description', 'Quantity', 'Unit', 'UnitPrice', 'TotalValue', 'Supplier', 'Location', 'Updated_at'));
+        fputcsv($output, array('id', 'item_name', 'description', 'quantity', 'unit_cost', 'total_value', 'reorder_level', 'supplier', 'location', 'updated_at'));
 
-        $result = parent::$conn->query("select * from inventory");
+        $result = parent::$conn->query("select id, item_name, description, quantity, unit_cost, total_value, reorder_level, supplier, location, updated_at from inventory");
 
         while ($row = mysqli_fetch_assoc($result)) {
             fputcsv($output, $row);

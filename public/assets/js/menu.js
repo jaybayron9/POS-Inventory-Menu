@@ -38,7 +38,23 @@ $(document).ready(function () {
         $('#drinks-menu').hide();
     })
 
-// Note
+    // Keypad
+    $(".key").click(function () {
+        var value = $(this).text();
+        var paymentAmount = $("#payment-amount");
+        paymentAmount.val(paymentAmount.val() + value);
+        discounted();
+        updateTotal();
+    });
+
+    $("#backspace").click(function () {
+        var paymentAmount = $("#payment-amount");
+        paymentAmount.val(paymentAmount.val().slice(0, -1));
+        discounted();
+        updateTotal();
+    });
+
+    // Note
     // adjust the height of the textarea based on the scrollHeight
     $('#note').on('input', function () {
         $(this).height(0);
@@ -78,14 +94,14 @@ $(document).ready(function () {
             $quantityCell.closest('.product-row').addClass('bg-gray-200'); 
             $priceCell.text(total_price);
         } else {
-            var row = '<tr class="text-center hover:bg-rose-100 border-b border-gray-200 product-row">';
+            var row = '<tr class="text-center hover:bg-green-100 border-b border-gray-200 product-row">';
                     row += '<td class="text-left text-gray-900 pl-2">' + name + '</td>';
                     row += '<td class="text-gray-900">' + price + '</td>';
                     row += '<td class="text-gray-900 quantity-cell">1</td>'; 
                     row += '<td class="text-gray-900"><button class="delete-button"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-500"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button></td>';
                 row += '</tr>';
 
-            $('tbody').prepend(row);
+            $('tbody').append(row);
             $('tr.product-row').removeClass('bg-gray-200'); 
             $('tr.product-row:first-child').addClass('bg-gray-200'); 
         }
@@ -165,7 +181,7 @@ $(document).ready(function () {
         });
         if (total == 0) {
             if ($tbody.find('tr').length == 0) {
-                $tbody.append('<tr><td colspan="4" class="text-center py-32">Empty</td></tr>');
+                $tbody.append('<tr><td colspan="4" class="text-center py-40">Empty</td></tr>');
             }
         } else {
             $tbody.find('tr:contains("Empty")').remove();

@@ -1,13 +1,12 @@
 <link rel="stylesheet" href="public/assets/css/table.css">
 <section class="container mx-auto px-5">
     <div class="flex my-4">
-        <p class="font-bold">TPS:
+        <p class="font-bold text-gray-50 capitalize"><?= $menu->total_product_sale()['name'] ?> 🌟 </p>
             <span class="font-semibold text-gray-50">
                 <?php
-                echo '&nbsp;&#8369;&nbsp;' . number_format($menu->total_product_sale(), 2);
+                echo '&nbsp;&#8369;&nbsp;' . number_format($menu->total_product_sale()['sale'], 2);
                 ?>
             </span>
-        </p>
         <div class="ml-auto mr-3">
             <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="
             rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center" type="button">
@@ -24,7 +23,8 @@
                 ?>
                 <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg></button>
+                </svg>
+            </button>
             <!-- Dropdown menu -->
             <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 bg-gray-100">
                 <ul class="py-2 text-sm text-gray-700 text-gray-800" aria-labelledby="dropdownHoverButton">
@@ -37,21 +37,19 @@
                 </ul>
             </div>
         </div>
-        <div class="mr-4 hover:bg-gray-200 rounded-full">
-            <a href="#" title="Add Product" class="modal-open add-product bg-gray-400 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <div class="mr-3">
+            <a href="#" title="Add Product" class="modal-open add-product rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-4 text-center inline-flex items-center" style="padding: 2px 7px 2px 7px;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
+                </svg>Add
             </a>
         </div>
         <?php require(view('components/form-product')) ?>
-        <div class="hover:bg-gray-200 rounded-full">
-            <a href="#" title="Reset Sale" class="reset-sale ">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                </svg>
-            </a>
-        </div>
+        <a href="#" title="Reset Sale" class="reset-sale bg-gradient-to-r p-1 px-1 from-red-500 to-gray-700 text-white hover:text-red-200 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+        </a>  
     </div>
     <div class="bg-gray-50 px-4 py-4 rounded-lg shadow-md mb-5">
         <?php if (urlIs('p=meals') || urlIs('p=product')) { ?>
@@ -63,7 +61,7 @@
                             <th data-priority="2">Name</th>
                             <th data-priority="4">Price</th>
                             <th data-priority="5">Status</th>
-                            <th data-priority="7">Ingredients</th>
+                            <th data-priority="7">Description</th>
                             <th data-priority="6">Sale</th>
                             <th data-priority="3">Action</th>
                         </tr>
@@ -77,7 +75,7 @@
                                     <img src="public/storage/uploads/<?= $productmeals['picture'] !== Null ? $productmeals['picture'] : 'default.jpg' ?>" alt="Product image" class="h-10 w-10 rounded-full">
                                     <p class="pt-2 ml-2 capitalize"><?= $productmeals['name'] ?></p>
                                 </td>
-                                <td class="text-center"><span class="text-green-600">₱</span> <?= $productmeals['price'] ?></td>
+                                <td><span class="text-green-600">₱</span> <?= $productmeals['price'] ?></td>
                                 <td class="text-center">
                                     <select data-row-data="<?= $productmeals['product_id'] ?>" class="status-product">
                                         <option value="" selected hidden><?= $productmeals['status'] !== '' ? $productmeals['status'] : 'Status' ?></option>
@@ -94,7 +92,7 @@
                                     }
                                     ?>
                                 </td>
-                                <td class="text-center"><span class="text-green-600">₱</span> <?= number_format($productmeals['sale'], 2) ?></td>
+                                <td><span class="text-green-600">₱</span> <?= number_format($productmeals['sale'], 2) ?></td>
                                 <td class="text-center">
                                     <a href="#" title="Update product" data-row-data="<?= $productmeals['product_id'] ?>" class="modal-open update-product bg-gradient-to-r from-blue-400 to-gray-700 text-white hover:text-gray-200 px-2 rounded">Edit</a>
                                     <a href="" title="Delete product" data-row-data="<?= $productmeals['product_id'] ?>" class="delete-productbtn bg-gradient-to-r from-red-400 to-red-700 text-white hover:text-gray-200 px-2 rounded">Del</a>
@@ -128,7 +126,7 @@
                                     <img src="public/storage/uploads/<?= $productdrinks['picture'] !== Null ? $productdrinks['picture'] : 'default.jpg' ?>" alt="Product image" class="h-14 w-14 rounded-full">
                                     <p class="pt-4 ml-3"><?= $productdrinks['name'] ?></p>
                                 </td>
-                                <td class="text-center"><span class="text-green-600">₱</span> <?= $productdrinks['price'] ?></td>
+                                <td><span class="text-green-600">₱</span> <?= $productdrinks['price'] ?></td>
                                 <td class="text-center">
                                     <select data-row-data="<?= $productdrinks['product_id'] ?>" class="status-product">
                                         <option value="" selected hidden><?= $productdrinks['status'] !== '' ? $productdrinks['status'] : 'Status' ?></option>

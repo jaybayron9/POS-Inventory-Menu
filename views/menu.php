@@ -1,7 +1,7 @@
 <section class="pt-8 pb-8">
     <div class="mx-auto">
         <div class="grid md:grid-cols-3">
-            <div class="col-span-2 ml-4 mb-2 rounded-lg shadow-lg bg-gray-50">
+            <div class="col-span-2 ml-4 mb-2 rounded-lg shadow-lg bg-gray-50" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
                 <div class="flex py-4">
                     <ol class="inline-flex items-center mx-auto">
                         <li class="inline-flex items-center mr-2">
@@ -54,7 +54,7 @@
                         <?php } ?>
                     </div>
                 </ul>
-                <ul id="drinks-menu" class="meal-list hidden pr-3">
+                <ul id="drinks-menu" class="meal-list hidden pr-3" >
                     <div class="grid xl:grid-cols-6 md:grid-cols-4 sm:grid-cols-4 grid-cols-4 gap-3 ml-3 mb-4">
                         <?php
                         foreach ($menu->products_menu('drinks') as $product) {
@@ -90,7 +90,7 @@
 
             <div class="col-span-1 mx-4 mb-2 rounded-lg shadow-lg bg-gray-50 sticky top-6" style="height: fit-content;">
                 <div class="px-2 mb-3">
-                    <div style="height: 410px">
+                    <div style="height: 410px" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
                         <div class="d-table overflow-x-auto" style="max-height: 400px;">
                             <table id="menu-table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead class="text-xs text-gray-700 uppercase sticky top-0 z-50 bg-gray-50">
@@ -109,20 +109,21 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody id="order-list" class="border-b border-gray-200 dark:border-gray-300">
+                                <tbody id="order-list" class="">
                                     <!-- Orders Goes Here -->
                                 </tbody>
                             </table>
-                            <div class="sticky bottom-0">
-                                <div class="flex w-full bg-gray-50 border-t border-gray-200">
-                                    <p class="p-3 ml-3 font-semibold text-xs">SUBTOTAL</p>
-                                    <p class="p-3 mx-16 font-semibold text-xl text-gray-700">₱ <span id="total"></span></p>
-                                </div>
-                                <div class="discounttotal hidden flex w-full bg-gray-50 border-t border-gray-200">
-                                    <p class="p-3 ml-3 font-semibold text-xs">TOTAL DISCOUNT</p>
-                                    <p class="p-3 mx-6 font-semibold text-2xl text-gray-900">₱ <span id="finaltotal"></span></p>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
+
+                    <div data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
+                        <div class="flex w-full bg-gray-50 border-t border-gray-200">
+                            <p class="p-3 ml-3 font-semibold text-xs">SUBTOTAL</p>
+                            <p class="p-3 mx-16 font-semibold text-xl text-gray-700">₱ <span id="total"></span></p>
+                        </div>
+                        <div class="discounttotal hidden flex w-full bg-gray-50 border-t border-gray-200">
+                            <p class="p-3 ml-3 font-semibold text-xs">TOTAL DISCOUNT</p>
+                            <p class="p-3 mx-6 font-semibold text-2xl text-gray-900">₱ <span id="finaltotal"></span></p>
                         </div>
                     </div>
 
@@ -154,10 +155,10 @@
                     <div class="flex items-center justify-center gap-3 mb-1 px-2">
                         <div>
                             <label for="Payment amount" class="font-semibold text-xs">PAYMENT</label>
-                            <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" placeholder="0" maxlength="5" class="w-full rounded-l-md border-gray-400 shadow-md text-green-600 myInput placeholder:text-green-500">
+                            <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" placeholder="0" maxlength="5" class="w-full rounded-l-md border-gray-400 shadow-md text-green-600 myInput placeholder:text-green-500" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
                         </div>
 
-                        <div>
+                        <div data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
                             <label for="Change" class="font-semibold text-xs">CHANGE</label>
                             <input type="number" id="change" name="change" disabled title="Change" placeholder="0" class="w-full px-2 rounded-r-md border-gray-300 bg-gray-100 shadow-md text-red-500 placeholder:text-red-500">
                         </div>
@@ -173,7 +174,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-left">
+                    <div class="flex items-center justify-left" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
                         <div class="flex ml-2">
                             <div>
                                 <label for="Service type" class="font-semibold text-xs">SERVICE</label>
@@ -214,5 +215,36 @@
         </div>
     </div>
 </section>
+
+<!-- KEYPAD -->
+<div id="drawer-backdrop" class="fixed top-0 mt-44 left-0 z-50 h-72 p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 shadow-xl rounded-r" tabindex="-1" aria-labelledby="drawer-backdrop-label">
+    <h5 id="drawer-backdrop-label" class="text-base font-semibold text-gray-500 uppercase">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+        </svg>
+    </h5>
+    <button type="button" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center ">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="sr-only">Close keypad</span>
+    </button>
+    <div class="py-3 px-2 overflow-y-auto">
+        <div class="keypad grid grid-cols-3 gap-4 font-medium">
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">7</button>
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">8</button>
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">9</button>
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">4</button>
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">5</button>
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">6</button>
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">1</button>
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">2</button>
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">3</button>
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">.</button>
+            <button class="key bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">0</button>
+            <button id="backspace" class="bg-gray-300 hover:bg-gray-400 rounded-md py-2 px-4 shadow-xl">Del</button>
+        </div>
+    </div>
+</div>
 
 <script src="public/assets/js/menu.js"></script>

@@ -16,52 +16,45 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form id="update-item-form">
+            <form id="update-item-form" action="#">
                 <input type="hidden" name="id" id="upId">
                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Item Name</label>
-                        <input type="text" name="itemName" id="upItemName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Chicken">
+                        <input type="text" name="upItemName" id="upItemName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Chicken">
                     </div>
                     <div>
-                        <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Quantity</label>
-                        <input type="text" name="quantity" id="upQuantity" class="myInput bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="50 kg">
+                        <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Quantity</label>
+                        <input type="text" name="upQuantity" id="upQuantity" class="myInput bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="50 kg">
                     </div>
                     <div>
-                        <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Units Measurement</label>
-                        <select name="unit" id="upUnit" class="myInput bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="50 kg">
-                            <option value="each">each</option>
-                            <option value="unit">unit</option>
-                            <option value="lb">lb (pounds)</option>
-                            <option value="oz">oz (ounces)</option>
-                            <option value="mL">mL (milliliters)</option>
-                            <option value="L">L (liters)</option>
-                        </select>
+                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Unit Cost</label>
+                        <input type="text" name="upUnitCost" id="upUnitCost" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500 myInput" placeholder="225.00">
                     </div>
                     <div>
-                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Unit Price</label>
-                        <input type="number" name="unitPrice" id="upUnitPrice" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500 myInput" placeholder="225.00">
+                        <label for="total price" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Total Value</label>
+                        <input type="text" name="upTotalValue" id="upTotalValue" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500 myInput" placeholder="11,250.00">
                     </div>
                     <div>
-                        <label for="total price" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Total Price</label>
-                        <input type="number" name="totalPrice" id="upTotalPrice" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500 myInput" placeholder="11,250.00">
+                        <label for="location" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Reorder Level</label>
+                        <input type="text" name="reorderLevel" id="upReorderLevel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500 myInput" placeholder="50">
                     </div>
                     <div>
                         <label for="supplier" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Supplier</label>
-                        <input type="text" name="supplier" id="upSupplier" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="ABC Supplier">
+                        <input type="text" name="upSupplier" id="upSupplier" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="ABC Supplier">
                     </div>
                     <div>
                         <label for="location" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Location</label>
-                        <input type="text" name="location" id="upLocation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Freezer">
+                        <input type="text" name="upLocation" id="upLocation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Freezer">
                     </div>
                     <div>
                         <label for="description" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Description</label>
-                        <textarea id="upDescription" name="description" rows="1" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write item description here"></textarea>
+                        <textarea id="upDescription" name="description" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write item description here"></textarea>
                     </div>
                 </div>
                 <div class="flex">
                     <button type="submit" class="ml-auto text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                        Update
+                        Add
                     </button>
                 </div>
             </form>

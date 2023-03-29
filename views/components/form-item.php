@@ -26,23 +26,16 @@
                         <input type="text" name="quantity" id="quantity" class="myInput bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="50 kg">
                     </div>
                     <div>
-                        <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Units Measurement</label>
-                        <select name="unit" id="unit" class="myInput bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="50 kg">  
-                            <option value="each">each</option>
-                            <option value="unit">unit</option>
-                            <option value="lb">lb (pounds)</option>
-                            <option value="oz">oz (ounces)</option>
-                            <option value="mL">mL (milliliters)</option>
-                            <option value="L">L (liters)</option>
-                        </select>
+                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Unit Cost</label>
+                        <input type="text" name="UnitCost" id="unitPrice" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500 myInput" placeholder="225.00">
                     </div>
                     <div>
-                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Unit Price</label>
-                        <input type="text" name="unitPrice" id="unitPrice" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500 myInput" placeholder="225.00">
+                        <label for="total price" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Total Value</label>
+                        <input type="text" name="totalValue" id="totalValue" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500 myInput" placeholder="11,250.00">
                     </div>
                     <div>
-                        <label for="total price" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Total Price</label>
-                        <input type="text" name="totalPrice" id="TotalPrice" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500 myInput" placeholder="11,250.00">
+                        <label for="location" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Reorder Level</label>
+                        <input type="text" name="reorderLevel" id="reorderLevel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500 myInput" placeholder="50">
                     </div>
                     <div>
                         <label for="supplier" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Supplier</label>

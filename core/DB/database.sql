@@ -65,25 +65,20 @@ CREATE TABLE products (
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 drop table products;
-
 CREATE TABLE inventory (
-    ItemID INT PRIMARY KEY AUTO_INCREMENT,
-    ItemName VARCHAR(50),
-    Description VARCHAR(100),
-    Category VARCHAR(50),
-    Quantity DECIMAL(8,2),
-    Unit VARCHAR(50),
-    UnitPrice DECIMAL(8,2),
-    TotalValue DECIMAL(8,2),
-    Supplier VARCHAR(50),
-    Location VARCHAR(50),
-    LeadTime INT(11),
-    ReorderPoints DECIMAL(8,2),
-    DemandVariability DECIMAL(8,2),
-    SafetyStock DECIMAL(8,2),
-    Created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    item_name VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
+    quantity INT NOT NULL,
+    unit_cost DECIMAL(10,2) NOT NULL,
+    total_value DECIMAL(10,2) NOT NULL,
+    reorder_level INT NOT NULL,
+    supplier VARCHAR(255),
+    location VARCHAR(255),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
 DROP table `inventory`;
 
 
@@ -126,3 +121,11 @@ INSERT INTO `products` (`product_id`, `name`, `price`, `status`, `picture`, `des
 (25, 'water', '0', 'On Hand', NULL, NULL, '0.00', 'drinks', '2023-02-24 05:11:20', '2023-02-24 12:01:04');
 
 update orders set status = '';
+
+INSERT INTO inventory (item_name, description, quantity, unit_cost, total_value, reorder_level, supplier, location)
+VALUES 
+  ('Beef', 'Fresh ground beef for burgers', 50, 2.50, 125.00, 10, 'Meat Co.', 'Walk-in Freezer'),
+  ('Chicken Breast', 'Boneless, skinless chicken breast', 75, 2.00, 150.00, 20, 'Poultry Farms Inc.', 'Walk-in Cooler'),
+  ('Potatoes', 'Fresh potatoes for french fries', 100, 0.50, 50.00, 30, 'Farm Fresh Produce', 'Dry Storage'),
+  ('Buns', 'Freshly baked hamburger buns', 150, 0.25, 37.50, 50, 'Bakery Co.', 'Dry Storage'),
+  ('Cheese', 'Sliced American cheese', 50, 1.00, 50.00, 5, 'Dairy Farms Inc.', 'Walk-in Cooler');
