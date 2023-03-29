@@ -95,10 +95,10 @@ $(document).ready(function () {
             $priceCell.text(total_price);
         } else {
             var row = '<tr class="text-center hover:bg-green-100 border-b border-gray-200 product-row">';
-                    row += '<td class="text-left text-gray-900 pl-2">' + name + '</td>';
+                    row += '<td class="text-left text-gray-900 pl-2 text-l font-medium">' + name + '</td>';
                     row += '<td class="text-gray-900">' + price + '</td>';
                     row += '<td class="text-gray-900 quantity-cell">1</td>'; 
-                    row += '<td class="text-gray-900"><button class="delete-button"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-500"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button></td>';
+                    row += '<td class="text-gray-900"><button class="delete-button"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mt-1 text-red-500"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button></td>';
                 row += '</tr>';
 
             $('tbody').append(row);

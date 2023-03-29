@@ -1,7 +1,7 @@
 <section class="pt-8 pb-8">
     <div class="mx-auto">
         <div class="grid md:grid-cols-3">
-            <div class="col-span-2 ml-4 mb-2 rounded-lg shadow-lg bg-gray-50" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
+            <div class="col-span-2 ml-4 mb-2 rounded-lg shadow-lg bg-gray-50" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop" style="background-image: url('public/storage/eximage/bg3.png'); background-repeat: repeat; background-size: 25px 25px;">
                 <div class="flex py-4">
                     <ol class="inline-flex items-center mx-auto">
                         <li class="inline-flex items-center mr-2">
@@ -88,12 +88,12 @@
                 </ul>
             </div>
 
-            <div class="col-span-1 mx-4 mb-2 rounded-lg shadow-lg bg-gray-50 sticky top-6" style="height: fit-content;">
+            <div class="col-span-1 mx-4 mb-2 rounded-lg shadow-lg bg-gray-50 sticky top-6" style="height: fit-content; background-image: url('public/storage/eximage/bg3.png'); background-repeat: repeat; background-size: 25px 25px;">
                 <div class="px-2 mb-3">
                     <div style="height: 410px" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
                         <div class="d-table overflow-x-auto" style="max-height: 400px;">
                             <table id="menu-table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase sticky top-0 z-50 bg-gray-50">
+                                <thead class="text-xs text-gray-700 uppercase sticky top-0 z-50">
                                     <tr class="border-b border-gray-100 shadow">
                                         <th scope="col" class="px-4 py-3">
                                             Product
@@ -117,7 +117,7 @@
                     </div>
 
                     <div data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
-                        <div class="flex w-full bg-gray-50 border-t border-gray-200">
+                        <div class="flex w-full border-t border-gray-200">
                             <p class="p-3 ml-3 font-semibold text-xs">SUBTOTAL</p>
                             <p class="p-3 mx-16 font-semibold text-xl text-gray-700">₱ <span id="total"></span></p>
                         </div>

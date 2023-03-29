@@ -1,15 +1,14 @@
 <?php 
 require('core/mailer.php');
 
-class Auth extends Connection 
-{
-    public function __destruct()
-    {
+class Auth extends Connection {
+
+    public function __destruct() {
         $this->closeConnection();
     }
 
     public static function isAuth() {
-        if (isset($_SESSION['log_id'])) {
+        if (isset($_SESSION['log_id']) || isset($_COOKIE['log_id'])) {
             return true;
         }
     
@@ -24,7 +23,7 @@ class Auth extends Connection
         return false;
     }
 
-    public static function isSetPassReq(){
+    public static function isSetPassReq() {
         $reqpass_id = isset($_SESSION['reqpass_id']) ? $_SESSION['reqpass_id'] : '!@#$%^&*)(I*&^%$#*';
         if (isset($_GET['p']) == $reqpass_id && checkUrl($reqpass_id) == 'views/auth/pass-reset.php') {
             $query = parent::$conn->query("
@@ -41,14 +40,13 @@ class Auth extends Connection
         return false;
     }
 
-    public function login()
-    {
+    public function login() {
         $stmt = parent::$conn->prepare("
             select * from users 
             where
                 username = ?
             and 
-            password = ?
+                password = ?
         ");
 
         $stmt->bind_param("ss", $_POST['email'], $_POST['password']);
@@ -57,19 +55,19 @@ class Auth extends Connection
         if ($result->num_rows == 1) {
             foreach ($result as $row) {
                 $_SESSION['log_id'] = $row['user_id'];
+                setcookie('user_id', $row['user_id'], time() + (86400 * 30), '/');
             }
             return parent::alert('success', 'Login successful.');
         } 
         return parent::alert('error', 'Invalid username or password.');
     }
 
-    public function logout()
-    {
+    public function logout() {
         unset($_SESSION['log_id']);
+        setcookie('user_id', '', time() - 3600, '/');
     }
 
-    public function pass_req()
-    {
+    public function pass_req() {
         $email = $_POST['email'];
         $stmt = parent::$conn->prepare("
             SELECT * FROM users 
@@ -109,8 +107,7 @@ class Auth extends Connection
         return parent::alert('error', 'Email not found.');
     }    
 
-    public function change_pass()
-    {
+    public function change_pass() {
         if ($_POST['newpass'] ==  $_POST['conpass']) {
             $query = parent::$conn->query("
                 update users 
@@ -131,13 +128,13 @@ class Auth extends Connection
         }
     }
 
-    public static function users(){
+    public static function users() {
         return parent::$conn->query("
             select * from users where role = 'Cashier' or role = 'Chef'
         ");
     }
 
-    public static function user($id){
+    public static function user($id) {
         return parent::$conn->query("
             select * from users where user_id = {$id}
         ");
@@ -158,7 +155,7 @@ class Auth extends Connection
         }
     }
 
-    public function change_user_password(){
+    public function change_user_password() {
         extract($_POST);
 
         $cur_pass = parent::$conn->query("
@@ -190,7 +187,7 @@ class Auth extends Connection
         }
     }
 
-    public function add_user(){
+    public function add_user() {
         extract($_POST);
         $query = parent::$conn->query("
             INSERT INTO users (name, username, email, password, role) 

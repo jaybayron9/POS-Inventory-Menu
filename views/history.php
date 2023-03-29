@@ -2,10 +2,13 @@
 
 <section class="container mx-auto px-5">
     <div class="flex my-4">
-        <p class="font-bold">SALE:
+        <p class="font-bold">Total Sale:
+            <span class="text-green-500">
+                &#8369;
+            </span>
             <span class="font-semibold text-gray-50">
                 <?php
-                echo '&nbsp;&#8369;&nbsp;' . number_format($menu->total_sale(), 2);
+                echo number_format($menu->total_sale(), 2);
                 ?>
             </span>
         </p>

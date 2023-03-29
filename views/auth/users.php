@@ -4,9 +4,10 @@
 
 <?php require(view('components/user/speed-dial')) ?>
 <?php require(view('components/user/form-user')) ?>
+ 
 
-
-    <div class="bg-gray-50 p-5 m-5 rounded-md shadow-md">
+<section class="container mx-auto md:p-10 p-5">
+    <div class="bg-gray-50 p-4 rounded-lg shadow-md mb-5">
         <table id="userstbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
             <thead>
                 <tr>
@@ -35,6 +36,7 @@
             </tbody>
         </table>
     </div>
+</section>
 
 <script>
     $(document).ready(function() {
