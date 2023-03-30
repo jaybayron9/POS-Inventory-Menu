@@ -6,6 +6,9 @@ $actions = !isset($_GET['a']) ? '' : strtolower($_GET['a']);
 
 $menuFunc = [
     'orders' => ['obj' => $menu, 'method' => 'save'],
+    'print' => ['obj' => $menu, 'method' => 'print_receipt'],
+    'refresh_table' => ['obj' => $menu, 'method' => 'unset_orders'],
+    'cancel_orders' => ['obj' => $menu, 'method' => 'cancel_orders'],
     'endsess' => ['obj' => $menu, 'method' => 'endsess'],
     'up_order' => ['obj' => $menu, 'method' => 'up_order'],
     'unset' => ['obj' => $menu, 'method' => 'unset_session'],

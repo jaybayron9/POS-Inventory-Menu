@@ -1,6 +1,6 @@
 <section class="p-6 text-gray-50 container flex flex-col mx-auto space-y-12 ng-untouched ng-pristine ng-valid">
     <form id="profile" class="bg-gray-100 rounded-md shadow-sm">
-        <fieldset class="grid grid-cols-4 gap-6 p-6 rounded-md bg-gray-100">
+        <fieldset class="grid grid-cols-4 gap-6 p-6 rounded-md bg-gray-100" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
             <div class="space-y-2 col-span-full lg:col-span-1">
                 <p class="font-medium text-gray-900">Profile Settings</p>
                 <!-- <p class="text-xs"></p> -->
@@ -22,12 +22,12 @@
             </div>
             <?php } ?>
         </fieldset>
-        <div class="flex">
+        <div class="flex" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
             <button type="submit" class="ml-auto mb-5 mr-6 px-4 py-2 border rounded-md border-gray-500 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 rounded-md shadow-md hover:border-gray-50">Save</button>
         </div>
     </form>
-    <form id="changePass" class="bg-gray-100 rounded-md shadow-sm">
-        <fieldset class="grid grid-cols-4 gap-6 p-6 rounded-md bg-gray-100">
+    <form id="changePass" class="bg-gray-100 rounded-md shadow-sm" >
+        <fieldset class="grid grid-cols-4 gap-6 p-6 rounded-md bg-gray-100" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
             <div class="space-y-2 col-span-full lg:col-span-1">
                 <p class="font-medium text-gray-900">Change Password</p>
                 <!-- <p class="text-xs"></p> -->
@@ -47,7 +47,7 @@
                 </div>
             </div>
         </fieldset>
-        <div class="flex">
+        <div class="flex" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
             <button type="submit" class="ml-auto mb-5 mr-6 px-4 py-2 border rounded-md border-gray-500 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 rounded-md shadow-md hover:border-gray-50">Save</button>
         </div>
     </form>

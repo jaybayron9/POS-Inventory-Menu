@@ -164,13 +164,15 @@ $(document).ready(function () {
     $("#refresh-table").click(function () {
         $(this).addClass('animate-spin');
 
-        setTimeout(function () {
-            orderTableClear();
-
-            $("#refresh-table").removeClass('animate-spin');
-
-        }, 900);
-        location.reload();
+        $.ajax({
+            url: 'index.php?refresh_table',
+            success: function(){
+                setTimeout(function () {
+                    $("#refresh-table").removeClass('animate-spin');
+                    location.reload();
+                }, 900);
+            }
+        });
     });
 
     function updateTotal() {
@@ -199,7 +201,7 @@ $(document).ready(function () {
 
         var discountAmount = total * (discount / 100);
         var NewTotal = total - discountAmount;
-        var NewChange = NewTotal - payment;
+        var NewChange = payment - NewTotal;
 
         $('#discountamount').val(discountAmount.toFixed(2));
         $('#finaltotal').html(NewTotal.toFixed(2));
@@ -280,18 +282,14 @@ $(document).ready(function () {
     // Validate and Send request to print and place order
     var printDialogClosed = false;
 
-    $('#send-request').click(function () {
-
+    $('#print-receipt').click(function () {
         var payment = $('#payment-amount').val();
         console.log(payment);
-        if (payment == "" && payment == 0) {
-            alert("Please provide payment amount.");
-        } else if (($('tbody tr').length === 1 && $('tbody tr').text() === "Empty")) {
+        if (($('tbody tr').length === 1 && $('tbody tr').text() === "Empty")) {
             alert("No Orders");
-        } else if (!confirm('Are you sure you want to place this order')) {
-        // orderTableClear();
+        } else if (payment == "" && payment == 0) {
+            alert("Please provide payment amount.");
         } else {
-
             var data = [];
 
             $('tbody tr').each(function () {
@@ -313,7 +311,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: "POST",
-                url: "index.php?a=orders",
+                url: "index.php?a=print",
                 data: {
                     data: data,
                     total: total,
@@ -329,14 +327,13 @@ $(document).ready(function () {
                         $("body").append(iframe);
                         var iframeElement = document.querySelector("iframe");
                         iframeElement.contentWindow.print();
-                        setTimeout(checkPrintDialogClosed, 5000);
-
+                        setTimeout(checkPrintDialogClosed, 3000);
                     } else {
                         alert(response.msg);
                         console.log(response.msg);
                     }
                 }
-            });
+            })
         }
     });
 
@@ -350,8 +347,30 @@ $(document).ready(function () {
 
     function checkPrintDialogClosed() {
         if (!printDialogClosed) {
-            alert("Click okay or press enter to continue.");
-            location.reload();
+            $('#send-request').removeClass('hidden').slideDown();
+            $('#print-receipt').addClass('hidden').slideUp();
         }
     }
+
+    $('#send-request').click(function () {
+        var payment = $('#payment-amount').val();
+        
+        if (($('tbody tr').length === 1 && $('tbody tr').text() === "Empty")) {
+            alert("No Orders");
+        } else if (payment == "" && payment == 0) {
+            alert("Please provide payment amount.");
+        } else {
+            $.ajax({
+                url: "index.php?a=orders",
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status == 'success') {
+                        location.reload(true);
+                    }else {
+                        alert(response.msg)
+                    }
+                }
+            });
+        }
+    });
 });

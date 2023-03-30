@@ -1,13 +1,11 @@
 <?php
 
-class Connection 
-{
+class Connection {
     private static $instance = null;
     public static $conn;
     var $message = 'There\'s a problem connecting to the database.';
 
-    public function __construct()
-    {
+    public function __construct() {
         $config = require('config.php');
 
         extract($config['database']);
@@ -19,14 +17,12 @@ class Connection
         }
     }
 
-    public static function closeConnection()
-    {
+    public static function closeConnection() {
         mysqli_close(self::$conn);
         self::$instance = null;
     }
 
-    public function alert($status, $message)
-    {
+    public function alert($status, $message) {
         return json_encode(
                 array(
                     'status' => $status, 

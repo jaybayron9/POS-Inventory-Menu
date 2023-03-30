@@ -1,7 +1,7 @@
 <div id="defaultModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
-    <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+    <div class="relative p-4 w-full max-w-2xl h-full md:h-auto" >
         <!-- Modal content -->
-        <div class="relative p-4 bg-white rounded-lg shadow sm:p-5">
+        <div class="relative p-4 bg-white rounded-lg shadow sm:p-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
             <!-- Modal header -->
             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-gray-900 text-dark">

@@ -6,17 +6,7 @@ class Menu extends Connection {
         return parent::$conn->query("SELECT * FROM products where category = '{$column}' ORDER BY CAST(price AS UNSIGNED) ASC");
     }
 
-    public function save() {
-        $name = "";
-        $price = "";
-        $quantity = "";
-
-        foreach ($_POST['data'] as $value) {
-            $name .= $value['name'] . ', ';
-            $price .= $value['price'] . ', ';
-            $quantity .= $value['quantity'] . ', ';
-        }
-
+    public function print_receipt() {
         // Set session to this data to generate receipt
         $_SESSION['data'] = $_POST['data'];
         $_SESSION['total'] = $_POST['total'];
@@ -24,9 +14,24 @@ class Menu extends Connection {
         $_SESSION['payment_amount'] = $_POST['payment_amount'];
         $_SESSION['payment_change'] = $_POST['payment_change'];
         $_SESSION['discount'] = $_POST['discount'];
+        $_SESSION['invoice_no'] = rand(1, 199);
+
+        return parent::alert('success', '');
+    }
+
+    public function save() {
+        $name = "";
+        $price = "";
+        $quantity = "";
+
+        foreach ($_SESSION['data'] as $value) {
+            $name .= $value['name'] . ', ';
+            $price .= $value['price'] . ', ';
+            $quantity .= $value['quantity'] . ', ';
+        }
+
         $_SESSION['success'] = 'Order Placed';
         $_SESSION['notif'] = 'bell';
-        $_SESSION['invoice_no'] = rand(1, 199);
 
         $no = parent::$conn->query("SELECT * FROM orders WHERE invoice_no = '{$_SESSION['invoice_no']}'");
         if ($no->num_rows > 0) {
@@ -40,11 +45,11 @@ class Menu extends Connection {
         $save = parent::$conn->query("INSERT INTO orders (
             name, price, quantity, total, total_discount, discount, service, invoice_no
         ) VALUES (
-            '{$name}', '{$price}', '{$quantity}', '{$_POST['total']}', '{$grandtotal}', '{$discount}', '{$_POST['service']}', '{$_SESSION['invoice_no']}'
+            '{$name}', '{$price}', '{$quantity}', '{$_SESSION['total']}', '{$grandtotal}', '{$discount}', '{$_SESSION['service']}', '{$_SESSION['invoice_no']}'
         )");
 
         if ($save) {
-            foreach ($_POST['data'] as $sub_array) {
+            foreach ($_SESSION['data'] as $sub_array) {
                 $prices = parent::$conn->query("select * from products");
     
                 foreach ($prices as $price) {
@@ -61,8 +66,28 @@ class Menu extends Connection {
                     }
                 }
             }
+            self::unset_orders();
             return parent::alert('success', 'Order placed.');
         }
+    }
+
+    public function unset_orders() {
+        unset($_SESSION['data']);
+        unset($_SESSION['total']);
+        unset($_SESSION['service']);
+        unset($_SESSION['payment_amount']);
+        unset($_SESSION['payment_change']);
+        unset($_SESSION['discount']);
+        unset($_SESSION['invoice_no']);
+    }
+
+    public function cancel_orders() {
+        $query = parent::$conn->query("DELETE FROM orders WHERE order_id = '{$_POST['order_id']}'");
+
+        if ($query) {
+            return parent::alert('success', 'Order canceled.');
+        } 
+        return parent::alert('failed', 'There\'s a problem.');
     }
 
     public function unset_session()

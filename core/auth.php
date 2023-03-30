@@ -16,11 +16,14 @@ class Auth extends Connection {
     }
 
     public static function isAdmin() {
-        $query = parent::$conn->query("select * from users where `user_id` = '{$_SESSION['log_id']}' and role = 'Admin'");
-        if ($query->num_rows > 0) {
-            return true;
+        if (isset($_SESSION['log_id']) || isset($_COOKIE['log_id'])) {
+            $_SESSION['log_id'] = $_COOKIE['log_id'];
+            $query = parent::$conn->query("select * from users where `user_id` = '{$_COOKIE['log_id']}' and role = 'Admin'");
+            if ($query->num_rows > 0) {
+                return true;
+            }
+            return false;
         }
-        return false;
     }
 
     public static function isSetPassReq() {
@@ -55,7 +58,7 @@ class Auth extends Connection {
         if ($result->num_rows == 1) {
             foreach ($result as $row) {
                 $_SESSION['log_id'] = $row['user_id'];
-                setcookie('user_id', $row['user_id'], time() + (86400 * 30), '/');
+                setcookie('log_id', $row['user_id'], time() + (86400 * 30), '/');
             }
             return parent::alert('success', 'Login successful.');
         } 
@@ -64,7 +67,7 @@ class Auth extends Connection {
 
     public function logout() {
         unset($_SESSION['log_id']);
-        setcookie('user_id', '', time() - 3600, '/');
+        setcookie('log_id', '', time() - 3600, '/');
     }
 
     public function pass_req() {
@@ -135,9 +138,12 @@ class Auth extends Connection {
     }
 
     public static function user($id) {
-        return parent::$conn->query("
-            select * from users where user_id = {$id}
-        ");
+        if (isset($_SESSION['log_id']) || isset($_COOKIE['log_id'])) {
+            $_SESSION['log_id'] = $_COOKIE['log_id'];
+            return parent::$conn->query("
+                select * from users where user_id = {$id}
+            ");
+        }
     }
 
     public function update_profile() {

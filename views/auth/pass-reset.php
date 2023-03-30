@@ -1,5 +1,5 @@
 <div class="flex items-center justify-center min-h-screen">
-    <div  class="px-8 py-6 mt-4 text-left bg-white shadow-lg rounded-md">
+    <div  class="px-8 py-6 mt-4 text-left bg-gray-100 shadow-md rounded-md" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 35px 35px;">
         <h3 class="text-2xl font-bold text-center">Forgot your password?</h3>
         <form id="changepass-form">
             <div class="mt-4">

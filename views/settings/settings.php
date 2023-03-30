@@ -1,9 +1,9 @@
 <?php if (Auth::isAdmin()) { ?>
 
-<section class="p-6 text-gray-50 container flex flex-col mx-auto space-y-12 ng-untouched ng-pristine ng-valid">
-    <form id="settings" class="bg-gray-100 rounded-md shadow-sm">
+<section class="p-6 text-gray-50 container flex flex-col mx-auto space-y-12">
+    <form id="settings" class="bg-gray-100 rounded-md shadow-sm" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
         <input type="hidden" name="id" value="<?= Settings::settings('id') ?>">
-        <fieldset class="grid grid-cols-4 gap-6 p-6 rounded-md bg-gray-100">
+        <fieldset class="grid grid-cols-4 gap-6 p-6 rounded-md bg-gray-100" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
             <div class="space-y-2 col-span-full lg:col-span-1">
                 <p class="font-medium text-gray-900">POS Settings</p>
                 <!-- <p class="text-xs"></p> -->

@@ -32,7 +32,7 @@ $address_lines = explode("\n", $new_address);
 $pdf->Cell(60,5,$address_lines[0],0,1,'C');
 $pdf->Cell(60,5,$address_lines[1],0,1,'C');
 $pdf->Cell(60,5,$address_lines[2],0,1,'C');
-$pdf->Cell(60,5,'Contact no.: ' . Settings::settings('contact_no') ,0,1,'C');
+$pdf->Cell(60,5,'Contact #: ' . Settings::settings('contact_no') ,0,1,'C');
 $pdf->Cell(60,5,'E-mail Address : ' . Settings::settings('email') ,0,1,'C');
 $pdf->Cell(60,5,'FaceBook : ' . Settings::settings('URL') ,0,1,'C');
 
@@ -64,7 +64,7 @@ $pdf->SetFont('Courier','',8);
 $pdf->Cell(10,4,$service,0,1,'');
 
 $pdf->SetFont('Courier','',8);
-$pdf->Cell(20,4,'Invoice no: ',0,0,'');
+$pdf->Cell(20,4,'Invoice #: ',0,0,'');
 $pdf->SetFont('Courier','',8);
 $pdf->Cell(40,4,$_SESSION['invoice_no'],0,1,'');
 

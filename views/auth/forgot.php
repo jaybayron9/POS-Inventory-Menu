@@ -1,6 +1,5 @@
 <div id="forgot-div" class="hidden flex items-center justify-center min-h-screen">
-    <div class="px-8 py-6 mt-4 text-left bg-white shadow-lg rounded-md" style="background-image: url('public/storage/eximage/bg3.png');
-            background-size: 50px 50px;">
+    <div class="px-8 py-6 mt-4 text-left bg-gray-100 shadow-md rounded-md" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 35px 35px;">
         <h3 class="text-2xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-gray-900">Forgot Your Password?</h3>
         <p class="mb-4 text-sm text-gray-700 text-center">
             We get it, stuff happens. Just enter your email address <br> below and we'll send you a
