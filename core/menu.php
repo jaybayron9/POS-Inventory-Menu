@@ -135,7 +135,7 @@ class Menu extends Connection {
             "insert into products (
                     name, price, picture, status, category, description
                 ) values (
-                    ?, ?, ?, 'On Hand', ?, ?
+                    ?, ?, ?, 'Available', ?, ?
                 )";
             $stmt = parent::$conn->prepare($query);
             $stmt->bind_param("sssss", $_POST['product'], $_POST['price'], $newImage, $_POST['category'], $_POST['description']);
