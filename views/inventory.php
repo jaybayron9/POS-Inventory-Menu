@@ -5,7 +5,7 @@
     <?php require(view('components/speed-dial')) ?>
     <?php require(view('components/form-item-update')) ?>
     <section class="container mx-auto p-5">
-        <div class="bg-gray-50 p-4 rounded-md shadow-md m-5">
+        <div class="bg-gray-200 p-4 rounded-md shadow-md m-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px; background-repeat: repeat;">
             <table id="inventorytbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                 <thead>
                     <tr>

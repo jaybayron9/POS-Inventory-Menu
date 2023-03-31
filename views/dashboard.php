@@ -26,7 +26,7 @@
             </a>
         </div>
         <div class="w-full">
-            <a href="#">
+            <a href="?p=settings" title="logout">
                 <img src="public/storage/eximage/315977633_512392367589920_1579731078182426994_n.jpg" alt="image"  class="object-cover w-full h-72 hover:scale-75 duration-500">
             </a>
         </div>

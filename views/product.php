@@ -9,7 +9,7 @@
             </span>
         <div class="ml-auto mr-3">
             <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="
-            rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center" type="button">
+            rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-rose-400" type="button">
                 <?php
                     switch (true) {
                             case urlIs('p=meals') || urlIs('p=product'):
@@ -38,40 +38,38 @@
             </div>
         </div>
         <div class="mr-3">
-            <a href="#" title="Add Product" class="modal-open add-product rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-4 text-center inline-flex items-center" style="padding: 2px 7px 2px 7px;">
+            <a href="#" title="Add Product" class="modal-open add-product rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-4 text-center inline-flex items-center border border-gray-500 hover:border-rose-400" style="padding: 2px 7px 2px 7px;">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>Add
             </a>
         </div>
         <?php require(view('components/form-product')) ?>
-        <a href="#" title="Reset Sale" class="reset-sale bg-gradient-to-r p-1 px-1 from-red-500 to-gray-700 text-white hover:text-red-200 rounded-full">
+        <a href="#" title="Reset Sale" class="reset-sale bg-gradient-to-r p-1 px-1 from-red-500 to-gray-700 text-white hover:text-red-200 rounded-full border border-gray-500 hover:border-rose-400">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
         </a>  
     </div>
-    <div class="bg-gray-50 px-4 py-4 rounded-lg shadow-md mb-5">
+    <div class="bg-gray-200 px-4 py-4 rounded-lg shadow-md mb-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px; background-repeat: repeat;">
         <?php if (urlIs('p=meals') || urlIs('p=product')) { ?>
             <div id="meals" class="">
                 <table id="mealstbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                     <thead>
                         <tr>
-                            <th data-priority="1">#</th>
-                            <th data-priority="2">Name</th>
-                            <th data-priority="4">Price</th>
-                            <th data-priority="5">Status</th>
-                            <th data-priority="7">Description</th>
-                            <th data-priority="6">Sale</th>
-                            <th data-priority="3">Action</th>
+                            <th data-priority="1">Name</th>
+                            <th data-priority="3">Price</th>
+                            <th data-priority="4">Status</th>
+                            <th data-priority="6">Description</th>
+                            <th data-priority="5">Sale</th>
+                            <th data-priority="2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $index = 1;
+                        <?php
                         foreach ($menu->products_menu('meals') as $productmeals) { ?>
                             <tr>
-                                <td class="text-center"><?= $index++ ?></td>
-                                <td class="flex">
+                                <td class="flex ml-4">
                                     <img src="public/storage/uploads/<?= $productmeals['picture'] !== Null ? $productmeals['picture'] : 'default.jpg' ?>" alt="Product image" class="h-10 w-10 rounded-full">
                                     <p class="pt-2 ml-2 capitalize"><?= $productmeals['name'] ?></p>
                                 </td>
@@ -95,7 +93,7 @@
                                 <td><span class="text-green-600">₱</span> <?= number_format($productmeals['sale'], 2) ?></td>
                                 <td class="text-center">
                                     <a href="#" title="Update product" data-row-data="<?= $productmeals['product_id'] ?>" class="modal-open update-product bg-gradient-to-r from-blue-400 to-gray-700 text-white hover:text-gray-200 px-2 rounded">Edit</a>
-                                    <a href="" title="Delete product" data-row-data="<?= $productmeals['product_id'] ?>" class="delete-productbtn bg-gradient-to-r from-red-400 to-red-700 text-white hover:text-gray-200 px-2 rounded">Del</a>
+                                    <a href="" title="Delete product" data-row-data="<?= $productmeals['product_id'] ?>" class="delete-productbtn bg-gradient-to-r from-red-400 to-red-700 text-white hover:text-gray-200 px-2 rounded">Delete</a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -107,22 +105,19 @@
                 <table id="mealstbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                     <thead>
                         <tr>
-                            <th data-priority="1">#</th>
-                            <th data-priority="2">Product Name</th>
-                            <th data-priority="4">Sales Price</th>
-                            <th data-priority="5">Status</th>
+                            <th data-priority="1">Product Name</th>
+                            <th data-priority="3">Sales Price</th>
+                            <th data-priority="4">Status</th>
                             <th data-priority="6">Description</th>
-                            <th data-priority="6">Sale</th>
-                            <th data-priority="3">Action</th>
+                            <th data-priority="5">Sale</th>
+                            <th data-priority="2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $i = 1;
                         foreach ($menu->products_menu('drinks') as $productdrinks) { ?>
                             <tr>
-                                <td class="text-center"><?= $i++ ?></td>
-                                <td class="flex">
+                                <td class="flex ml-4">
                                     <img src="public/storage/uploads/<?= $productdrinks['picture'] !== Null ? $productdrinks['picture'] : 'default.jpg' ?>" alt="Product image" class="h-14 w-14 rounded-full">
                                     <p class="pt-4 ml-3"><?= $productdrinks['name'] ?></p>
                                 </td>
@@ -146,7 +141,7 @@
                                 <td><span class="text-green-600">₱</span> <?= number_format($productdrinks['sale'], 2) ?></td>
                                 <td class="text-center">
                                     <a href="#" title="Update product" data-row-data="<?= $productdrinks['product_id'] ?>" class="modal-open update-product bg-gradient-to-r from-blue-400 to-gray-700 text-white hover:text-gray-200 px-2 rounded">Edit</a>
-                                    <a href="" title="Delete product" data-row-data="<?= $productdrinks['product_id'] ?>" class="delete-productbtn bg-gradient-to-r from-red-400 to-red-700 text-white hover:text-gray-200 px-2 rounded">Del</a>
+                                    <a href="" title="Delete product" data-row-data="<?= $productdrinks['product_id'] ?>" class="delete-productbtn bg-gradient-to-r from-red-400 to-red-700 text-white hover:text-gray-200 px-2 rounded">Delete</a>
                                 </td>
                             </tr>
                         <?php } ?>

@@ -94,7 +94,7 @@ $(document).ready(function () {
             $quantityCell.closest('.product-row').addClass('bg-gray-200'); 
             $priceCell.text(total_price);
         } else {
-            var row = '<tr class="text-center hover:bg-green-100 border-b border-gray-200 product-row">';
+            var row = '<tr class="text-center order-rows hover:bg-green-100 border-b border-gray-200 product-row">';
                     row += '<td class="text-left text-gray-900 pl-2 text-l font-medium">' + name + '</td>';
                     row += '<td class="text-gray-900">' + price + '</td>';
                     row += '<td class="text-gray-900 quantity-cell">1</td>'; 
@@ -170,7 +170,7 @@ $(document).ready(function () {
                 setTimeout(function () {
                     $("#refresh-table").removeClass('animate-spin');
                     location.reload();
-                }, 900);
+                }, 500);
             }
         });
     });
@@ -183,10 +183,10 @@ $(document).ready(function () {
         });
         if (total == 0) {
             if ($tbody.find('tr').length == 0) {
-                $tbody.append('<tr><td colspan="4" class="text-center py-40">Empty</td></tr>');
+                $tbody.append('<tr><td colspan="4" class="text-center py-40">No Orders Made</td></tr>');
             }
         } else {
-            $tbody.find('tr:contains("Empty")').remove();
+            $tbody.find('tr:contains("No Orders Made")').remove();
         }
 
         $('#total').text(total);
@@ -277,7 +277,7 @@ $(document).ready(function () {
                 // console.log(data);
             }
         })
-    }, 5000);
+    }, 2000);
 
     // Validate and Send request to print and place order
     var printDialogClosed = false;
@@ -285,10 +285,20 @@ $(document).ready(function () {
     $('#print-receipt').click(function () {
         var payment = $('#payment-amount').val();
         console.log(payment);
-        if (($('tbody tr').length === 1 && $('tbody tr').text() === "Empty")) {
-            alert("No Orders");
+        if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
+            swal({
+                icon: "warning",
+                text: "No Orders Made",
+                buttons: false,
+                timer: 1500,
+            })
         } else if (payment == "" && payment == 0) {
-            alert("Please provide payment amount.");
+            swal({
+                icon: "warning",
+                text: "Please provide payment amount.",
+                buttons: false,
+                timer: 1500,
+            })
         } else {
             var data = [];
 
@@ -327,7 +337,7 @@ $(document).ready(function () {
                         $("body").append(iframe);
                         var iframeElement = document.querySelector("iframe");
                         iframeElement.contentWindow.print();
-                        setTimeout(checkPrintDialogClosed, 3000);
+                        setTimeout(checkPrintDialogClosed, 2000);
                     } else {
                         alert(response.msg);
                         console.log(response.msg);
@@ -348,24 +358,42 @@ $(document).ready(function () {
     function checkPrintDialogClosed() {
         if (!printDialogClosed) {
             $('#send-request').removeClass('hidden').slideDown();
-            $('#print-receipt').addClass('hidden').slideUp();
         }
     }
 
     $('#send-request').click(function () {
         var payment = $('#payment-amount').val();
         
-        if (($('tbody tr').length === 1 && $('tbody tr').text() === "Empty")) {
-            alert("No Orders");
+        if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
+            swal({
+                icon: "warning",
+                text: "No Orders Made",
+                buttons: false,
+                timer: 1500,
+            })
+            // alert("No Orders Made");
         } else if (payment == "" && payment == 0) {
-            alert("Please provide payment amount.");
+            swal({
+                icon: "warning",
+                text: "Please provide payment amount.",
+                buttons: false,
+                timer: 1500,
+            })
         } else {
             $.ajax({
                 url: "index.php?a=orders",
                 dataType: 'json',
                 success: function (response) {
                     if (response.status == 'success') {
-                        location.reload(true);
+                        swal({
+                            icon: "success",
+                            text: "Order Placed",
+                            buttons: false,
+                            timer: 1500,
+                        });
+                        setTimeout(() => {
+                            location.reload(true);
+                        }, 1600);
                     }else {
                         alert(response.msg)
                     }

@@ -101,7 +101,7 @@
 
         $('.done').click(function() {
             swal({
-                    title: "Are you sure this order is completed?",
+                    title: "Is this order ready to be served?",
                     icon: "warning",
                     buttons: ["No", "Yes"],
                 })
@@ -116,7 +116,7 @@
                         dataType: 'json',
                         success: function(response) {
                             if (response.status == 'success') {
-                                swal("Order served", {
+                                swal("Order Served", {
                                     icon: "success",
                                     buttons: false,
                                     timer: 2000,
@@ -130,7 +130,7 @@
                     });
                 } else {
                     swal({
-                        title: "Order not served",
+                        text: "Order not complete",
                         icon: "error",
                         buttons: false,
                         timer: 2000,
@@ -141,7 +141,7 @@
 
         $('.cancel').click(function(){
             swal({
-                    title: "Are you sure you want to cancel this order?",
+                    title: "Do you want to cancel this order?",
                     icon: "warning",
                     buttons: ["No", "Yes"],
                 })
@@ -170,7 +170,7 @@
                     });
                 } else {
                     swal({
-                        title: "Order not cancelled",
+                        text: "Orders Safe",
                         icon: "error",
                         buttons: false,
                         timer: 1000,

@@ -12,7 +12,7 @@ $pdf->AddPage();
 
 $pdf->SetFont('Courier','B',15);
 
-$pdf->Cell(60,8,'HotPlate POS',1,1,'C');
+$pdf->Cell(60,8,'HotPlate',0,1,'C');
 
 $pdf->SetFont('Courier','',8);
 
@@ -151,11 +151,11 @@ $pdf->SetX(7);
 $pdf->Cell(20,7,'- - - - - - - - - - - - - ',0,1,'');
 
 $pdf->SetX(3);
-$pdf->SetFont('Courier','',8);
+$pdf->SetFont('Courier','',5);
 $pdf->Cell(75,5,'Developed By : fb.com/jay.bayron900',0,1,'C');
 
 $pdf->SetX(3);
-$pdf->SetFont('Courier','',8);
+$pdf->SetFont('Courier','',5);
 $pdf->Cell(75,5,'Contact at : +62 9504523523',0,1,'C');
 
 $pdf->Output();
