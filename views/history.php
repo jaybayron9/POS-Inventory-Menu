@@ -32,10 +32,12 @@
                 <tr>
                     <th data-priority="1">#</th>
                     <th data-priority="2">OrderID</th>
+                    <th data-priority="3">Customer</th>
                     <th data-priority="8">Purchase</th>
                     <th data-priority="6">Total</th>
                     <th data-priority="4" class="px-2">Service</th>
                     <th data-priority="5">Status</th>
+                    <th data-priority="7">Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,29 +45,30 @@
                 foreach (History::getHistory() as $cust) { ?>
                     <tr>
                         <td><?= $i++ ?></td>
+                        <td><?= $cust['customer'] ?></td>
                         <td class="capitalize text-gray-700"><span class="ml-5"><?= $cust['invoice_no'] ?></span></td>
                         <td>
-                            <?php 
-                                $name = array_filter(explode(", ", $cust['name']));
-                                $price = array_filter(explode(", ", $cust['price']));
-                                $quantity = array_filter(explode(", ", $cust['quantity']));
-                                
-                                for ($i = 0; $i < count($name); $i++) {
-                                    echo "<span class='bg-gray-200 rounded-l m-0 px-2 shadow'>" 
-                                            . $name[$i] . 
+                            <?php
+                            $name = array_filter(explode(", ", $cust['name']));
+                            $price = array_filter(explode(", ", $cust['price']));
+                            $quantity = array_filter(explode(", ", $cust['quantity']));
+
+                            for ($i = 0; $i < count($name); $i++) {
+                                echo "<span class='bg-gray-200 rounded-l m-0 px-2 shadow'>"
+                                    . $name[$i] .
+                                    "</span>";
+                                echo "<span class='bg-gray-200 m-0 px-1 bg-sky-300 shadow'>"
+                                    . $quantity[$i] .
+                                    "</span>";
+                                if (empty($price[$i])) {
+                                    echo "<span class='bg-gray-200 rounded-r m-0 px-1 bg-green-300 shadow'></span>";
+                                } else {
+                                    echo "<span class='bg-gray-200 rounded-r m-0 px-1 bg-green-300 shadow'>"
+                                        . $price[$i] .
                                         "</span>";
-                                    echo "<span class='bg-gray-200 m-0 px-1 bg-sky-300 shadow'>" 
-                                            . $quantity[$i] . 
-                                        "</span>";
-                                    if (empty($price[$i])) {
-                                        echo "<span class='bg-gray-200 rounded-r m-0 px-1 bg-green-300 shadow'></span>";
-                                    } else {
-                                        echo "<span class='bg-gray-200 rounded-r m-0 px-1 bg-green-300 shadow'>" 
-                                                . $price[$i] . 
-                                            "</span>";
-                                    }
-                                    echo "<span class='text-red-700 m-1'></span>";
                                 }
+                                echo "<span class='text-red-700 m-1'></span>";
+                            }
                             ?>
                         </td>
                         </td>
@@ -80,6 +83,12 @@
                                 <?= $cust['status'] == "" ? 'Pending' : 'Served' ?>
                             </div>
                         </td>
+                        <td>
+                            <?php
+                            $date = DateTime::createFromFormat('Y-m-d H:i:s', $cust['create_at']);
+                            echo $date->format('n/j/Y g:i a');
+                            ?>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -91,7 +100,12 @@
     $(document).ready(function() {
         $('#historytbl').DataTable({
                 "paging": true,
-                responsive: true
+                responsive: true,
+                columnDefs: [{
+                        type: 'date',
+                        targets: 6
+                    } // assuming the date column is the first column (index 0)
+                ]
             })
             .columns.adjust()
             .responsive.recalc();

@@ -273,7 +273,12 @@ class Menu extends Connection {
         $total = 0;
         
         while ($row = mysqli_fetch_assoc($result)) {
-            fputcsv($output, $row);
+            $selectedColumns = array(
+                $row['name'],
+                $row['price']
+            );
+
+            fputcsv($output, $selectedColumns);
             $total += $row['total'];
         }
         fputcsv($output, array('', '', '', '', '', ''));

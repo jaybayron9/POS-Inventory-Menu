@@ -1,5 +1,5 @@
 <section class="h-screen">
-    <div class="container grid gap-4 mx-auto lg:grid-cols-3 px-8 pt-12">
+    <div class="container grid gap-4 mx-auto md:grid-cols-2 lg:grid-cols-3 px-8 pt-12">
         <div class="w-full ">
             <a href="?p=menu" title="Menu" class="">
                 <img src="public/storage/eximage/menu.JPG" alt="image" class="object-cover w-full h-72 hover:scale-75 duration-500">
