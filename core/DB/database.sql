@@ -46,6 +46,7 @@ CREATE TABLE orders (
     invoice_no VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
     order_seen int(1) NOT NULL,
+    count_update int(11) NOT NULL,
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

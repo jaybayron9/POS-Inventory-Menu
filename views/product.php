@@ -2,24 +2,24 @@
 <section class="container mx-auto px-5">
     <div class="flex my-4">
         <p class="font-bold text-gray-50 capitalize"><?= $menu->total_product_sale()['name'] ?> 🌟 </p>
-            <span class="font-semibold text-gray-50">
-                <?php
-                echo '&nbsp;&#8369;&nbsp;' . number_format($menu->total_product_sale()['sale'], 2);
-                ?>
-            </span>
+        <span class="font-semibold text-gray-50">
+            <?php
+            echo '&nbsp;&#8369;&nbsp;' . number_format($menu->total_product_sale()['sale'], 2);
+            ?>
+        </span>
         <div class="ml-auto mr-3">
             <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="
             rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-rose-400" type="button">
                 <?php
-                    switch (true) {
-                            case urlIs('p=meals') || urlIs('p=product'):
-                                echo 'Meals';
-                                break;
-                            case urlIs('p=drinks'):
-                                echo 'Drinks';
-                                break;
+                switch (true) {
+                    case urlIs('p=meals') || urlIs('p=product'):
+                        echo 'Meals';
                         break;
-                    }
+                    case urlIs('p=drinks'):
+                        echo 'Drinks';
+                        break;
+                        break;
+                }
                 ?>
                 <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -49,7 +49,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
-        </a>  
+        </a>
     </div>
     <div class="bg-gray-200 px-4 py-4 rounded-lg shadow-md mb-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px; background-repeat: repeat;">
         <?php if (urlIs('p=meals') || urlIs('p=product')) { ?>
@@ -93,7 +93,7 @@
                                 <td><span class="text-green-600">₱</span> <?= number_format($productmeals['sale'], 2) ?></td>
                                 <td class="text-center">
                                     <a href="#" title="Update product" data-row-data="<?= $productmeals['product_id'] ?>" class="modal-open update-product bg-gradient-to-r from-blue-400 to-gray-700 text-white hover:text-gray-200 px-2 rounded">Edit</a>
-                                    <a href="" title="Delete product" data-row-data="<?= $productmeals['product_id'] ?>" class="delete-productbtn bg-gradient-to-r from-red-400 to-red-700 text-white hover:text-gray-200 px-2 rounded">Delete</a>
+                                    <a href="#" title="Delete product" data-row-data="<?= $productmeals['product_id'] ?>" class="delete-productbtn bg-gradient-to-r from-red-400 to-red-700 text-white hover:text-gray-200 px-2 rounded">Delete</a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -141,7 +141,7 @@
                                 <td><span class="text-green-600">₱</span> <?= number_format($productdrinks['sale'], 2) ?></td>
                                 <td class="text-center">
                                     <a href="#" title="Update product" data-row-data="<?= $productdrinks['product_id'] ?>" class="modal-open update-product bg-gradient-to-r from-blue-400 to-gray-700 text-white hover:text-gray-200 px-2 rounded">Edit</a>
-                                    <a href="" title="Delete product" data-row-data="<?= $productdrinks['product_id'] ?>" class="delete-productbtn bg-gradient-to-r from-red-400 to-red-700 text-white hover:text-gray-200 px-2 rounded">Delete</a>
+                                    <a href="#" title="Delete product" data-row-data="<?= $productdrinks['product_id'] ?>" class="delete-productbtn bg-gradient-to-r from-red-400 to-red-700 text-white hover:text-gray-200 px-2 rounded">Delete</a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -155,9 +155,12 @@
 <script>
     $(document).ready(function() {
         $('#mealstbl').DataTable({
-            "paging": false,
-            responsive: true
-        })
+                "paging": false,
+                responsive: true
+            })
+            .columns.adjust()
+            .responsive.recalc();
+
         $('#drinkstbl').DataTable({
                 responsive: true
             })
@@ -165,23 +168,30 @@
             .responsive.recalc();
 
         $('.delete-productbtn').click(function() {
-            if (!confirm('Are you sure you want to delete this product?')) {
-                return false;
-            } else {
-                $.ajax({
-                    url: 'index.php?a=delete_product',
-                    type: 'POST',
-                    data: {
-                        id: $(this).data('row-data')
-                    },
-                    dataType: 'json',
-                    success: function(resp) {
-                        if (resp.status == 'success') {
-                            location.reload();
+            $('.delete-productbtn').click(function() {
+                if (!confirm('Are you sure you want to delete this product?')) {
+                    return false;
+                } else {
+                    $.ajax({
+                        url: 'index.php?a=delete_product',
+                        type: 'POST',
+                        data: {
+                            id: $(this).data('row-data')
+                        },
+                        dataType: 'json',
+                        success: function(resp) {
+                            if (resp.status == 'success') {
+                                location.reload();
+                            } else {
+                                alert('Error deleting product: ' + resp.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Error deleting product: ' + error);
                         }
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
 
         $('.add-product').click(function() {

@@ -292,6 +292,13 @@ $(document).ready(function () {
                 buttons: false,
                 timer: 1500,
             })
+        } else if ($('#customer').val() == ''){
+            swal({
+                icon: "warning",
+                text: "Please provide table no. or customer name.",
+                buttons: false,
+                timer: 2000,
+            })
         } else if (payment == "" && payment == 0) {
             swal({
                 icon: "warning",
@@ -314,21 +321,25 @@ $(document).ready(function () {
             });
 
             var total = $('#total').text();
+            var customer = $('#customer').val();
             var service = $('input[name="service"]:checked').val();
-            var payment_amout = $('input[name="payment_amount"]').val();
+            var payment_amount = $('input[name="payment_amount"]').val();
             var payment_change = $('input[name="change"]').val();
             var discount = $('input[name="discount"]').val();
+            var note = $('#note').val();
 
             $.ajax({
                 type: "POST",
                 url: "index.php?a=print",
                 data: {
-                    data: data,
                     total: total,
+                    data: data,
+                    customer: customer,
                     service: service,
-                    payment_amount: payment_amout,
+                    payment_amount: payment_amount,
                     payment_change: payment_change,
                     discount: discount,
+                    note: note,
                 },
                 dataType: 'json',
                 success: function (response) {
@@ -371,7 +382,13 @@ $(document).ready(function () {
                 buttons: false,
                 timer: 1500,
             })
-            // alert("No Orders Made");
+        } else if ($('#customer').val() == ''){
+            swal({
+                icon: "warning",
+                text: "Please provide table no. or customer name.",
+                buttons: false,
+                timer: 2000,
+            })
         } else if (payment == "" && payment == 0) {
             swal({
                 icon: "warning",
@@ -395,7 +412,114 @@ $(document).ready(function () {
                             location.reload(true);
                         }, 1600);
                     }else {
-                        alert(response.msg)
+                        swal({
+                            icon: "error",
+                            text: response.msg,
+                            buttons: false,
+                            timer: 1500,
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+    $('#add-ons-to').on('click', function (){
+        $(this).on('input', function() {
+            if ($(this).val() !== "") {
+                $.ajax({
+                    url: "index.php?a=find_order",
+                    type: "POST",
+                    data: {
+                        reference: $(this).val()
+                    },
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.status !== 'failed') {
+                            $('#customer').removeClass('text-red-500').addClass('text-gray-700').val(resp.customer);
+                            $('#order_id').val(resp.order_id)
+                            swal({
+                                icon: "success",
+                                text: "Customer Found",
+                                buttons: false,
+                                timer: 1000,
+                            })
+                        } else {
+                            $('#customer').addClass('text-red-500').val(resp.msg);
+                        }
+                    }
+                });
+            } else {
+                $('#customer').removeClass('text-red-500').addClass('text-gray-700').val('');
+                $('#order_id').val('');
+            }
+        });
+    })
+
+    $('#add-ons').on('click', function(){
+
+        if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
+            swal({
+                icon: "warning",
+                text: "No Add-ons Made",
+                buttons: false,
+                timer: 1500,
+            })
+        } else if ($('#customer').val() == ''){
+            swal({
+                icon: "warning",
+                text: "Please provide table no. or customer name.",
+                buttons: false,
+                timer: 2000,
+            })
+        } else {
+            var data = [];
+            $('tbody tr').each(function () {
+                var name = $(this).find('td:first-child').text();
+                var quantity = $(this).find('td:nth-child(3)').text();
+                var price = $(this).find('td:nth-child(2)').text();
+                data.push({
+                    name: name,
+                    quantity: quantity,
+                    price: price
+                });
+            });
+    
+            $.ajax({
+                url: 'index.php?a=addons',
+                method: 'POST',
+                data: {
+                    data: data,
+                    order_id: $('#order_id').val(),
+                    total: $('#total').text(),
+                    final_total: $('#finaltotal').html(),
+                    customer: $('#customer').val(),
+                    invoice_no:  $('#add-ons-to').val(),
+                    service: $('input[name="service"]:checked').val(),
+                    payment_amount: $('input[name="payment_amount"]').val(),
+                    payment_change: $('input[name="change"]').val(),
+                    discount: $('input[name="discount"]').val(),
+                    note: $('#note').val(),
+                },
+                dataType: 'json',
+                success: function (resp) {
+                    if (resp.status == 'success') {
+                        swal({
+                            icon: "success",
+                            text: "Add Ons Added",
+                            buttons: false,
+                            timer: 1500,
+                        });
+                        setTimeout(() => {
+                            location.reload(true);
+                        }, 1600);
+                    } else {
+                        swal({
+                            icon: "error",
+                            text: resp.msg,
+                            buttons: false,
+                            timer: 1500,
+                        })
                     }
                 }
             });

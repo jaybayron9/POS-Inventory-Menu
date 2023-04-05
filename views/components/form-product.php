@@ -37,6 +37,7 @@
                         <select type="text" name="category" id="category" class="w-full rounded-md">
                             <option value="meals">Meals</option>
                             <option value="drinks">Drinks</option>
+                            <option value="add-ons">Add-ons</option>
                         </select>
                     </div>
                     <div class="mb-2">

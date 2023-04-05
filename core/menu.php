@@ -3,16 +3,18 @@
 class Menu extends Connection {
 
     public function products_menu($column) {
-        return parent::$conn->query("SELECT * FROM products where category = '{$column}' ORDER BY CAST(price AS UNSIGNED) ASC");
+        return parent::$conn->query("SELECT * FROM products where category = '{$column}' ORDER BY CAST(price AS UNSIGNED) ASC LIMIT 0,100");
     }
 
     public function print_receipt() {
         // Set session to this data to generate receipt
-        $_SESSION['data'] = $_POST['data'];
         $_SESSION['total'] = $_POST['total'];
+        $_SESSION['data'] = $_POST['data'];
+        $_SESSION['customer'] = $_POST['customer'];
         $_SESSION['service'] = $_POST['service'];
         $_SESSION['payment_amount'] = $_POST['payment_amount'];
         $_SESSION['payment_change'] = $_POST['payment_change'];
+        $_SESSION['note'] = $_POST['note'];
         $_SESSION['discount'] = $_POST['discount'];
         $_SESSION['invoice_no'] = rand(1, 199);
 
@@ -35,7 +37,7 @@ class Menu extends Connection {
 
         $no = parent::$conn->query("SELECT * FROM orders WHERE invoice_no = '{$_SESSION['invoice_no']}'");
         if ($no->num_rows > 0) {
-            $_SESSION['invoice_no'] = rand(1, 100);
+            $_SESSION['invoice_no'] = rand(1, 1000);
         }
 
         $discount = floatval($_SESSION['total']) * floatval($_SESSION['discount']) / 100;
@@ -43,9 +45,9 @@ class Menu extends Connection {
         $grandtotal = floatval($_SESSION['total']) - abs($discount);
 
         $save = parent::$conn->query("INSERT INTO orders (
-            name, price, quantity, total, total_discount, discount, service, invoice_no
+            customer, name, price, quantity, total, total_discount, discount, service, invoice_no, note
         ) VALUES (
-            '{$name}', '{$price}', '{$quantity}', '{$_SESSION['total']}', '{$grandtotal}', '{$discount}', '{$_SESSION['service']}', '{$_SESSION['invoice_no']}'
+            '{$_SESSION['customer']}', '{$name}', '{$price}', '{$quantity}', '{$_SESSION['total']}', '{$grandtotal}', '{$discount}', '{$_SESSION['service']}', '{$_SESSION['invoice_no']}', '{$_SESSION['note']}'
         )");
 
         if ($save) {
@@ -146,7 +148,7 @@ class Menu extends Connection {
             $query = "insert into products (
                     name, price, status, category,  description
                 ) values (
-                    ?, ?, 'On Hand', ?, ?
+                    ?, ?, 'Available', ?, ?
                 )";
             $stmt = parent::$conn->prepare($query);
             $stmt->bind_param("ssss", $_POST['product'], $_POST['price'], $_POST['category'] , $_POST['description']);
@@ -263,28 +265,82 @@ class Menu extends Connection {
         return parent::alert('success', 'success');
     }
 
-    public function today_report() {
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=POSSale.csv');
-        $output = fopen("php://output", "w");
-        fputcsv($output, array('order_id', 'customer', 'name', 'price', 'quantity', 'total', 'service'));
-        
-        $result = parent::$conn->query("SELECT order_id, customer, name, price, quantity, total, service FROM orders");
-        $total = 0;
-        
-        while ($row = mysqli_fetch_assoc($result)) {
-            $selectedColumns = array(
-                $row['name'],
-                $row['price']
-            );
+    public function find_order() {
+        $reference = $_POST['reference'];
+        $query = parent::$conn->query("
+                SELECT * FROM orders 
+                where 
+                    invoice_no = '{$reference}' or order_id = '{$reference}' or customer = '{$reference}'
+            ");
 
-            fputcsv($output, $selectedColumns);
-            $total += $row['total'];
+        if($query) {
+            foreach ($query as $row) {
+                return json_encode(array(
+                    'order_id' => $row['order_id'],
+                    'invoice_no' => $row['invoice_no'],
+                    'customer' => $row['customer'],
+                    'total' => $row['total'],
+                    'total_discount' => $row['total_discount'],
+                    'status' => $row['status'],
+                    'create_at' => $row['create_at'],
+                    'order_seen' => $row['order_seen'],
+                ));
+            }
         }
-        fputcsv($output, array('', '', '', '', '', ''));
-        fputcsv($output, array('', '', '', '', '', '', 'Total', $total, ''));
+        return parent::alert('failed', 'No records.');
+    }
 
-        fclose($output);
+    public function addons() {
+        $name = ""; $price = ""; $quantity = ""; $c = '';
+        foreach ($_POST['data'] as $value) {
+            $count = parent::$conn->query("select count_update from orders where order_id = '{$_POST['order_id']}'");
+            foreach ($count as $row) {
+                $c = '';
+                for ($i = 0; $i <= $row['count_update']; $i++) {
+                    $c .= '+';
+                }
+                $name .= $c . $value['name'] . ', ';
+                $price .= $value['price'] . ', ';
+                $quantity .= $value['quantity'] . ', ';
+            }
+        }
+
+        $getOrders = parent::$conn->query("select * from orders where order_id = '{$_POST['order_id']}'");
+
+        if ($getOrders->num_rows > 0) {
+            foreach ($getOrders as $row) {
+                $addName = $name . $row['name'];
+                $newPrice = $price . $row['price'];
+                $newQuantity = $quantity . $row['quantity'] ;
+                $newTotal = $row['total'] + $_POST['total'];
+                $newTotalDiscount = $row['total_discount'] + $_POST['final_total'];
+                
+                foreach ($count as $row) {
+                    $count_update = $row['count_update'] + 1;
+
+                    $updateOrder = parent::$conn->query("
+                        update orders
+                        set
+                            name = '{$addName}',
+                            price = '{$newPrice}',
+                            quantity = '{$newQuantity}',
+                            total = '{$newTotal}',
+                            total_discount = '{$newTotalDiscount}',
+                            status = '',
+                            count_update = '{$count_update}'
+                        where 
+                            order_id = '{$_POST['order_id']}'
+                    ");
+                }
+    
+                if ($updateOrder) {
+                    $_SESSION['success'] = 'Order Placed';
+                    $_SESSION['notif'] = 'bell';
+                    return parent::alert('success', 'Order updated.');
+                }
+                return parent::alert("failed", "Unable to update order.");
+            }
+        }
     }
 }
 

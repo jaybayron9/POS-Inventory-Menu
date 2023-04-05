@@ -26,6 +26,8 @@ $menuFunc = [
     'ring_notif' => ['obj' => $menu, 'method' => 'ring_notif'],
     'pause_bell' => ['obj' => $menu, 'method' => 'pause_bell'],
     'today_report' => ['obj' => $menu, 'method' => 'today_report'],
+    'find_order' => ['obj' => $menu, 'method' => 'find_order'],
+    'addons' => ['obj' => $menu, 'method' => 'addons'],
 ];
 
 method($actions, $menuFunc);

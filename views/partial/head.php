@@ -19,6 +19,7 @@
     <!-- DataTables -->
     <link href="public/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="public/assets/css/responsive.dataTables.min.css" rel="stylesheet" />
+    
 </head>
 
 <body class="overflow-x-hidden bg-rose-400">

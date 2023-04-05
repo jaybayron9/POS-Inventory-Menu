@@ -53,7 +53,7 @@ $pdf->SetFont('Courier','',8);
 $pdf->Cell(20,4,'Bill To: ',0,0,'');
 
 $pdf->SetFont('Courier','B',12);
-$pdf->Cell(10,4,$_SESSION['invoice_no'],0,1,'');
+$pdf->Cell(10,4,$_SESSION['customer'],0,1,'');
 
 $pdf->SetFont('Courier','',8);
 $pdf->Cell(20,4,'Service: ',0,0,'');

@@ -54,7 +54,7 @@
                         <?php } ?>
                     </div>
                 </ul>
-                <ul id="drinks-menu" class="meal-list hidden pr-3" >
+                <ul id="drinks-menu" class="meal-list hidden pr-3">
                     <div class="grid xl:grid-cols-6 md:grid-cols-4 sm:grid-cols-4 grid-cols-4 gap-3 ml-3 mb-4">
                         <?php
                         foreach ($menu->products_menu('drinks') as $product) {
@@ -163,14 +163,41 @@
                             <input type="number" id="change" name="change" disabled title="Change" placeholder="0" class="w-full px-2 rounded-r-md border-gray-300 bg-gray-100 shadow-md text-red-500 placeholder:text-red-500">
                         </div>
 
-                        <div style="display: none;">
+                        <div>
                             <label for="Discount" class="font-semibold text-xs">%&nbsp;DISCOUNT</label>
                             <input type="text" id="discount" name="discount" title="Discount" placeholder="0" maxlength="5" class="w-full rounded-l-md border-gray-400 shadow-md text-green-600 myInput placeholder:text-green-500">
                         </div>
 
-                        <div style="display: none;">
+                        <div>
                             <label for="Discounted amount" class="font-semibold text-xs">DISCOUNTED</label>
                             <input type="number" id="discountamount" name="discountamount" disabled title="Discount amount" placeholder="0" class="w-full rounded-r-md border-gray-300 bg-gray-100 shadow-md text-red-500 placeholder:text-red-500">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-center gap-3 mb-1 px-2">
+                        <div class="grid grid-cols-3 gap-3">
+                            <div>
+                                <label class="font-semibold text-xs">CUSTOMER</label>
+                                <input type="text" id="customer" name="customer" title="Customer name" placeholder="Name | Table no." maxlength="20" class="w-full rounded-md border-gray-400 shadow-md">
+                            </div>
+
+                            <div>
+                                <label for="Note" class="font-semibold text-xs">NOTE</label>
+                                <textarea type="text" name="" id="note" cols="30" title="Special Request" rows="1" maxlength="75" placeholder="Any..." style="height: 41px;" class="w-full rounded-md overflow-y-hidden w-full border-gray-400 shadow-md"></textarea>
+                            </div>
+
+                            <div>
+                                <label for="Note" class="font-semibold text-xs">Add-ons</label>
+                                <input type="hidden"id="order_id">
+                                <div class="flex">
+                                    <input type="text" id="add-ons-to" placeholder="Ref no." class="w-full rounded-l-full border-gray-400 shadow-md px-1">
+                                    <button id="add-ons" class="indicator w-full text-xl border rounded-r-full border-gray-500 hover:border-gray-50 px-2 ml-1 text-center bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -192,7 +219,7 @@
                             </div>
                         </div>
 
-                        <button id="refresh-table" title="Refresh" class="ml-auto border border-gray-500 rounded-full hover:border-gray-50 mt-4 text-white font-medium hover:text-red-300 p-1 bg-gradient-to-r from-red-500 to-gray-700 rounded-full mr-2">
+                        <button id="refresh-table" title="Refresh | Cancel Order" class="ml-auto border border-gray-500 rounded-full hover:border-gray-50 mt-4 text-white font-medium hover:text-red-300 p-1 bg-gradient-to-r from-red-500 to-gray-700 rounded-full mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                             </svg>
