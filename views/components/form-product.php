@@ -82,9 +82,23 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.status == 'success') {
-                            location.reload(true);
+                            swal({
+                                title: "Success!",
+                                text: "Product added successfully",
+                                icon: "success",
+                                button: false,
+                                time: 1000,
+                            })
+                            setTimeout(function() {
+                                location.reload(true);
+                            }, 1100);
                         } else {
-                            alert('Unable to save');
+                            swal({
+                                title: "Error!",
+                                text: "Unable to save",
+                                icon: "error",
+                                button: "Ok",
+                            })
                         }
                     }
                 });
@@ -103,7 +117,16 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.status == 'success') {
-                            location.reload(true);
+                            swal({
+                                title: "Success!",
+                                text: "Product updated successfully",
+                                icon: "success",
+                                button: false,
+                                time: 1000,
+                            })
+                            setTimeout(function() {
+                                location.reload(true);
+                            }, 1100);
                         }
                     }
                 });

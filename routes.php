@@ -10,6 +10,7 @@ return [
     'history' => view('history'),
     'meals' => view('product'),
     'drinks' => view('product'),
+    'add-ons' => view('product'),
     'inventory' => view('inventory'),
 
     // Authentication routes

@@ -27,6 +27,13 @@
                 <button id="clear_button" class="bg-gray-400 text-white px-4 py-1 rounded-r-lg hover:bg-gray-600">Clear</button>
             </div>
 
+            <a href="#" id="today" title="Set Today Date" class="rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-rose-400">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                </svg>
+                Today
+            </a>
+
             <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="
             rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-rose-400" type="button">Export
                 <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -65,12 +72,12 @@
                 <tr>
                     <th data-priority="1">OrderID</th>
                     <th data-priority="2"></th>
-                    <th data-priority="3">Invoice No.</th>
+                    <th data-priority="3">InvoiceNo.</th>
                     <th data-priority="6">Customer</th>
                     <th data-priority="11">Purchase</th>
                     <th data-priority="8">Total</th>
-                    <th data-priority="9">New Total</th>
-                    <th data-priority="5" class="px-2">Service</th>
+                    <th data-priority="9">NewTotal</th>
+                    <th data-priority="5">Service</th>
                     <th data-priority="4">Status</th>
                     <th data-priority="10">Created</th>
                     <th data-priority="7">Time</th>
@@ -158,10 +165,10 @@
                     { title: '' },
                     { title: '<input type="checkbox" name="" id="selectAll">' },
                     { title: 'Customer' },
-                    { title: 'Invoice No.' },
+                    { title: 'InvoiceNo.' },
                     { title: 'Purchase' },
                     { title: 'Total' },
-                    { title: 'New Total' },
+                    { title: 'NewTotal' },
                     { title: 'Service' },
                     { title: 'Status' },
                     { title: 'Created' },
@@ -198,6 +205,18 @@
             table.draw();
             setSale();
         });
+
+        var today = new Date().toISOString().substr(0, 10);
+        $('#today').click(function() {
+            $('#start_date').val(today);
+            $('#end_date').val(today);
+            table.draw();
+            setSale();
+        })
+
+        $('#start_date').val(today);
+        $('#end_date').val(today);
+        table.draw();
 
         $('#exportcsv').on('click', function() {
             var checkboxes = $('.select');
@@ -243,6 +262,7 @@
 
         $('#clear-history').click(function(e) {
             e.preventDefault();
+            $(this).addClass('animate-spin');
             swal({
                     title: "Do you want to delete order history?",
                     icon: "warning",
@@ -255,6 +275,7 @@
                             dataType: 'json',
                             success: function(resp) {
                                 if (resp.status == 'success') {
+                                    $(this).removeClass('animate-spin');
                                     swal({
                                         icon: "success",
                                         text: "History Deleted Successfully",
@@ -268,6 +289,7 @@
                             }
                         });
                     } else {
+                        $(this).removeClass('animate-spin');
                         swal({
                             text: 'History not deleted',
                             icon: "error",

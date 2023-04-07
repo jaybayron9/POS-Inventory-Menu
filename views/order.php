@@ -6,11 +6,11 @@
         if (!$menu->check_order()) {
         ?>
             <div class="p-4">
-                <div class="grid xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 mb-4">
+                <div class="grid xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3 mb-4">
                     <?php
                     foreach ($menu->orders() as $order) {
                     ?>
-                        <div class="relative shadow-xl rounded overflow-y-auto overflow-x-hidden p-2 bg-gray-50" style="max-height: 380px;">
+                        <div class="relative shadow-xl rounded overflow-y-auto overflow-x-auto p-2 bg-gray-50" style="max-height: 380px;">
                             <table class="text-sm text-left w-full">
                                 <div class="relative">
                                     <!-- Check -->
@@ -21,11 +21,13 @@
                                     </a>
 
                                     <!-- Cancel Order -->
-                                    <a data-row-data="<?= $order['order_id'] ?>" title="Cancel Order" class="cancel hover:cursor-pointer duration-200 absolute right-1 top-12 text-red-500 bg-white hover:text-red-400 hover:bg-gray-100 p-1 rounded-full border border-gray-200 shadow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                                        </svg>
-                                    </a>
+                                    <?php if (strpos($order['name'], '+') === false) {  ?>
+                                        <a data-row-data="<?= $order['order_id'] ?>" title="Cancel Order" class="cancel hover:cursor-pointer duration-200 absolute right-1 top-12 text-red-500 bg-white hover:text-red-400 hover:bg-gray-100 p-1 rounded-full border border-gray-200 shadow">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                                            </svg>
+                                        </a>
+                                    <?php } ?>
                                 </div>
                                 <thead class="text-xs text-gray-700 bg-gray-50 ">
                                     <div class="grid border-b border-gray-300 grid-cols-3 gap-1 px-2 py-1  pr-8 whitespace-nowrap text-center bg-blue-100">
@@ -39,16 +41,12 @@
                                             <?= date("g:i a", strtotime($order['create_at']))  ?>
                                         </p>
                                     </div>
-                                    <div class="px-2 pb-1 border-b border-gray-200">
-                                        <p title="Message" class="flex mt-2 text-gray-900">
+                                    <div class="pb-1 border-b border-gray-200">
+                                        <p title="Message" class="pb-2 text-gray-900">
                                             <span class="font-medium text-sm">Note: &nbsp;&nbsp;&nbsp; </span>  <?= $order['note']  ?>
+                                            <?= strpos($order['name'], '+') !== false ? '<span class="text-blue-600 border-2 border-blue-500 font-medium px-1 whitespace-nowrap">Add-ons</span>' : ''; ?>
                                         </p>
                                     </div>
-                                    <tr class="border-b border-gray-200">
-                                        <th scope="col" class="px-2 rounded-tl-md"></th>
-                                        <th scope="col" class="text-center">Product</th>
-                                        <th scope="col" class="rounded-tr-md"></th>
-                                    </tr>
                                 </thead>
                                 <tbody>
                                     <?php
@@ -58,34 +56,46 @@
 
                                     $fquantity  = array_map('intval', explode(", ", $order['quantity']));
                                     $quantity = array_filter($fquantity);
-
+                                    
                                     for ($i = 0; $i < count($name); $i++) {
+                                        if (strpos($order['name'], '+') !== false) {
+                                        ?>
+                                            <tr class="<?= $no % 2 !== 0 ? 'bg-gray-200' : '' ?> border-b hover:bg-green-200 capitalize">
+                                                <th scope="row" class="px-1 font-light"><?= $no++ ?></th>
+                                                <th scope="row" class="<?= strpos($name[$i], '+') !== false ? '' : 'line-through decoration-2 decoration-double decoration-red-500' ?> pl-6 py-1 font-medium text-gray-900 whitespace-nowrap">
+                                                    <?= str_replace('+', '<span class=" bg-blue-500 px-1 rounded-full mr-1 font-extrabold text-1x text-white">+</span>', $name[$i]); ?>
+                                                </th>
+                                                <th scope="row" class="<?= strpos($name[$i], '+') !== false ? '' : 'line-through decoration-2 decoration-double decoration-red-500' ?> px-6 py-1 font-medium text-gray-900 text-right">
+                                                    <?= $quantity[$i] ?>x
+                                                </th>
+                                            </tr>
+                                        <?php 
+                                        } else {
+                                            ?>
+                                            <tr class="<?= $no % 2 !== 0 ? 'bg-gray-200' : '' ?> border-b hover:bg-green-200 capitalize">
+                                                <th scope="row" class="px-1 font-light"><?= $no++ ?></th>
+                                                <th scope="row" class="pl-6 py-1 font-medium text-gray-900 whitespace-nowrap">
+                                                    <?= $name[$i] ?>
+                                                </th>
+                                                <th scope="row" class="px-6 py-1 font-medium text-gray-900 text-right">
+                                                    <?= $quantity[$i] ?>x
+                                                </th>
+                                            </tr>
+                                            <?php
+                                        }
+                                    } 
                                     ?>
-                                        <tr class="bg-white border-b hover:bg-green-200 capitalize">
-                                            <th scope="row" class="px-1 font-light"><?= $no++ ?></th>
-                                            <th scope="row" class="px-6 py-1 font-medium text-gray-900 whitespace-nowrap">
-                                                <?= $name[$i] ?>
-                                            </th>
-                                            <th scope="row" class="px-6 py-1 font-medium text-gray-900">
-                                                <?= $quantity[$i] ?>x
-                                            </th>
-                                        </tr>
-                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
                     <?php } ?>
                 </div>
             </div>
-        <?php
-        } else {
-            echo '
+        <?php } else { ?>
             <div class="flex justify-center h-screen">
                 <p class="m-auto text-5xl font-bold text-gray-300">No Orders</p>
             </div>
-            ';
-        }
-        ?>
+        <?php } ?>
     </section>
 </div>
 

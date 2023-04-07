@@ -5,13 +5,13 @@
     <?php require(view('components/speed-dial')) ?>
     <?php require(view('components/form-item-update')) ?>
     <section class="container mx-auto p-5">
-        <div class="bg-gray-200 p-4 rounded-md shadow-md m-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px; background-repeat: repeat;">
+        <div class="bg-gray-50 p-4 rounded-md shadow-md m-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px; background-repeat: repeat;">
             <table id="inventorytbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                 <thead>
                     <tr>
-                        <th data-priority="1"><input type="checkbox" name="item_id" id="checkAll" class=""></th>
-                        <th data-priority="3">ItemID</th>
-                        <th data-priority="2">ItemName</th>
+                        <th data-priority="1">ItemID</th>
+                        <th data-priority="2"><input type="checkbox" name="item_id" id="checkAll" class=""></th>
+                        <th data-priority="3">ItemName</th>
                         <th data-priority="11">Description</th>
                         <th data-priority="5">Quantity</th>
                         <th data-priority="6">UnitCost</th>
@@ -29,10 +29,10 @@
                     foreach ($inv->inventorytbl() as $item) {
                     ?>
                         <tr>
+                            <td class="text-left"><?= $i++ ?></td>
                             <td class="text-center">
                                 <input type="checkbox" data-row-data="<?= $item['id'] ?>" class="deleteCheckbox">
                             </td>
-                            <td class="text-left"><?= $i++ ?></td>
                             <td class="text-left capitalize"><?= $item['item_name'] ?></td>
                             <td class="text-left capitalize"><?= $item['description'] ?></td>
                             <td class="text-left"><?= $item['quantity'] ?></td>
@@ -134,10 +134,8 @@
         });
     </script>
 
-<?php } else {
-?>
+<?php } else { ?>
     <div class="flex justify-center items-center">
         <h1 class="mt-20 text-2xl font-bold text-gray-500">Unauthorized User</h1>
     </div>
-<?php
-} ?>
+<?php } ?>

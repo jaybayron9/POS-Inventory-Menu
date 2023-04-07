@@ -29,12 +29,20 @@ $(document).ready(function () {
 
     // Tabs
     $('#nav-drinks').click(function () {
+        $('#drinks-menu').fadeIn();
         $('#meals-menu').hide();
-        $('#drinks-menu').show();
+        $('#add-ons-menu').hide();
     });
 
     $('#nav-meals').click(function () {
-        $('#meals-menu').show();
+        $('#meals-menu').fadeIn();
+        $('#drinks-menu').hide();
+        $('#add-ons-menu').hide();
+    })
+
+    $('#nav-add-ons').click(function () {
+        $('#add-ons-menu').fadeIn();
+        $('#meals-menu').hide();
         $('#drinks-menu').hide();
     })
 
@@ -95,7 +103,7 @@ $(document).ready(function () {
             $priceCell.text(total_price);
         } else {
             var row = '<tr class="text-center order-rows hover:bg-green-100 border-b border-gray-200 product-row">';
-                    row += '<td class="text-left text-gray-900 pl-2 text-l font-medium">' + name + '</td>';
+                    row += '<td class="text-left text-gray-900 pl-2 text-l font-medium capitalize">' + name + '</td>';
                     row += '<td class="text-gray-900">' + price + '</td>';
                     row += '<td class="text-gray-900 quantity-cell">1</td>'; 
                     row += '<td class="text-gray-900"><button class="delete-button"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mt-1 text-red-500"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button></td>';
@@ -284,7 +292,6 @@ $(document).ready(function () {
 
     $('#print-receipt').click(function () {
         var payment = $('#payment-amount').val();
-        console.log(payment);
         if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
             swal({
                 icon: "warning",
@@ -374,8 +381,16 @@ $(document).ready(function () {
 
     $('#send-request').click(function () {
         var payment = $('#payment-amount').val();
+        var add_ons = $('#add-ons-to').val().trim();
         
-        if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
+        if (add_ons !== '') {
+            swal({
+                icon: "error",
+                text: "Cant make order with add-ons.",
+                buttons: false,
+                timer: 1500,
+            })
+        }else if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
             swal({
                 icon: "warning",
                 text: "No Orders Made",
@@ -437,31 +452,49 @@ $(document).ready(function () {
                     success: function (resp) {
                         if (resp.status !== 'failed') {
                             $('#customer').removeClass('text-red-500').addClass('text-gray-700').val(resp.customer);
-                            $('#order_id').val(resp.order_id)
+                            $('#info-customer').html(resp.customer);
+                            $('#info-voice-no').html(resp.invoice_no);
+                            $('#info-created-at').html(resp.create_at);
+                            $('#info-status').html(resp.status == '' ? 'Pending' : resp.status);
+                            $('#info-odered-list').html(resp.ordered_list);
+                            $('#customer-label').addClass('flex pt-1');
+                            $('#cust-profile').removeClass('hidden');
+                            $('#order_id').val(resp.order_id);
                             swal({
                                 icon: "success",
                                 text: "Customer Found",
                                 buttons: false,
-                                timer: 1000,
+                                timer: 1500,
                             })
                         } else {
+                            $('#customer-label').removeClass('flex pt-1');
+                            $('#cust-profile').addClass('hidden');
                             $('#customer').addClass('text-red-500').val(resp.msg);
                         }
                     }
                 });
             } else {
                 $('#customer').removeClass('text-red-500').addClass('text-gray-700').val('');
+                $('#customer-label').removeClass('flex pt-1');
+                $('#cust-profile').addClass('hidden');
                 $('#order_id').val('');
             }
         });
     })
 
     $('#add-ons').on('click', function(){
-
+        var payment = $('#payment-amount').val();
         if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
             swal({
                 icon: "warning",
                 text: "No Add-ons Made",
+                buttons: false,
+                timer: 1500,
+            })
+        } else if (payment == "" && payment == 0) {
+            swal({
+                icon: "warning",
+                text: "Please provide payment amount.",
                 buttons: false,
                 timer: 1500,
             })
@@ -515,7 +548,7 @@ $(document).ready(function () {
                         }, 1600);
                     } else {
                         swal({
-                            icon: "error",
+                            icon: "warning",
                             text: resp.msg,
                             buttons: false,
                             timer: 1500,

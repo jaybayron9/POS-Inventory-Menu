@@ -13,9 +13,7 @@ require(core('inventory'));
 
 require(view('partial/head'));
 if ( Auth::isAuth() ) {
-    if ( urlIs('p=order') == false ) {
-        require(view('partial/tabs'));
-    }
+    require(view('partial/tabs'));
     require( checkUrl($get) );
 } else if ( Auth::isSetPassReq() ) {
     require( checkUrl($_SESSION['reqpass_id']) );
