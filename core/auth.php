@@ -91,7 +91,7 @@ class Auth extends Connection {
             $_SESSION['reqpass_id'] = $id;
             $email = new Emailer();
 
-            $url = 'http://localhost/GitHub/HotPlatePOS/?p=';
+            $url = 'http://localhost/HotPlatePOS/?p=';
 
             $from = 'dclinic139@gmail.com';
             $send_to = $_POST['email'];
