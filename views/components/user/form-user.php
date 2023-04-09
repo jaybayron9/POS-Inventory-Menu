@@ -58,13 +58,17 @@
             e.preventDefault();
             $.ajax({
                 url: 'index.php?s=add_user',
-                type: 'POST',
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData: false,
+                method: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
                 success: function(data) {
-                    location.reload();
+                    if (data.status == 'success') {
+                        swal("Success!", data.msg, data.status).then(function() {
+                            window.location.reload();
+                        });
+                    } else {
+                        swal("Error!", data.msg);
+                    }
                 }
             });
         });

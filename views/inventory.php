@@ -91,7 +91,6 @@
                     success: function(data) {
                         $('#upId').val(data.id);
                         $('#upItemName').val(data.item_name);
-                        $('#upItemName').val(data.description);
                         $('#upQuantity').val(data.quantity);
                         $('#upUnitCost').val(data.unit_cost);
                         $('#upTotalValue').val(data.total_value);
@@ -114,7 +113,7 @@
                         rowData.push(data);
                     }
                 });
-
+ 
                 $.ajax({
                     type: "POST",
                     url: "index.php?i=delete_rows",
@@ -124,9 +123,23 @@
                     dataType: 'json',
                     success: function(resp) {
                         if (resp.status == 'success') {
-                            location.reload();
+                            swal({
+                                title: "Success!",
+                                text: resp.msg,
+                                icon: resp.status,
+                                buttons: false,
+                                timer: 2000,
+                            }).then(function() {
+                                location.reload();
+                            })
                         } else {
-                            alert(resp.msg);
+                            swal({
+                                text:resp.msg,
+                                icon:resp.status,
+                                buttons:false,
+                                timer:2000}).then(function(){
+                                    location.reload();
+                            });
                         }
                     }
                 });

@@ -282,9 +282,10 @@ class Menu extends Connection {
         $query = parent::$conn->query("
                 SELECT * FROM orders 
                 where 
-                    invoice_no = '{$reference}' or 
+                    (invoice_no = '{$reference}' or 
                     order_id = '{$reference}' or 
-                    customer = '{$reference}'
+                    customer = '{$reference}') 
+                    LIMIT 1
             ");
 
         if($query) {
@@ -384,7 +385,7 @@ class Menu extends Connection {
                         if ($updateOrder) {
                             $_SESSION['success'] = 'Order Placed';
                             $_SESSION['notif'] = 'bell';
-                            return parent::alert('success', 'Order updated.');
+                            return parent::alert('success', 'Add Ons Added.');
                         }
                         return parent::alert("failed", "Unable to update order.");
                     }

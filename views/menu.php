@@ -125,10 +125,10 @@
         <div class="col-span-1 mx-4 mb-2 rounded-md shadow-lg bg-gray-50 sticky top-6">
             <div class="px-2 mb-3">
                 <div style="height: 410px" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
-                    <div class="d-table overflow-x-auto" style="max-height: 400px;">
+                    <div id="table-scrollbar" class="d-table overflow-x-auto overflow-y-auto" style="max-height: 400px;">
                         <table id="menu-table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase sticky top-0 z-50">
-                                <tr class="border-b border-gray-100 shadow">
+                                <tr class="border-b border-gray-100 shadow bg-white">
                                     <th scope="col" class="px-4 py-3">
                                         Product
                                     </th>
@@ -189,7 +189,7 @@
                 <div class="flex items-center justify-center gap-3 mb-1 px-2">
                     <div>
                         <label for="Payment amount" class="font-semibold text-xs">PAYMENT</label>
-                        <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" placeholder="0" maxlength="5" class="w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
+                        <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" data-row-data="1" placeholder="0" maxlength="5" class="payment w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
                     </div>
 
                     <div data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
@@ -199,7 +199,7 @@
 
                     <div>
                         <label for="Discount" class="font-semibold text-xs">%&nbsp;DISCOUNT</label>
-                        <input type="text" id="discount" name="discount" title="Discount" placeholder="0" maxlength="5" class="w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1">
+                        <input type="text" id="discount" name="discount" title="Discount" data-row-data="2" placeholder="0" maxlength="5" class="discount w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
                     </div>
 
                     <div>
@@ -220,15 +220,15 @@
                                 </div>
                                 <div data-popover id="customer-profile" role="tooltip" class="absolute inline-block text-sm transition-opacity duration-300 border rounded shadow-xl opacity-0 w-72 bg-white border-gray-600 text-gray-700">
                                     <div class="p-2 space-y-1">
-                                        <p id="info-customer" class="font-semibold text-medium text-dark text-lg uppercase text-center rounded shadow shadow-gray-400"> 
+                                        <p id="info-customer" class="font-semibold text-medium text-dark text-lg uppercase text-center rounded shadow shadow-gray-400">
                                         </p>
-                                        <p class="font-light text-sm text-dark capitalize">Invoice no. : 
+                                        <p class="font-light text-sm text-dark capitalize">Invoice no. :
                                             <span id="info-voice-no" class="font-normal"></span>
                                         </p>
-                                        <p class="font-light text-sm text-dark capitalize">Created : 
+                                        <p class="font-light text-sm text-dark capitalize">Created :
                                             <span id="info-created-at" class="font-normal"></span>
                                         </p>
-                                        <p class="font-light text-sm text-dark capitalize">Status : 
+                                        <p class="font-light text-sm text-dark capitalize">Status :
                                             <span id="info-status" class="font-normal"></span>
                                         </p>
                                         <div id="info-odered-list" class="grid grid-cols-4 overflow-y-auto border border-gray-700 shadow-xl rounded" style="max-height: 200px;">
@@ -238,7 +238,7 @@
                                     <div data-popper-arrow></div>
                                 </div>
                             </div>
-                            <input type="text" id="customer" name="customer" title="Customer name" placeholder="Name | Table no." maxlength="20" class="w-full rounded-md border-gray-400 shadow-md py-1">
+                            <input type="text" id="customer" name="customer" title="Customer name" placeholder="Name | Table no." maxlength="20" data-row-data="3" class="customer w-full rounded-md border-gray-400 shadow-md py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
                         </div>
                         <div>
                             <label for="Note" class="font-semibold text-xs">NOTE</label>
@@ -249,7 +249,7 @@
                             <label for="Note" class="font-semibold text-xs">ADD-ONS</label>
                             <input type="hidden" id="order_id">
                             <div class="flex">
-                                <input type="text" id="add-ons-to" placeholder="Ref no." title="Table no. | Invoice no. | Customer name" class="w-full rounded-l-full border-gray-400 shadow-md px-1 text-center mr-1 py-1">
+                                <input type="text" id="add-ons-to" placeholder="Ref no." title="Table no. | Invoice no. | Customer name" data-row-data="4" class="addons w-full rounded-l-full border-gray-400 shadow-md px-1 text-center mr-1 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
                                 <button id="add-ons" title="Add-ons" class="border rounded-r-full pr-3 border-gray-500 hover:border-gray-50 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -308,17 +308,21 @@
 
 <!-- KEYPAD -->
 <div id="drawer-backdrop" class="fixed top-0 mt-44 left-0 z-50 h-72 px-4 pt-4 overflow-y-auto transition-transform -translate-x-full bg-sky-500/[.50] w-80 shadow-md rounded-r" tabindex="-1" aria-labelledby="drawer-backdrop-label">
-    <h5 id="drawer-backdrop-label" class="flex text-base font-semibold text-gray-100 uppercase">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-        </svg>
-    </h5>
-    <button type="button" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop" class="text-gray-100 bg-transparent hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center ">
-        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-        </svg>
-        <span class="sr-only">Close keypad</span>
-    </button>
+    <div class="flex items-between justify-between">
+        <h5 id="drawer-backdrop-label" class="flex text-base font-semibold text-gray-100 uppercase">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+            </svg>
+        </h5>
+        <span id="number-value" class="font-semibold text-dark text-2xl"></span>
+        <div></div>
+        <button type="button" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop" class="text-gray-100 bg-transparent hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center ">
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="sr-only">Close keypad</span>
+        </button>
+    </div>
     <div class="py-3 px-2 overflow-y-auto">
         <div class="keypad grid grid-cols-3 gap-4 font-medium">
             <?php $keypad = "key font-bold bg-gray-50 border border-gray-500 hover:border-gray-400 hover:text-gray-400 rounded-md py-2 px-4 shadow-xl"; ?>

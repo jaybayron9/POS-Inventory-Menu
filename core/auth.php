@@ -11,7 +11,6 @@ class Auth extends Connection {
         if (isset($_SESSION['log_id']) || isset($_COOKIE['log_id'])) {
             return true;
         }
-    
         return false;
     }
 
@@ -91,15 +90,15 @@ class Auth extends Connection {
             $_SESSION['reqpass_id'] = $id;
             $email = new Emailer();
 
-            $url = 'http://localhost/HotPlatePOS/?p=';
+            $url = '<a href="http://localhost/HotPlatePOS/?p='. $id .'">Click Here!</a>';
 
             $from = 'dclinic139@gmail.com';
             $send_to = $_POST['email'];
             $subject = 'Password reset request';
             $body = "You have requested to reset your password. <br><br>
-                Please click the link below to reset your password:<br><br>
-                $url". $id ."<br>
-                If you did not make this request, please ignore this email.";
+                Please $url to reset your password:<br><br>
+                If you did not make this request, please ignore this email.<br><br>
+                PS: This password request only works on the computer where the application is installed";
             
             if ($email->send_email($from, $send_to, $subject, $body)) {
                 return parent::alert('success', 'Password request has been sent successfully.');
@@ -155,9 +154,9 @@ class Auth extends Connection {
             WHERE user_id = {$_SESSION['log_id']}
         ");
         if($query){
-            echo 'Your profile has been updated.';
+            return parent::alert('success', 'Your profile has been updated.');
         }else {
-            echo 'Your profile has not been updated.';
+            return parent::alert('error', 'There\'s a problem updating your profile.');
         }
     }
 
@@ -181,15 +180,15 @@ class Auth extends Connection {
                         password = '{$currentPassword}'
                 ");
                 if($query){
-                    echo 'Your password has been updated.';
+                    return parent::alert('success', 'Your password has been changed.');
                 }else {
-                    echo 'Your password has not been updated.';
+                    return parent::alert('error', 'There\'s a problem changing your password.');
                 }
             } else {
-                echo 'Passwords do not match.';
+                return parent::alert('error', 'Passwords do not match.');
             }
         }else {
-            echo 'Your current password is incorrect.';
+            return parent::alert('error', 'Your current password is incorrect.');
         }
     }
 
@@ -200,9 +199,9 @@ class Auth extends Connection {
             VALUES ('{$name}', '{$username}', '{$email}', '{$password}', '{$role}')
         ");
         if($query){
-            echo 'User has been added.';
+            return parent::alert('success', 'User Added Successfully.');
         }else {
-            echo 'User has not been added.';
+            return parent::alert('error', 'There\'s a problem adding user.');
         }
     }
 

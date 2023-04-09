@@ -26,11 +26,11 @@
             <div class="mt-4">
                 <div>
                     <label class="block text-gray-700" for="email">Email<label>
-                            <input type="text" name="email" id="email"  placeholder="hotplate@gmail.com" maxlength="50" class="border-gray-300 w-full px-4 py-2 mt-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900">
+                    <input type="text" name="email" id="email"  placeholder="hotplate@gmail.com" maxlength="50" class="border-gray-300 w-full px-4 py-2 mt-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
                 </div>
-                <div class="flex items-baseline justify-between">
+                <div class="flex items-baseline justify-between mt-2">
                     <a href="#" id="login" class="text-sm text-blue-600 hover:underline">I remember my account!</a>
-                    <button type="submit" class="px-6 py-2 mt-4 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 rounded font-medium">Send</button>
+                    <button type="submit" class="px-6 py-2 mt-4 font-medium rounded border rounded-md border-gray-500 hover:border-gray-50 rounded-md mt-2 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200">Send</button>
                 </div>
             </div>
         </form>

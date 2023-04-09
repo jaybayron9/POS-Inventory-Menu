@@ -71,9 +71,21 @@
                 dataType: 'json',
                 success: function(resp) {
                     if(resp.status == 'success') {
-                        location.reload();
+                        swal({
+                            title: "Success!",
+                            text: resp.msg,
+                            icon: resp.status,
+                            button: "OK",
+                        }).then(function(){
+                            location.reload();
+                        });
                     } else if(resp.status == 'error') {
-                        alert(resp.msg);
+                        swal({
+                            title: "Error!",
+                            text: resp.msg,
+                            icon: resp.status,
+                            button: "OK",
+                        });
                     }
                 }
             });

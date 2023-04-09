@@ -246,6 +246,7 @@
                     title: "You want to delete this product?",
                     icon: "warning",
                     buttons: ["No", "Yes"],
+                    dangerMode: true,
                 })
                 .then((willDone) => {
                     if (willDone) {
@@ -262,19 +263,9 @@
                                     text: 'Product deleted',
                                     buttons: false,
                                     timer: 1000
-                                })
-                                setTimeout(function() {
-                                    location.reload();
-                                }, 1200);
+                                }).then(() => location.reload());
                             }
                         });
-                    } else {
-                        swal({
-                            icon: 'success',
-                            text: 'Product safe',
-                            buttons: false,
-                            timer: 1000
-                        })
                     }
                 });
         });
@@ -343,48 +334,30 @@
             e.preventDefault();
             $(this).addClass('animate-spin');
             swal({
-                    title: "Are you sure you want to reset sale?",
-                    icon: "warning",
-                    buttons: ["No", "Yes"],
-                })
-                .then((willDone) => {
-                    if (willDone) {
-                        $.ajax({
-                            url: 'index.php?a=reset_sale',
-                            dataType: 'json',
-                            success: function(resp) {
-                                if (resp.status == 'success') {
-                                    $(this).removeClass('animate-spin');
-                                    swal({
-                                        icon: 'success',
-                                        text: 'Sale reset',
-                                        buttons: false,
-                                        timer: 1000
-                                    })
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 1200);
-                                } else {
-                                    $(this).removeClass('animate-spin');
-                                    swal({
-                                        icon: 'error',
-                                        text: 'Something went wrong',
-                                        buttons: false,
-                                        timer: 1000
-                                    })
-                                }
+                title: "This action cannot be undone",
+                text: "Are you sure you want to proceed with resetting the sale?",
+                icon: "warning",
+                buttons: ["No", "Yes"],
+                dangerMode: true,
+            }).then((willDone) => {
+                if (willDone) {
+                    $.ajax({
+                        url: 'index.php?a=reset_sale',
+                        dataType: 'json',
+                        success: function(resp) {
+                            if (resp.status == 'success') {
+                                swal({
+                                    icon: 'success',
+                                    text: 'Sale reset',
+                                    buttons: false,
+                                    timer: 1000
+                                }).then(() => location.reload());
                             }
-                        });
-                    } else {
-                        $(this).removeClass('animate-spin');
-                        swal({
-                            icon: 'success',
-                            text: 'Sale safe',
-                            buttons: false,
-                            timer: 1000
-                        })
-                    }
-                });
+                        }
+                    });
+                }
+                $(this).removeClass('animate-spin');
+            });
         });
     })
 

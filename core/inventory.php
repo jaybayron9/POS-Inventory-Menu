@@ -36,16 +36,16 @@ class Inventory extends Connection {
         $inv = parent::$conn->query("
             UPDATE inventory
             SET
-                ItemName = '{$_POST['itemName']}',
-                Description = '{$_POST['description']}',
-                Quantity = '{$_POST['quantity']}',
-                Unit = '{$_POST['unit']}',
-                UnitPrice = '{$_POST['unitPrice']}',
-                TotalValue = '{$_POST['totalPrice']}',
-                Supplier = '{$_POST['supplier']}',
-                Location = '{$_POST['location']}'
+                item_name = '{$_POST['upItemName']}',
+                quantity = '{$_POST['upQuantity']}',
+                unit_cost = '{$_POST['upUnitCost']}',
+                total_value = '{$_POST['upTotalValue']}',
+                reorder_level = '{$_POST['reorderLevel']}',
+                supplier = '{$_POST['upSupplier']}',
+                location = '{$_POST['upLocation']}',
+                description = '{$_POST['upDescription']}'
             WHERE
-                ItemID = '{$_POST['id']}'
+                id = '{$_POST['id']}'
         ");
 
         if ($inv) {
@@ -56,6 +56,10 @@ class Inventory extends Connection {
     }
 
     public function delete_rows() {
+        if (empty($_POST['ids']) || empty($_POST['ids'][0])) {
+            return parent::alert('error', 'Select at least one row to delete.');
+        }
+
         foreach($_POST['ids'] as $id) {
             $del = parent::$conn->query("
                 DELETE FROM inventory WHERE id = '{$id}'

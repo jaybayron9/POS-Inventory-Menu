@@ -147,6 +147,7 @@
                     title: "Do you want to cancel this order?",
                     icon: "warning",
                     buttons: ["No", "Yes"],
+                    dangerMode: true,
                 })
                 .then((willDone) => {
                     if (willDone) {
@@ -170,13 +171,6 @@
                                     alert(response.msg);
                                 }
                             }
-                        });
-                    } else {
-                        swal({
-                            text: "Orders Safe",
-                            icon: "error",
-                            buttons: false,
-                            timer: 1000,
                         });
                     }
                 });

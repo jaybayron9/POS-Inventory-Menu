@@ -49,7 +49,7 @@
                     </div>
                     <div>
                         <label for="description" class="block mb-2 text-sm font-medium text-gray-900 text-dark">Description</label>
-                        <textarea id="upDescription" name="description" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write item description here"></textarea>
+                        <textarea id="upDescription" name="upDescription" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write item description here"></textarea>
                     </div>
                 </div>
                 <div class="flex">
@@ -73,9 +73,21 @@
                 dataType: 'json',
                 success: function(data) {
                     if (data.status == 'success') {
-                        location.reload();
+                        swal({
+                            text: data.msg,
+                            icon: data.status,
+                            buttons: false,
+                            timer: 1500
+                        }).then(function() {
+                            location.reload();
+                        });
                     } else {
-                        alert(data.msg);
+                        swal({
+                            text: data.msg,
+                            icon: data.status,
+                            buttons: false,
+                            confirmationButton: true,
+                        })
                     }
                 }
             });

@@ -46,18 +46,22 @@ $(document).ready(function () {
         $('#drinks-menu').hide();
     })
 
-    // Keypad
+    //Keypad 
     $(".key").click(function () {
         var value = $(this).text();
         var paymentAmount = $("#payment-amount");
+        var numberValue = $('#number-value');
         paymentAmount.val(paymentAmount.val() + value);
+        numberValue.text(numberValue.text() + value);
         discounted();
         updateTotal();
     });
 
     $("#backspace").click(function () {
         var paymentAmount = $("#payment-amount");
+        var numberValue = $('#number-value');
         paymentAmount.val(paymentAmount.val().slice(0, -1));
+        numberValue.text(numberValue.text().slice(0, -1));
         discounted();
         updateTotal();
     });
@@ -110,6 +114,8 @@ $(document).ready(function () {
                 row += '</tr>';
 
             $('tbody').append(row);
+            var tableScrollBar = $('#table-scrollbar');
+            tableScrollBar.scrollTop(tableScrollBar[0].scrollHeight);
             $('tr.product-row').removeClass('bg-gray-200'); 
             $('tr.product-row:first-child').addClass('bg-gray-200'); 
         }
@@ -280,10 +286,7 @@ $(document).ready(function () {
     setTimeout(function () {
         $("#success-alert").slideUp();
         $.ajax({
-            url: 'index.php?a=unset',
-            success: function (data) {
-                // console.log(data);
-            }
+            url: 'index.php?a=unset'
         })
     }, 2000);
 
@@ -292,30 +295,27 @@ $(document).ready(function () {
 
     $('#print-receipt').click(function () {
         var payment = $('#payment-amount').val();
+
         if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
             swal({
                 icon: "warning",
                 text: "No Orders Made",
-                buttons: false,
-                timer: 1500,
-            })
+                confirmationbutton: true,
+            });
+        } else if (payment == "" && payment == 0) {
+            swal({
+                icon: "warning",
+                text: "Please enter the amount the customer wish to pay.",
+                confirmationbutton: true,
+            });
         } else if ($('#customer').val() == ''){
             swal({
                 icon: "warning",
                 text: "Please provide table no. or customer name.",
-                buttons: false,
-                timer: 2000,
-            })
-        } else if (payment == "" && payment == 0) {
-            swal({
-                icon: "warning",
-                text: "Please provide payment amount.",
-                buttons: false,
-                timer: 1500,
-            })
+                confirmationbutton: true,
+            });
         } else {
             var data = [];
-
             $('tbody tr').each(function () {
                 var name = $(this).find('td:first-child').text();
                 var price = $(this).find('td:nth-child(2)').text();
@@ -327,26 +327,18 @@ $(document).ready(function () {
                 });
             });
 
-            var total = $('#total').text();
-            var customer = $('#customer').val();
-            var service = $('input[name="service"]:checked').val();
-            var payment_amount = $('input[name="payment_amount"]').val();
-            var payment_change = $('input[name="change"]').val();
-            var discount = $('input[name="discount"]').val();
-            var note = $('#note').val();
-
             $.ajax({
                 type: "POST",
                 url: "index.php?a=print",
                 data: {
-                    total: total,
                     data: data,
-                    customer: customer,
-                    service: service,
-                    payment_amount: payment_amount,
-                    payment_change: payment_change,
-                    discount: discount,
-                    note: note,
+                    total: $('#total').text(),
+                    customer: $('#customer').val(),
+                    service: $('input[name="service"]:checked').val(),
+                    payment_amount: $('input[name="payment_amount"]').val(),
+                    payment_change: $('input[name="change"]').val(),
+                    discount: $('input[name="discount"]').val(),
+                    note: $('#note').val(),
                 },
                 dataType: 'json',
                 success: function (response) {
@@ -357,8 +349,7 @@ $(document).ready(function () {
                         iframeElement.contentWindow.print();
                         setTimeout(checkPrintDialogClosed, 2000);
                     } else {
-                        alert(response.msg);
-                        console.log(response.msg);
+                        swal("Error", response.msg, "error");
                     }
                 }
             })
@@ -385,32 +376,28 @@ $(document).ready(function () {
         
         if (add_ons !== '') {
             swal({
-                icon: "error",
+                icon: "warning",
                 text: "Cant make order with add-ons.",
-                buttons: false,
-                timer: 1500,
-            })
-        }else if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
+                confirmationbutton: true,
+            });
+        } else if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
             swal({
                 icon: "warning",
                 text: "No Orders Made",
-                buttons: false,
-                timer: 1500,
-            })
+                confirmationbutton: true,
+            });
         } else if ($('#customer').val() == ''){
             swal({
                 icon: "warning",
                 text: "Please provide table no. or customer name.",
-                buttons: false,
-                timer: 2000,
-            })
+                confirmationbutton: true,
+            });
         } else if (payment == "" && payment == 0) {
             swal({
                 icon: "warning",
-                text: "Please provide payment amount.",
-                buttons: false,
-                timer: 1500,
-            })
+                text: "Please enter the amount the customer wish to pay.",
+                confirmationbutton: true,
+            });
         } else {
             $.ajax({
                 url: "index.php?a=orders",
@@ -422,10 +409,7 @@ $(document).ready(function () {
                             text: "Order Placed",
                             buttons: false,
                             timer: 1500,
-                        });
-                        setTimeout(() => {
-                            location.reload(true);
-                        }, 1600);
+                        }).then(() => location.reload());
                     }else {
                         swal({
                             icon: "error",
@@ -470,6 +454,7 @@ $(document).ready(function () {
                             $('#customer-label').removeClass('flex pt-1');
                             $('#cust-profile').addClass('hidden');
                             $('#customer').addClass('text-red-500').val(resp.msg);
+                            $('#order_id').val('');
                         }
                     }
                 });
@@ -484,27 +469,33 @@ $(document).ready(function () {
 
     $('#add-ons').on('click', function(){
         var payment = $('#payment-amount').val();
-        if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
+        var add_ons = $('#add-ons-to').val().trim();
+        
+        if (add_ons == '') {
+            swal({
+                icon: "warning",
+                text: "Provide the order reference number.",
+                confirmationbutton: true,
+            });
+        } else if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
             swal({
                 icon: "warning",
                 text: "No Add-ons Made",
-                buttons: false,
-                timer: 1500,
-            })
+                confirmationbutton: true,
+            });
         } else if (payment == "" && payment == 0) {
             swal({
                 icon: "warning",
-                text: "Please provide payment amount.",
-                buttons: false,
-                timer: 1500,
-            })
+                text: "Please enter the amount the customer wish to pay.",
+                confirmationbutton: true,
+            });
         } else if ($('#customer').val() == ''){
             swal({
                 icon: "warning",
                 text: "Please provide table no. or customer name.",
                 buttons: false,
                 timer: 2000,
-            })
+            });
         } else {
             var data = [];
             $('tbody tr').each(function () {
@@ -539,19 +530,15 @@ $(document).ready(function () {
                     if (resp.status == 'success') {
                         swal({
                             icon: "success",
-                            text: "Add Ons Added",
+                            text: resp.msg,
                             buttons: false,
                             timer: 1500,
-                        });
-                        setTimeout(() => {
-                            location.reload(true);
-                        }, 1600);
+                        }).then(() => location.reload());
                     } else {
                         swal({
                             icon: "warning",
                             text: resp.msg,
-                            buttons: false,
-                            timer: 1500,
+                            confirmationbutton: true,
                         })
                     }
                 }

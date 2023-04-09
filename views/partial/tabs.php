@@ -83,14 +83,22 @@
 <script>
     $(document).ready(function() {
         $('#logout').click(function() {
-            if (confirm('Are you sure you want to logout?')) {
-                $.ajax({
-                    url: 'index.php?s=logout',
-                    success: function(data) {
-                        location.reload(true);
-                    }
-                })
-            }
+            swal({
+                title: "Are you sure?",
+                text: "Once logged out, you will not be able to access this page!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: 'index.php?s=logout',
+                        success: function(data) {
+                            location.reload(true);
+                        }
+                    })
+                }
+            });
         });
 
         function load_unseen_notification(view = '') {

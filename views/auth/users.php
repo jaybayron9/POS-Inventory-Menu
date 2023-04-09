@@ -1,87 +1,104 @@
 <?php if (Auth::isAdmin()) { ?>
 
-<link rel="stylesheet" href="public/assets/css/table.css">
+    <link rel="stylesheet" href="public/assets/css/table.css">
 
-<?php require(view('components/user/speed-dial')) ?>
-<?php require(view('components/user/form-user')) ?>
+    <?php require(view('components/user/speed-dial')) ?>
+    <?php require(view('components/user/form-user')) ?>
 
-<section class="container mx-auto md:p-10 p-5">
-    <div class="bg-gray-50 p-4 rounded-lg shadow-md mb-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
-        <table id="userstbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
-            <thead>
-                <tr>
-                    <th><input type="checkbox" name="" id="checkAll"></th>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Created_at</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                $i = 1;
-                foreach (Auth::users() as $user) {
-                ?>
-                <tr>
-                    <td class="text-center"><input type="checkbox" data-row-data="<?= $user['user_id'] ?>" name="" id="" class="deleteCheckbox"></td>
-                    <td class="text-center"><?= $i++ ?></td>
-                    <td class="text-center"><?= $user['username'] ?></td>
-                    <td class="text-center"><?= $user['role'] ?></td>
-                    <td class="text-center"><?= date('F j, Y \a\t g:i A', strtotime($user['created_at'])) ?></td>
-                </tr>
-                <?php 
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
-</section>
+    <section class="container mx-auto md:p-10 p-5">
+        <div class="bg-gray-50 p-4 rounded-lg shadow-md mb-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
+            <table id="userstbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" name="" id="checkAll"></th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Created_at</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $i = 1;
+                    foreach (Auth::users() as $user) {
+                    ?>
+                        <tr>
+                            <td class="text-center"><input type="checkbox" data-row-data="<?= $user['user_id'] ?>" name="" id="" class="deleteCheckbox"></td>
+                            <td class="text-center"><?= $i++ ?></td>
+                            <td class="text-center"><?= $user['username'] ?></td>
+                            <td class="text-center"><?= $user['role'] ?></td>
+                            <td class="text-center"><?= date('F j, Y \a\t g:i A', strtotime($user['created_at'])) ?></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-<script>
-    $(document).ready(function() {
-        $('#userstbl').DataTable({
-                "paging": true,
-                responsive: true
-            })
-            .columns.adjust()
-            .responsive.recalc();
+    <script>
+        $(document).ready(function() {
+            $('#userstbl').DataTable({
+                    "paging": true,
+                    responsive: true
+                })
+                .columns.adjust()
+                .responsive.recalc();
 
-        $('#checkAll').click(function() {
-            $('input:checkbox').not(this).prop('checked', this.checked);
-        });
+            $('#checkAll').click(function() {
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            });
 
-        $('input[type="checkbox"]').change(function() {
-            if (!this.checked) {
-                $('#checkAll').prop('checked', false);
-            }
-        });
-
-        $('#deleteSelectedRows').click(function(e) {
-            e.preventDefault();
-
-            var checkboxes = $('.deleteCheckbox');
-            var rowData = [];
-            checkboxes.each(function() {
-                if ($(this).is(':checked')) {
-                    var data = $(this).data('row-data');
-                    rowData.push(data);
+            $('input[type="checkbox"]').change(function() {
+                if (!this.checked) {
+                    $('#checkAll').prop('checked', false);
                 }
             });
 
-            console.log(rowData);
-            $.ajax({
-                type: "POST",
-                url: "index.php?s=delete_users",
-                data: {
-                    ids: rowData
-                },
-                success: function(resp) {
-                    location.reload(true);
+            $('#deleteSelectedRows').click(function(e) {
+                e.preventDefault();
+
+                var checkboxes = $('.deleteCheckbox');
+                var rowData = [];
+                checkboxes.each(function() {
+                    if ($(this).is(':checked')) {
+                        var data = $(this).data('row-data');
+                        rowData.push(data);
+                    }
+                });
+
+                if (rowData.length == 0) {
+                    swal("No rows selected", "Please select at least one row to delete", "warning");
+                    return;
                 }
+
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this user!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            type: "POST",
+                            url: "index.php?s=delete_users",
+                            data: {
+                                ids: rowData
+                            },
+                            success: function(resp) {
+                                swal("Success", "Selected rows have been deleted", "success")
+                                    .then(() => {
+                                        location.reload(true);
+                                    });
+                            }
+                        });
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 
 <?php } else {
 ?>
