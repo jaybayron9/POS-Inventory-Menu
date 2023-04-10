@@ -199,7 +199,7 @@
 
                     <div>
                         <label for="Discount" class="font-semibold text-xs">%&nbsp;DISCOUNT</label>
-                        <input type="text" id="discount" name="discount" title="Discount" data-row-data="2" placeholder="0" maxlength="5" class="discount w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
+                        <input type="text" id="discount" name="discount" title="Discount" data-row-data="2" placeholder="0" maxlength="5" class="discount w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1">
                     </div>
 
                     <div>
@@ -238,7 +238,7 @@
                                     <div data-popper-arrow></div>
                                 </div>
                             </div>
-                            <input type="text" id="customer" name="customer" title="Customer name" placeholder="Name | Table no." maxlength="20" data-row-data="3" class="customer w-full rounded-md border-gray-400 shadow-md py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
+                            <input type="text" id="customer" name="customer" title="Customer name" placeholder="Name | Table no." maxlength="20" data-row-data="3" class="customer w-full rounded-md border-gray-400 shadow-md py-1">
                         </div>
                         <div>
                             <label for="Note" class="font-semibold text-xs">NOTE</label>
@@ -249,7 +249,7 @@
                             <label for="Note" class="font-semibold text-xs">ADD-ONS</label>
                             <input type="hidden" id="order_id">
                             <div class="flex">
-                                <input type="text" id="add-ons-to" placeholder="Ref no." title="Table no. | Invoice no. | Customer name" data-row-data="4" class="addons w-full rounded-l-full border-gray-400 shadow-md px-1 text-center mr-1 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
+                                <input type="text" id="add-ons-to" placeholder="Ref no." title="Table no. | Invoice no. | Customer name" data-row-data="4" class="addons w-full rounded-l-full border-gray-400 shadow-md px-1 text-center mr-1 py-1">
                                 <button id="add-ons" title="Add-ons" class="border rounded-r-full pr-3 border-gray-500 hover:border-gray-50 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

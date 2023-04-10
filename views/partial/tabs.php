@@ -2,9 +2,9 @@
     <ul class="overflow-x-auto w-screen flex -mb-px text-sm font-medium text-center text-gray-700">
         <li class="mr-2">
             <a href="?p" class="<?= urlIs('p') ? 'font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900 hover:text-red-800' : ' hover:text-gray-300 hover:border-gray-300' ?> inline-flex p-4 border-b-2 border-transparent rounded-t-lg" aria-current="page">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="<?= urlIs('p') ? 'text-rose-600' : 'text-gray-500' ?> w-5 h-5 mr-2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
-            </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="<?= urlIs('p') ? 'text-rose-600' : 'text-gray-500' ?> w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
+                </svg>
                 Dashboard
             </a>
         </li>
@@ -18,9 +18,9 @@
         </li>
         <li class="mr-2">
             <a href="?p=order" class="<?= urlIs('p=order') ? 'font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900 hover:text-red-800' : ' hover:text-gray-300 hover:border-gray-300 group' ?> inline-flex p-4 border-b-2 border-transparent rounded-t-lg relative indicator">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="<?= urlIs('p=order') ? 'text-rose-600' : 'text-gray-500' ?> w-5 h-5 mr-2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />
-            </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="<?= urlIs('p=order') ? 'text-rose-600' : 'text-gray-500' ?> w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />
+                </svg>
                 Kitchen
                 <div class="ml-2 inline-flex -mb-2 items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full count hidden"></div>
             </a>
@@ -35,9 +35,9 @@
         </li>
         <li class="mr-2">
             <a href="?p=product" class="<?= urlIs('p=product') || urlIs('p=meals') || urlIs('p=drinks') ? 'font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900 hover:text-red-800' : ' hover:text-gray-300 hover:border-gray-300 group' ?> inline-flex p-4 border-b-2 border-transparent rounded-t-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"         class="<?= urlIs('p=product') || urlIs('p=meals') || urlIs('p=drinks') ? 'text-rose-600' : 'text-gray-500' ?> w-5 h-5 mr-2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z" />
-            </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="<?= urlIs('p=product') || urlIs('p=meals') || urlIs('p=drinks') ? 'text-rose-600' : 'text-gray-500' ?> w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z" />
+                </svg>
                 Product
             </a>
         </li>
@@ -49,12 +49,20 @@
                 Inventory
             </a>
         </li>
-        <li class="ml-auto mr-14"> 
+        <li class="mr-2">
+            <a href="?p=docs" class="<?= urlIs('p=docs') ? 'font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900 hover:text-red-800' : ' hover:text-gray-300 hover:border-gray-300 group' ?> inline-flex p-4 border-b-2 border-transparent rounded-t-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="<?= urlIs('p=docs') ? 'text-rose-600' : 'text-gray-500' ?> w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+                </svg>
+                Docs
+            </a>
+        </li>
+        <li class="ml-auto mr-14">
             <a id="dropdownRightEndButton" data-dropdown-toggle="dropdownRightEnd" href="#" class="mt-4 inline-flex">
                 <p class="mr-2 mt-1 capitalize text-transparent bg-clip-text bg-gradient-to-r from-rose-700 to-gray-900 hover:text-rose-500">
-                    <?php 
-                        $name = Auth::user($_COOKIE['log_id']);
-                        echo mysqli_fetch_array($name)['name'];
+                    <?php
+                    $name = Auth::user($_COOKIE['log_id']);
+                    echo mysqli_fetch_array($name)['name'];
                     ?>
                 </p>
                 <img src="public/storage/uploads/user.png" alt="" class="w-7 h-7 rounded-full bg-gray-200 p-1">

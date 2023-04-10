@@ -12,6 +12,7 @@ return [
     'drinks' => view('product'),
     'add-ons' => view('product'),
     'inventory' => view('inventory'),
+    'docs' => view('docs/documentation'),
 
     // Authentication routes
     'login' => view('auth/login'),
