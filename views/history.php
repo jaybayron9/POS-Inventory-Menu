@@ -49,15 +49,20 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" id="exportpdf" class="flex block px-8 py-2 hover:bg-gray-600 hover:text-red-500 line-through text-red-500">
+                        <a href="#" id="exportpdf" class="flex block px-8 py-2 hover:bg-gray-600 hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                             </svg>
-                            PDF 
+                            PDF
                         </a>
                     </li>
                 </ul>
             </div>
+            <a href="#" id="delete-row" title="Delete row" class="bg-gradient-to-r p-1 px-1 from-red-500 to-gray-700 text-white hover:text-red-200 rounded-full border border-gray-500 hover:border-rose-400">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+            </a>
             <a href="#" id="clear-history" title="Reset history" class="reset-sale bg-gradient-to-r p-1 px-1 from-red-500 to-gray-700 text-white hover:text-red-200 rounded-full border border-gray-500 hover:border-rose-400">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -158,19 +163,42 @@
                     type: 'date',
                     targets: 7
                 }],
-                columns: [
-                    { title: '' },
-                    { title: '<input type="checkbox" name="" id="selectAll">' },
-                    { title: 'Customer' },
-                    { title: 'InvoiceNo.' },
-                    { title: 'Purchase' },
-                    { title: 'Total' },
-                    { title: 'NewTotal' },
-                    { title: 'Service' },
-                    { title: 'Status' },
-                    { title: 'Created' },
-                    { title: 'Time' },
-                    { title: 'Updated' }
+                columns: [{
+                        title: ''
+                    },
+                    {
+                        title: '<input type="checkbox" name="" id="selectAll">'
+                    },
+                    {
+                        title: 'Customer'
+                    },
+                    {
+                        title: 'InvoiceNo.'
+                    },
+                    {
+                        title: 'Purchase'
+                    },
+                    {
+                        title: 'Total'
+                    },
+                    {
+                        title: 'NewTotal'
+                    },
+                    {
+                        title: 'Service'
+                    },
+                    {
+                        title: 'Status'
+                    },
+                    {
+                        title: 'Created'
+                    },
+                    {
+                        title: 'Time'
+                    },
+                    {
+                        title: 'Updated'
+                    }
                 ]
             })
             .columns.adjust()
@@ -204,7 +232,7 @@
         });
 
         var today = new Date().toISOString().substr(0, 10);
-        $('#today').click(function() {
+        $('#today').click(() => {
             $('#start_date').val(today);
             $('#end_date').val(today);
             table.draw();
@@ -257,51 +285,133 @@
             $('.select').not(this).prop('checked', this.checked);
         });
 
+        $('#delete-row').click(function() {
+            swal({
+                title: "Are you sure you want to delete this row(s)?",
+                text: "This action cannot be undone.",
+                icon: "warning",
+                buttons: ["No", "Yes"],
+                dangerMode: true,
+            }).then((willDone) => {
+                if (willDone) {
+                    var checkboxes = $('.select');
+                    var rowData = [];
+                    checkboxes.each(function() {
+                        if ($(this).is(':checked')) {
+                            var data = $(this).data('row-data');
+                            rowData.push(data);
+                        }
+                    });
+                    $.ajax({
+                        url: 'index.php?h=delete_row',
+                        type: 'POST',
+                        data: {
+                            'data': rowData
+                        },
+                        dataType: 'json',
+                        success: function(resp) {
+                            if (resp.status == 'success') {
+                                swal({
+                                    text: resp.msg,
+                                    icon: "success",
+                                    buttons: false,
+                                    timer: 2000,
+                                }).then(() => {
+                                    location.reload()
+                                });
+                            } else {
+                                swal({
+                                    text: resp.msg,
+                                    icon: "error",
+                                    buttons: false,
+                                    timer: 2000,
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
         $('#clear-history').click(function(e) {
             e.preventDefault();
             $(this).addClass('animate-spin');
             swal({
-                    title: "Are you sure you want to clear your order history?",
-                    text: "This action cannot be undone.",
-                    icon: "warning",
-                    buttons: ["No", "Yes"],
-                    dangerMode: true,
-                })
-                .then((willDone) => {
-                    if (willDone) {
-                        $.ajax({
-                            url: 'index.php?h=clear_history',
-                            dataType: 'json',
-                            success: function(resp) {
-                                if (resp.status == 'success') {
-                                    $(this).removeClass('animate-spin');
-                                    swal({
-                                        icon: "success",
-                                        text: "History Deleted Successfully",
-                                        buttons: false,
-                                        timer: 1500,
-                                    });
-                                    setTimeout(() => {
-                                        location.reload(true);
-                                    }, 1600);
-                                }
+                title: "Are you sure you want to clear history?",
+                text: "This action cannot be undone.",
+                icon: "warning",
+                buttons: ["No", "Yes"],
+                dangerMode: true,
+            }).then((willDone) => {
+                if (willDone) {
+                    $.ajax({
+                        url: 'index.php?h=clear_history',
+                        dataType: 'json',
+                        success: function(resp) {
+                            if (resp.status == 'success') {
+                                $(this).removeClass('animate-spin');
+                                swal({
+                                    icon: "success",
+                                    text: "History Deleted Successfully",
+                                    buttons: false,
+                                    timer: 1500,
+                                }).then(() => {
+                                    location.reload(true);
+                                });
                             }
-                        });
-                    } else {
-                        $(this).removeClass('animate-spin');
-                    }
-                });
+                        }
+                    });
+                } else {
+                    $(this).removeClass('animate-spin');
+                }
+            });
         });
 
         $('#exportpdf').click(function() {
-            swal({
-                text: 'Exporting to PDF is unavailable',
-                icon: "warning",
-                buttons: false,
-                timer: 2000,
-            })
+            var checkboxes = $('.select');
+            var rowData = [];
+            checkboxes.each(function() {
+                if ($(this).is(':checked')) {
+                    var data = $(this).data('row-data');
+                    rowData.push(data);
+                }
+            });
+            $.ajax({
+                url: 'index.php?h=toexportpdf',
+                type: 'POST',
+                data: {
+                    'data': rowData
+                },
+                dataType: 'json',
+                success: function(resp) {
+                    if (resp.status == 'success') {
+                        swal({
+                            text: 'Exporting to PDF',
+                            icon: "success",
+                            buttons: false,
+                            timer: 2000,
+                        }).then(() => {
+                            var pdfPath = "pdf-history.php";
+                            var link = $("<a></a>")
+                                .attr("href", pdfPath)
+                                .attr("target", "_blank")
+                                .attr("download", "")
+                                .appendTo("body");
+                            link[0].click();
+                            link.remove();
+                        });
+                    } else {
+                        swal({
+                            text: resp.msg,
+                            icon: "error",
+                            buttons: false,
+                            timer: 2000,
+                        });
+                    }
+                }
+            });
         });
-        
+
         function setSale() {
             var startDate = $('#start_date').val();
             var endDate = $('#end_date').val();
@@ -309,8 +419,8 @@
                 url: 'index.php?h=getsale',
                 method: 'POST',
                 data: {
-                    start_date : startDate,
-                    end_date : endDate
+                    start_date: startDate,
+                    end_date: endDate
                 },
                 success: function(resp) {
                     $('#sale').html(resp);

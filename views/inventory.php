@@ -43,10 +43,10 @@
                             <td class="text-left capitalize"><?= $item['location'] ?></td>
                             <td class="text-left">
                                 <?php
-                                    $dateTime = new DateTime($item['updated_at']);
-                                    echo $dateTime->format('F j, Y g:i A');
+                                $dateTime = new DateTime($item['updated_at']);
+                                echo $dateTime->format('F j, Y g:i A');
                                 ?>
-                                </td>
+                            </td>
                             <td class="text-center">
                                 <button type="button" data-row-data="<?= $item['id'] ?>" data-modal-toggle="update-item-modal" class="update bg-gradient-to-r from-blue-400 to-gray-700 text-white hover:text-gray-200 px-2 rounded">Edit</button>
                             </td>
@@ -105,42 +105,49 @@
             $('#deleteSelectedRows').click(function(e) {
                 e.preventDefault();
 
-                var checkboxes = $('.deleteCheckbox');
-                var rowData = [];
-                checkboxes.each(function() {
-                    if ($(this).is(':checked')) {
-                        var data = $(this).data('row-data');
-                        rowData.push(data);
-                    }
-                });
- 
-                $.ajax({
-                    type: "POST",
-                    url: "index.php?i=delete_rows",
-                    data: {
-                        ids: rowData
-                    },
-                    dataType: 'json',
-                    success: function(resp) {
-                        if (resp.status == 'success') {
-                            swal({
-                                title: "Success!",
-                                text: resp.msg,
-                                icon: resp.status,
-                                buttons: false,
-                                timer: 2000,
-                            }).then(function() {
-                                location.reload();
-                            })
-                        } else {
-                            swal({
-                                text:resp.msg,
-                                icon:resp.status,
-                                buttons:false,
-                                timer:2000}).then(function(){
-                                    location.reload();
-                            });
-                        }
+                swal({
+                    title: "Are you sure you want to delete this item?",
+                    text: "This action cannot be undone.",
+                    icon: "warning",
+                    buttons: ["No", "Yes"],
+                    dangerMode: true,
+                }).then((willDone) => {
+                    if (willDone) {
+                        var checkboxes = $('.deleteCheckbox');
+                        var rowData = [];
+                        checkboxes.each(function() {
+                            if ($(this).is(':checked')) {
+                                var data = $(this).data('row-data');
+                                rowData.push(data);
+                            }
+                        });
+
+                        $.ajax({
+                            type: "POST",
+                            url: "index.php?i=delete_rows",
+                            data: {
+                                ids: rowData
+                            },
+                            dataType: 'json',
+                            success: function(resp) {
+                                if (resp.status == 'success') {
+                                    swal({
+                                        title: "Success!",
+                                        text: resp.msg,
+                                        icon: resp.status,
+                                        buttons: false,
+                                        timer: 2000,
+                                    }).then(() => { location.reload(); })
+                                } else {
+                                    swal({
+                                        text: resp.msg,
+                                        icon: resp.status,
+                                        buttons: false,
+                                        timer: 2000
+                                    }).then(() => { location.reload(); });
+                                }
+                            }
+                        });
                     }
                 });
             });

@@ -10,9 +10,24 @@ class History extends Connection {
         return parent::alert('success', '');
     }
 
+    public function delete_row() {
+        if (empty($_POST['data']) || empty($_POST['data'][0])) {
+            return parent::alert('error', 'Select at least one row to delt.');
+        }
+
+        foreach($_POST['data'] as $id) {
+            $query = parent::$conn->query("DELETE FROM orders WHERE order_id = '{$id}'");
+            
+            if ($query) {
+                return parent::alert('success', 'Successfully deleted.');
+            }
+            return parent::alert('error', 'Error deleting order.');
+        }
+    }
+
     public function toexportcsv() {
         if (empty($_POST['data']) || empty($_POST['data'][0])) {
-            return parent::alert('failed', 'Please select at least one order to export.');
+            return parent::alert('error', 'Please select a to export.');
         }
 
         $_SESSION['orders_ids'] = $_POST['data'];
@@ -39,23 +54,20 @@ class History extends Connection {
 
                 $fprice  = array_map('intval', explode(", ", $row['price']));
                 $price = array_filter($fprice);
-
+ 
                 $data = [];
                 for ($i = 0; $i < count($name); $i++) {
                     $data[$i] = array(
-                        'order_id' => $row['order_id'],
-                        'Invoice_no' => $row['invoice_no'],
                         'purchase' => $name[$i] . ', ' . $quantity[$i] . ', ' . $price[$i],
-                        'total' => $row['total'],
-                        'New total' => $row['total_discount'],
-                        'service' => $row['service']
                     );
                 }
 
-                for ($i = 0; $i < count($name); $i++) {
-                    fputcsv($output, $data[$i]);
+                $purchase = '';
+                for ($y = 0; $y < count($data); $y++) {
+                    $purchase .= $data[$y]['purchase'] . ', ';
                 }
-                fputcsv($output, array(''));
+
+                fputcsv($output, array($row['order_id'], $row['invoice_no'], $purchase, $row['total'], $row['total_discount'], $row['service']));
             }
 
             $total += $row['total'];
@@ -65,6 +77,15 @@ class History extends Connection {
         fputcsv($output, array(''));
         fputcsv($output, array('', '', 'TOTAL', $total, $newTotal));
         unset($_SESSION['orders_ids']);
+    }
+
+    public function toexportpdf() {
+        if (empty($_POST['data']) || empty($_POST['data'][0])) {
+            return parent::alert('error', 'Please select a row to export.');
+        }
+
+        $_SESSION['pdf'] = $_POST['data'];
+        return parent::alert('success', '');
     }
 
     public function getsale() {

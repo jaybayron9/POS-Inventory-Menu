@@ -131,14 +131,7 @@
                                 }
                             }
                         });
-                    } else {
-                        swal({
-                            text: "Order not complete",
-                            icon: "error",
-                            buttons: false,
-                            timer: 2000,
-                        });
-                    }
+                    } 
                 });
         });
 
@@ -197,7 +190,7 @@
             }
         });
 
-        function refreshOrder(time = 10000) {
+        function refreshOrder(time = 12000) {
             setInterval(function() {
                 location.reload();
             }, time);

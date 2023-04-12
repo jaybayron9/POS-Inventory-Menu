@@ -99,7 +99,7 @@
                         <div>
                             <p class="mb-2 ml-1 text-sm">Once you have provided all the necessary information, click on the "<span class="font-semibold">Print</span>" button to view and print the customer receipt.</p>
                             <img src="public/storage/docs/step4.png" alt="Step 4" class="h-32 shadow-xl rounded-md">
-                            <p class="text-sm">PS: After clicking the "Print Receipt" button, you cannot add new orders as it will not be reflected on the current receipt. To add a new order, you will need to cancel the current order by clicking the "Refresh" button.</p>
+                            <p class="text-sm">Note: After clicking the "Print Receipt" button, you can not add new orders as it will not be reflected on the current receipt. To add a new order, you will need to cancel the current order by clicking the "Refresh" button.</p>
                             <img src="public/storage/docs/cancel-order.png" alt="Step 4" class="h-10 shadow-xl rounded-md mt-2">
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                             <img src="public/storage/docs/step5.png" alt="Step 5" class="h-10 shadow-xl rounded-md">
                             <p class="text-sm mb-2">If the order is place successfully the alert success wil show.</p>
                             <img src="public/storage/docs/alertstep5.png" alt="Step 5" class="h-32 shadow-xl rounded-md">
-                            <p class="text-sm mb-2">PS: You cannot place an order with a value in the add-ons field. It will show a warning alert, Please remove the value before continuing.</p>
+                            <p class="text-sm mb-2">Note: You cannot place an order with a value in the add-ons field. It will show a warning alert, Please remove the value before continuing.</p>
                             <img src="public/storage/docs/notif.png" alt="Step 5" class="h-10 shadow-xl rounded-md">
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                 </div>
             </div>
         </li>
-        <div>
+        <li>
             <p>
                 <span class="font-semibold text-xl">Kitchen:</span> All orders from the menu are displayed here for processing and serving.
             </p>
@@ -151,7 +151,7 @@
                 </div>
                 <div class=" text-sm mt-10 w-full"><span class="font-semibold">Serve and cancel buttons :</span>
                     <p>
-                        "Serve" button is used to indicate that the order has been prepared and is ready to be served to the customer.
+                        "<span class="font-semibold">Serve</span>" button is used to indicate that the order has been prepared and is ready to be served to the customer.
                     </p>
                     <p>
                         "Cancel" button is used to cancel the order and remove it from kitchen to process.
@@ -194,7 +194,7 @@
                         <label for="Step 4" class="font-semibold whitespace-nowrap">Step 4 :</label>
                         <div>
                             <p class="mb-2 ml-1 text-sm">
-                            There are two service types in the kitchen:  "<span class="font-semibold">Dine-in</span>" and "<span class="font-semibold">Take-out</span>". The "<span class="font-semibold whitespace-nowrap">Dine-in</span>" is indicated by the color <span class="font-semibold">orange</span>  while "<span class="font-semibold whitespace-nowrap">Take-out</span>" is indicated by the color <span class="font-semibold">blue</span>
+                                There are two service types in the kitchen: "<span class="font-semibold">Dine-in</span>" and "<span class="font-semibold">Take-out</span>". The "<span class="font-semibold whitespace-nowrap">Dine-in</span>" is indicated by the color <span class="font-semibold">orange</span> while "<span class="font-semibold whitespace-nowrap">Take-out</span>" is indicated by the color <span class="font-semibold">blue</span>
                             </p>
                             <div class="flex">
                                 <img src="public/storage/docs/takeout.png" alt="Take out" class="rounded-md shadow-xl">
@@ -203,14 +203,14 @@
                         </div>
                     </div>
                     <div class="">
-                        <label for="PS" class="font-semibold whitespace-nowrap">Add-ons :</label>
+                        <label for="Note" class="font-semibold whitespace-nowrap">Add-ons :</label>
                         <div>
                             <ul class="list-disc mb-2 ml-3 text-sm">
                                 <li>
                                     The "<span class="font-semibold">Cancel</span>" button will not appear if there are add-ons included in the order.
                                 </li>
                                 <li>
-                                    If the order has add-ons, the first item ordered will be marked with a <span class="font-semibold">line-through</span> to indicate that it has been served.
+                                    If the order has add-ons, the first item ordered will be marked with a <span class="font-semibold">2 line-through</span> to indicate that it has been served.
                                 </li>
                                 <li>
                                     The <span class="font-semibold">plus sign</span> in row indicates how many add-ons have been added to the order.
@@ -219,14 +219,10 @@
                         </div>
                     </div>
                     <div>
-                        <img src="public/storage/docs/add-onsv2.png" alt="Search" class="rounded-md shadow-xl ml-20">
+                        <img src="public/storage/docs/add-onsv2.png" alt="Search" class="rounded-md shadow-xl">
                     </div>
                 </div>
             </div>
-        </div>
-        <li><span class="font-semibold">History:</span> View previous and recent orders, Check out your order history here. It's a great way to remember your customer favorite dishes!</li>
-        <li><span class="font-semibold">Product:</span> </li>
-        <li><span class="font-semibold">Inventory:</span> </li>
+        </li>
     </ul>
-
 </section>
