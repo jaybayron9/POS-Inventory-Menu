@@ -10,7 +10,7 @@
                 <span class="sr-only">Info</span>
                 <div id="alert-msg">
 
-                </div>
+                </div> 
             </div>
             <div class="mt-4">
                 <div>

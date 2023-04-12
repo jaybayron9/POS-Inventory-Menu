@@ -90,13 +90,11 @@ class Auth extends Connection {
             $_SESSION['reqpass_id'] = $id;
             $email = new Emailer();
 
-            $url = '<a href="http://localhost/HotPlatePOS/?p='. $id .'">Click Here!</a>';
-
             $from = 'dclinic139@gmail.com';
             $send_to = $_POST['email'];
             $subject = 'Password reset request';
             $body = "You have requested to reset your password. <br><br>
-                Please $url to reset your password:<br><br>
+                Please <a href='http://localhost/HotPlatePOSv2/?p={$id}'>Click Here!</a> to reset your password:<br><br>
                 If you did not make this request, please ignore this email.<br><br>
                 PS: This password request only works on the computer where the application is installed";
             
@@ -121,12 +119,12 @@ class Auth extends Connection {
 
             if ($query) {
                 unset($_SESSION['reqpass_id']);
-                echo 'Your password has been changed.';
+                return parent::alert('success', 'Your password has been changed.');
             } else {
-                echo 'Your password has not been changed.';
+                return parent::alert('error', 'There\'s a problem changing your password.');
             }
         } else {
-            echo 'Passwords do not match.';
+            return parent::alert('error', 'Passwords do not match.');
         }
     }
 
