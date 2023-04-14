@@ -217,4 +217,4 @@ class Auth extends Connection {
     }
 }
 
-require('core/routes/auth-routes.php');
+require_once(core('routes/auth-routes'));

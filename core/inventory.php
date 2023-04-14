@@ -88,4 +88,4 @@ class Inventory extends Connection {
     }
 }
 
-require_once('core/routes/inventory-routes.php');
+require_once(core('routes/inventory-routes'));

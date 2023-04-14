@@ -396,4 +396,4 @@ class Menu extends Connection {
     }
 }
 
-require_once('core/routes/menu-routes.php');
+require_once(core('routes/menu-routes'));

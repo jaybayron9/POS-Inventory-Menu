@@ -26,11 +26,11 @@
                     <h1 id="title-form" class="col-span-2 text-2xl font-semibold mb-2 text-center">Add Product</h1>
                     <div class="mb-2">
                         <label for="product" class="">Product Name</label>
-                        <input type="text" name="product" id="product" class="w-full rounded-md">
+                        <input type="text" name="product" id="product" class="w-full rounded-md" required>
                     </div>
                     <div class="mb-2">
                         <label for="Price">Price</label>
-                        <input type="text" name="price" id="price" class="w-full rounded-md myInput">
+                        <input type="text" name="price" id="price" class="w-full rounded-md myInput" required>
                     </div>
                     <div class="mb-2">
                         <label for="category">Category</label>

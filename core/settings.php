@@ -47,4 +47,4 @@ class Settings extends Connection {
     }
 }
 
-require_once('core/routes/settings-routes.php');
+require_once(core('routes/settings-routes'));

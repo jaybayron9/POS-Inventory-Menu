@@ -14,7 +14,7 @@ class PDF extends FPDF {
         $this->SetLineWidth(.3);
         $this->SetFont('', 'B');
         // Header
-        $w = array(15, 18, 96, 18, 28, 15);
+        $w = array(20, 26, 82, 18, 25, 20);
         for ($i = 0; $i < count($header); $i++)
         $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', true );
         $this->Ln();
@@ -43,24 +43,21 @@ class PDF extends FPDF {
                         'Invoice_no' => $row['invoice_no'],
                         'purchase' => $name[$i] . ', ' . $quantity[$i] . ', ' . $price[$i],
                         'total' => $row['total'],
-                        'New total' => $row['total_discount'],
+                        'discount' => $row['discount'],
                         'service' => $row['service']
                     );
                 }
                 
-                $purchase = '';
-                for ($i = 0; $i < count($orders); $i++) {
-                    $purchase .= $orders[$i]['purchase'] . ', ';
-                }
-                
-                    $this->Cell($w[0], 6, $row['order_id'], 'LR', 0, 'L', $fill);
-                    $this->Cell($w[1], 6, $row['invoice_no'], 'R', 0, 'L', $fill);
-                    $this->Cell($w[2], 6, $purchase, 'LR', 0, 'LR', $fill);
-                    $this->Cell($w[3], 6, $row['total'], 'LR', 0, 'R', $fill);
-                    $this->Cell($w[4], 6, $row['total_discount'], 'R', 0, 'R', $fill);
-                    $this->Cell($w[5], 6, $row['service'], 'LR', 0, 'LR', $fill);
+                foreach($orders as $order) {
+                    $this->Cell($w[0], 6, $order['order_id'], 'LR', 0, 'L', $fill);
+                    $this->Cell($w[1], 6, $order['Invoice_no'], 'LR', 0, 'L', $fill);
+                    $this->Cell($w[2], 6, $order['purchase'], 'LR', 0, 'L', $fill);
+                    $this->Cell($w[3], 6, $order['total'], 'LR', 0, 'L', $fill);
+                    $this->Cell($w[4], 6, $order['discount'], 'LR', 0, 'L', $fill);
+                    $this->Cell($w[5], 6, $order['service'], 'LR', 0, 'L', $fill);
                     $this->Ln();
                     $fill = !$fill;
+                }
             }
         }
 
@@ -68,26 +65,45 @@ class PDF extends FPDF {
         $this->Cell(array_sum($w), 0, '', 'T');
     }
 
-    public function getSale() {
-        $query = Connection::$conn->query("SELECT * FROM orders");
-        $total = 0;
-        foreach ($query as $row) {
-            $total += $row['total_discount'];
+    public function getSale($data) {
+        foreach ($data as $id) {
+            $query = Connection::$conn->query("SELECT * FROM orders WHERE order_id = '{$id}'");
+            $total = 0;
+            foreach ($query as $row) {
+                $total += $row['total_discount'];
+            }
+            return $total;
         }
-        return $total;
+    }
+
+    public function unsetSession() {
+        unset($_SESSION['pdf']);
+        unset($_SESSION['fromDatePdf']);
+        unset($_SESSION['toDatePdf']);
     }
 }
 
 $pdf = new PDF();
-$header = array('Order ID', 'Invoice No.', 'Purchase', 'Total', 'Discounted Total', 'Service');
+$header = array('Order ID', 'Invoice No.', 'Purchase', 'Total', 'Discount', 'Service');
 // Data loading
-$pdf->SetFont('Courier', '', 8);
+$pdf->SetFont('Courier', '', 10);
 $pdf->AddPage();
 $pdf->FancyTable($header, $_SESSION['pdf']);
 
 $pdf->SetX(7);
-$pdf->SetFont('Courier','',18);
-$pdf->Cell(20,20,'Total: ' . number_format($pdf->getSale(), 2) . 'Php' ,0,1,'');
+$pdf->SetFont('Courier','',15);
+$pdf->Cell(22,15,'Total: ' . number_format($pdf->getSale($_SESSION['pdf']), 2) . 'Php' ,0,1,'');
 
-$pdf->Output();
+$pdf->SetX(7);
+$pdf->SetFont('Courier','',10);
+$pdf->Cell(20,1,"From : {$_SESSION['fromDatePdf']}",0,1,'');
+
+$pdf->SetX(7);
+$pdf->SetFont('Courier','',10);
+$pdf->Cell(20,10,"To : {$_SESSION['toDatePdf']}",0,1,'');
+
+$pdf->unsetSession();
+
+$filename = 'sales_report_' . date('m-d-Y') . '.pdf';
+$pdf->Output($filename, 'D');
 ?>

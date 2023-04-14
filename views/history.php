@@ -243,44 +243,6 @@
         $('#end_date').val(today);
         table.draw();
 
-        $('#exportcsv').on('click', function() {
-            var checkboxes = $('.select');
-            var rowData = [];
-            checkboxes.each(function() {
-                if ($(this).is(':checked')) {
-                    var data = $(this).data('row-data');
-                    rowData.push(data);
-                }
-            });
-
-            $.ajax({
-                url: 'index.php?h=toexportcsv',
-                type: 'POST',
-                data: {
-                    'data': rowData
-                },
-                dataType: 'json',
-                success: function(resp) {
-                    if (resp.status == 'success') {
-                        window.location.href = 'index.php?h=export_csv';
-                        swal({
-                            text: 'Exporting to CSV',
-                            icon: "success",
-                            buttons: false,
-                            timer: 2000,
-                        });
-                    } else {
-                        swal({
-                            text: resp.msg,
-                            icon: "error",
-                            buttons: false,
-                            timer: 2000,
-                        });
-                    }
-                }
-            });
-        });
-
         $('#selectAll').click(function() {
             $('.select').not(this).prop('checked', this.checked);
         });
@@ -367,6 +329,46 @@
             });
         });
 
+        $('#exportcsv').on('click', function() {
+            var checkboxes = $('.select');
+            var rowData = [];
+            checkboxes.each(function() {
+                if ($(this).is(':checked')) {
+                    var data = $(this).data('row-data');
+                    rowData.push(data);
+                }
+            });
+
+            $.ajax({
+                url: 'index.php?h=toexportcsv',
+                type: 'POST',
+                data: {
+                    'data': rowData,
+                    'fromDate': $('#start_date').val(),
+                    'toDate': $('#end_date').val()
+                },
+                dataType: 'json',
+                success: function(resp) {
+                    if (resp.status == 'success') {
+                        window.location.href = 'index.php?h=export_csv';
+                        swal({
+                            text: 'Exporting to CSV',
+                            icon: "success",
+                            buttons: false,
+                            timer: 2000,
+                        });
+                    } else {
+                        swal({
+                            text: resp.msg,
+                            icon: "error",
+                            buttons: false,
+                            timer: 2000,
+                        });
+                    }
+                }
+            });
+        });
+
         $('#exportpdf').click(function() {
             var checkboxes = $('.select');
             var rowData = [];
@@ -380,7 +382,9 @@
                 url: 'index.php?h=toexportpdf',
                 type: 'POST',
                 data: {
-                    'data': rowData
+                    'data': rowData,
+                    'fromDate': $('#start_date').val(),
+                    'toDate': $('#end_date').val()
                 },
                 dataType: 'json',
                 success: function(resp) {
