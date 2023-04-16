@@ -17,6 +17,14 @@
             </a>
         </li>
         <li class="mr-2">
+            <a href="?p=receipts" class="<?= urlIs('p=receipts') ? 'font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900 hover:text-red-800' : ' hover:text-gray-300 hover:border-gray-300 group' ?> inline-flex p-4 border-b-2 border-transparent rounded-t-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="<?= urlIs('p=receipts') ? 'text-rose-600' : 'text-gray-500' ?> w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+                Receipts
+            </a>
+        </li>
+        <li class="mr-2">
             <a href="?p=order" class="<?= urlIs('p=order') ? 'font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900 hover:text-red-800' : ' hover:text-gray-300 hover:border-gray-300 group' ?> inline-flex p-4 border-b-2 border-transparent rounded-t-lg relative indicator">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="<?= urlIs('p=order') ? 'text-rose-600' : 'text-gray-500' ?> w-5 h-5 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />

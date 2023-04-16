@@ -15,7 +15,7 @@ class Menu extends Connection {
         $_SESSION['payment_amount'] = $_POST['payment_amount'];
         $_SESSION['payment_change'] = $_POST['payment_change'];
         $_SESSION['note'] = $_POST['note'];
-        $_SESSION['discount'] = $_POST['discount'];
+        $_SESSION['discount'] = $_POST['discount']; 
         $_SESSION['invoice_no'] = rand(1, 999);
 
         return parent::alert('success', '');
@@ -35,6 +35,8 @@ class Menu extends Connection {
         $_SESSION['success'] = 'Order Placed';
         $_SESSION['notif'] = 'bell';
 
+        $payment_status = empty($_SESSION['payment_amount']) && $_SESSION['payment_amount'] == '' ? 'Unpaid' : 'Paid';
+
         $no = parent::$conn->query("SELECT * FROM orders WHERE invoice_no = '{$_SESSION['invoice_no']}'");
         if ($no->num_rows > 0) {
             $_SESSION['invoice_no'] = rand(1, 999);
@@ -45,9 +47,9 @@ class Menu extends Connection {
         $grandtotal = floatval($_SESSION['total']) - abs($discount);
 
         $save = parent::$conn->query("INSERT INTO orders (
-            customer, name, price, quantity, total, total_discount, discount, service, invoice_no, note
+            customer, name, price, quantity, total, total_discount, discount, service, invoice_no, note, payment_status, payment, pay_change
         ) VALUES (
-            '{$_SESSION['customer']}', '{$name}', '{$price}', '{$quantity}', '{$_SESSION['total']}', '{$grandtotal}', '{$discount}', '{$_SESSION['service']}', '{$_SESSION['invoice_no']}', '{$_SESSION['note']}'
+            '{$_SESSION['customer']}', '{$name}', '{$price}', '{$quantity}', '{$_SESSION['total']}', '{$grandtotal}', '{$discount}', '{$_SESSION['service']}', '{$_SESSION['invoice_no']}', '{$_SESSION['note']}', '{$payment_status}', '{$_SESSION['payment_amount']}', '{$_SESSION['payment_change']}'
         )");
 
         if ($save) {
@@ -284,7 +286,8 @@ class Menu extends Connection {
                 where 
                     (invoice_no = '{$reference}' or 
                     order_id = '{$reference}' or 
-                    customer = '{$reference}') 
+                    customer = '{$reference}') and
+                    payment_status = 'Unpaid'
                     LIMIT 1
             ");
 

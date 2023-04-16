@@ -9,7 +9,7 @@
                 </svg>
                 <span class="sr-only">Info</span>
                 <div id="alert-msg">
-
+                    <!-- ALert Goes here -->
                 </div> 
             </div>
             <div class="mt-4">

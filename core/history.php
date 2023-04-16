@@ -128,6 +128,69 @@ class History extends Connection {
             return floatval($row['total_price']);
         }
     }
+
+    public function reissue_receipt() {
+        $query = parent::$conn->query("SELECT * FROM orders WHERE order_id = '{$_POST['order_id']}'");
+        foreach ($query as $row) {
+            $query = parent::$conn->query("SELECT * FROM orders WHERE order_id = '{$_POST['order_id']}'");
+            foreach ($query as $row) {
+                $customer = explode(", ", $row['name']);
+                $name = array_filter($customer);
+
+                $fquantity  = array_map('intval', explode(", ", $row['quantity']));
+                $quantity = array_filter($fquantity);
+
+                $fprice  = array_map('intval', explode(", ", $row['price']));
+                $price = array_filter($fprice);
+
+                $data = [];
+                for ($i = 0; $i < count($name); $i++ ) {
+                    $data[$i] = array(
+                        'purchase' => $name[$i] . ', ' . $quantity[$i] . ', ' . $price[$i],
+                    );
+                }
+                
+                $new_array = array();
+                foreach ($data as $item) {
+                    $parts = explode(", ", $item['purchase']);
+                    $name = substr($parts[0], 1);
+                    $price = $parts[2];
+                    $quantity = $parts[1];
+                    $new_item = array(
+                        "name" => $name,
+                        "price" => $price,
+                        "quantity" => $quantity
+                    );
+                    if (!in_array($new_item, $new_array)) {
+                        $new_array[] = $new_item;
+                    }
+                }
+
+                $_SESSION['data'] =  $new_array; 
+            }
+
+            $_SESSION['total'] = $_POST['total'];
+            $_SESSION['customer'] = $row['customer'];
+            $_SESSION['service'] = $row['service'];
+            $_SESSION['payment_amount'] = $_POST['payment_amount'];
+            $_SESSION['payment_change'] = $_POST['change'];
+            $_SESSION['discount'] = $_POST['discount'];
+            $_SESSION['invoice_no'] = $row['invoice_no'];
+            $_SESSION['create_at'] = $row['create_at'];
+        }
+
+        $total_discount = $_POST['total'] - $_POST['discount_amount'];
+
+        parent::$conn->query("
+            update orders set 
+                payment = '{$_POST['payment_amount']}',
+                pay_change = '{$_POST['change']}',
+                discount = '{$_POST['discount_amount']}',
+                total_discount = '{$total_discount}',
+                payment_status = 'Paid'
+            where order_id = '{$_POST['order_id']}'
+        ");
+    }
 }
 
 require_once(core('routes/history-routes'));

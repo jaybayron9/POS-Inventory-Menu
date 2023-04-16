@@ -8,16 +8,20 @@
             <?php foreach (Auth::user($_SESSION['log_id']) as $user) { ?>
                 <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                     <div class="col-span-full sm:col-span-3">
+                        <label for="name" class="text-sm text-gray-700">Name</label>
+                        <input id="name" type="text" name="name" placeholder="John Doe" value="<?= $user['name'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-full sm:col-span-3">
                         <label for="username" class="text-sm text-gray-700">Username</label>
-                        <input id="username" type="text" name="username" placeholder="Username" value="<?= $user['username'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        <input id="username" type="text" name="username" placeholder="Username" value="<?= $user['username'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                     </div>
                     <div class="col-span-full sm:col-span-3">
                         <label for="email" class="text-sm text-gray-700">Email</label>
-                        <input id="email" type="email" name="email" placeholder="example300@gmail.com" value="<?= $user['email'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        <input id="email" type="email" name="email" placeholder="example300@gmail.com" value="<?= $user['email'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                     </div>
                     <div class="col-span-full sm:col-span-3">
-                        <label for="role" class="text-sm text-gray-700">Position</label>
-                        <input id="role" type="text" disabled placeholder="Cashier" value="<?= ucfirst($user['role']) ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        <label for="role" class="text-sm text-gray-700">Position <span class="text-red-500">This field can't be change.</span></label>
+                        <input id="role" type="text" disabled placeholder="Cashier" value="<?= ucfirst($user['role']) ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                     </div>
                 </div>
             <?php } ?>
@@ -35,15 +39,15 @@
             <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                 <div class="col-span-full sm:col-span-3">
                     <label for="current password" class="text-sm text-gray-700">Current Password</label>
-                    <input id="oldPassword" type="password" name="currentPassword" placeholder="**********" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    <input id="oldPassword" type="password" name="currentPassword" placeholder="**********" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                 </div>
                 <div class="col-span-full sm:col-span-3">
                     <label for="New password" class="text-sm text-gray-700">New Password</label>
-                    <input id="newPassword" type="password" name="newPassword" placeholder="**********" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    <input id="newPassword" type="password" name="newPassword" placeholder="**********" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                 </div>
                 <div class="col-span-full sm:col-span-3">
                     <label for="retype password" class="text-sm text-gray-700">Retype Password</label>
-                    <input id="RetypePassword" type="password" name="retypePassword" placeholder="**********" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    <input id="RetypePassword" type="password" name="retypePassword" placeholder="**********" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                 </div>
             </div>
         </fieldset>

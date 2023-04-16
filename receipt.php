@@ -35,10 +35,7 @@ $pdf->Cell(60,3.5,$address_lines[2],0,1,'C');
 $pdf->Cell(60,3.5,Settings::settings('URL') ,0,1,'C');
 $pdf->Cell(60,3.5,Settings::settings('email') ,0,1,'C');
 $pdf->Cell(60,3.5,'+63 ' . Settings::settings('contact_no') ,0,1,'C');
-$pdf->Cell(60,3.5,'BUS. TIN : ' . Settings::settings('contact_no') ,0,1,'C');
-
-// $pdf->Line(4,50,77,38);
-// $pdf->Line(4,48,77,48);
+$pdf->Cell(60,3.5,'BUS. TIN : ' . Settings::settings('bussiness_tin') ,0,1,'C');
 
 $pdf->SetX(7);
 $pdf->SetFont('courier','',12);
@@ -104,16 +101,9 @@ foreach($_SESSION['data'] as $row){
     $pdf->Cell(12,5,$row['price'],1,1,'C');
 }
 
-//product table code
-// $pdf->SetX(7);
-// $pdf->SetFont('courier','',8);
-// $pdf->Cell(20,5,'',0,0,'L');
-// $pdf->Cell(25,5,'SUBTOTAL',1,0,'C');
-// $pdf->Cell(20,5,$_SESSION['total'],1,1,'C');
-
 $discount = floatval($_SESSION['total']) * floatval($_SESSION['discount']) / 100;
 
-if ($_SESSION['discount'] !== '0' && $_SESSION['discount'] !== '0.00') {
+if ($_SESSION['discount'] !== '0' && $_SESSION['discount'] !== '0.00' && $_SESSION['discount'] !== '') {
     $pdf->SetX(7);
     $pdf->SetFont('courier','',8);
     $pdf->Cell(20,5,'',0,0,'L');
@@ -132,10 +122,10 @@ $pdf->Cell(20,5,$grandtotal,1,1,'C');
 $pdf->SetX(7);
 $pdf->SetFont('courier','',8);
 $pdf->Cell(20,5,'',0,0,'L');
-$pdf->Cell(25,5,'PAYMENT',1,0,'C');
-$pdf->Cell(20,5,$_SESSION['payment_amount'],1,1,'C');
+$pdf->Cell(25,5,'CASH',1,0,'C');
+$pdf->Cell(20,5,empty($_SESSION['payment_amount']) ? 'Not paid' : $_SESSION['payment_amount'],1,1,'C');
 
-if ($_SESSION['payment_change'] !== '0' && $_SESSION['payment_change'] !== '0.00') {
+if (!empty($_SESSION['payment_change']) && $_SESSION['payment_change'] !== '0' && $_SESSION['payment_change'] !== '0.00') {
     $pdf->SetX(7);
     $pdf->SetFont('courier','',8);
     $pdf->Cell(20,5,'',0,0,'L');

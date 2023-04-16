@@ -72,18 +72,20 @@
         <table id="historytbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
             <thead>
                 <tr>
-                    <th data-priority="1">OrderID</th>
+                    <th data-priority="1">InvNo.</th>
                     <th data-priority="2"></th>
-                    <th data-priority="3">InvoiceNo.</th>
-                    <th data-priority="6">Customer</th>
-                    <th data-priority="11">Purchase</th>
-                    <th data-priority="8">Total</th>
-                    <th data-priority="9">NewTotal</th>
-                    <th data-priority="5">Service</th>
-                    <th data-priority="4">Status</th>
-                    <th data-priority="10">Created</th>
-                    <th data-priority="7">Time</th>
-                    <th data-priority="12">Update</th>
+                    <th data-priority="3">Customer</th>
+                    <th data-priority="4">Discount</th>
+                    <th data-priority="5">Total</th>
+                    <th data-priority="6">Payment</th>
+                    <th data-priority="7">Change</th>
+                    <th data-priority="8">Service</th>
+                    <th data-priority="9">Status</th>
+                    <th data-priority="10">PaymentStatus</th>
+                    <th data-priority="11">DateCreated</th>
+                    <th data-priority="12">TimeCreated</th>
+                    <th data-priority="13">TimeUpdated</th>
+                    <th data-priority="14">Purchase</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,10 +93,37 @@
                 $no = 1;
                 foreach (History::getHistory() as $cust) { ?>
                     <tr>
-                        <td class="ml-3"><?= $no++ ?></td>
+                        <td class="text-gray-700"><?= $cust['invoice_no'] ?></td>
                         <td class="text-center"><input type="checkbox" data-row-data="<?= $cust['order_id'] ?>" id="" class="select " value="<?= $cust['order_id'] ?>"></td>
                         <td class="capitalize whitespace-nowrap"><?= $cust['customer'] !== '' ? $cust['customer'] : $cust['invoice_no'] ?></td>
-                        <td class="text-gray-700"><?= $cust['invoice_no'] ?></td>
+                        <td><span class="text-red-600">-</span> <?= floatval($cust['discount']) ?></td>
+                        <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= floatval($cust['total_discount']) ?></td>
+                        <td><span class="text-green-600">₱</span> <?= floatval($cust['payment']) ?></td>
+                        <td><span class="text-green-600">₱</span> <?= floatval($cust['pay_change']) ?></td>
+                        <td>
+                            <div class="font-medium bg-gradient-to-r <?= $cust['service'] == "TK" ? 'from-blue-400 to-gray-700' : 'from-orange-400 to-orange-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
+                                <?= $cust['service'] == "TK" ? 'TAKE OUT' : 'DINE IN' ?>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="font-medium bg-gradient-to-r <?= $cust['status'] == "" ? 'from-green-400 to-green-700' : 'from-rose-400 to-rose-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
+                                <?= $cust['status'] == "" ? 'PENDING' : 'SERVED' ?>
+                            </div>
+                        </td>
+                        <td class="whitespace-nowrap">
+                            <div class="font-medium bg-gradient-to-r <?= $cust['payment_status'] == "Paid" ? 'from-sky-400 to-sky-700' : 'from-gray-400 to-gray-500' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap uppercase">
+                                <?= $cust['payment_status'] ?>
+                            </div>
+                        </td>
+                        <td class="whitespace-nowrap">
+                            <?= date('Y-m-d', strtotime($cust['create_at'])) ?>
+                        </td>
+                        <td class="whitespace-nowrap">
+                            <?= date('g: i A', strtotime($cust['update_at'])) ?>
+                        </td>
+                        <td class="whitespace-nowrap">
+                            <?= date('g: i A', strtotime($cust['create_at']))?>
+                        </td>
                         <td class="whitespace-nowrap">
                             <?php
                             $name = array_filter(explode(", ", $cust['name']));
@@ -119,33 +148,6 @@
                             }
                             ?>
                         </td>
-                        <td><span class="text-green-600">₱</span> <?= floatval($cust['total']) ?></td>
-                        <td><span class="text-green-600">₱</span> <?= floatval($cust['total_discount']) ?></td>
-                        <td>
-                            <div class="font-medium bg-gradient-to-r <?= $cust['service'] == "TK" ? 'from-blue-400 to-gray-700' : 'from-orange-400 to-orange-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
-                                <?= $cust['service'] == "TK" ? 'TAKE OUT' : 'DINE IN' ?>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="font-medium bg-gradient-to-r <?= $cust['status'] == "" ? 'from-green-400 to-green-700' : 'from-rose-400 to-rose-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
-                                <?= $cust['status'] == "" ? 'PENDING' : 'SERVED' ?>
-                            </div>
-                        </td>
-                        <td class="whitespace-nowrap">
-                            <?php
-                            echo date('Y-m-d', strtotime($cust['create_at']))
-                            ?>
-                        </td>
-                        <td class="whitespace-nowrap">
-                            <?php
-                            echo date('g: i A', strtotime($cust['create_at']))
-                            ?>
-                        </td>
-                        <td class="whitespace-nowrap">
-                            <?php
-                            echo date('g: i A', strtotime($cust['update_at']))
-                            ?>
-                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -163,42 +165,21 @@
                     type: 'date',
                     targets: 7
                 }],
-                columns: [{
-                        title: ''
-                    },
-                    {
-                        title: '<input type="checkbox" name="" id="selectAll">'
-                    },
-                    {
-                        title: 'Customer'
-                    },
-                    {
-                        title: 'InvoiceNo.'
-                    },
-                    {
-                        title: 'Purchase'
-                    },
-                    {
-                        title: 'Total'
-                    },
-                    {
-                        title: 'NewTotal'
-                    },
-                    {
-                        title: 'Service'
-                    },
-                    {
-                        title: 'Status'
-                    },
-                    {
-                        title: 'Created'
-                    },
-                    {
-                        title: 'Time'
-                    },
-                    {
-                        title: 'Updated'
-                    }
+                columns: [
+                    { title: 'InvNo.' },
+                    { title: '<input type="checkbox" name="" id="selectAll">' },
+                    { title: 'Table' },
+                    { title: 'Discount' },
+                    { title: 'Total' },
+                    { title: 'Payment' },
+                    { title: 'Change' },
+                    { title: 'Service' },
+                    { title: 'Status' },
+                    { title: 'PaymentStatus' },
+                    { title: 'DateCreated' },
+                    { title: 'TimeCreated' },
+                    { title: 'TimeUpdated' },
+                    { title: 'Purchase' },
                 ]
             })
             .columns.adjust()
@@ -208,7 +189,7 @@
             function(settings, data, dataIndex) {
                 var minDate = $('#start_date').val();
                 var maxDate = $('#end_date').val();
-                var date = data[9]; // assuming the date is in the first column
+                var date = data[10]; // assuming the date is in the first column
                 if (minDate === '' || maxDate === '') {
                     return true;
                 }

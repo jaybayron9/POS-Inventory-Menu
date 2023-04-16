@@ -66,14 +66,14 @@ class PDF extends FPDF {
     }
 
     public function getSale($data) {
+        $total = 0;
         foreach ($data as $id) {
             $query = Connection::$conn->query("SELECT * FROM orders WHERE order_id = '{$id}'");
-            $total = 0;
             foreach ($query as $row) {
                 $total += $row['total_discount'];
             }
-            return $total;
         }
+        return $total;
     }
 
     public function unsetSession() {
@@ -84,15 +84,7 @@ class PDF extends FPDF {
 }
 
 $pdf = new PDF();
-$header = array('Order ID', 'Invoice No.', 'Purchase', 'Total', 'Discount', 'Service');
-// Data loading
-$pdf->SetFont('Courier', '', 10);
 $pdf->AddPage();
-$pdf->FancyTable($header, $_SESSION['pdf']);
-
-$pdf->SetX(7);
-$pdf->SetFont('Courier','',15);
-$pdf->Cell(22,15,'Total: ' . number_format($pdf->getSale($_SESSION['pdf']), 2) . 'Php' ,0,1,'');
 
 $pdf->SetX(7);
 $pdf->SetFont('Courier','',10);
@@ -101,6 +93,15 @@ $pdf->Cell(20,1,"From : {$_SESSION['fromDatePdf']}",0,1,'');
 $pdf->SetX(7);
 $pdf->SetFont('Courier','',10);
 $pdf->Cell(20,10,"To : {$_SESSION['toDatePdf']}",0,1,'');
+
+$pdf->SetX(7);
+$pdf->SetFont('Courier','',15);
+$pdf->Cell(22,15,'Total: ' . number_format($pdf->getSale($_SESSION['pdf']), 2) . 'Php' ,0,1,'');
+
+$header = array('Order ID', 'Invoice No.', 'Purchase', 'Total', 'Discount', 'Service');
+// Data loading
+$pdf->SetFont('Courier', '', 10);
+$pdf->FancyTable($header, $_SESSION['pdf']);
 
 $pdf->unsetSession();
 

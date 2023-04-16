@@ -1,6 +1,6 @@
 <section class="pt-5 pb-8">
     <div class="grid md:grid-cols-3">
-        <div class="col-span-2 ml-4 mb-2 rounded-md shadow-lg bg-gray-50" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
+        <div id="menu-list" class="col-span-2 ml-4 mb-2 rounded-md shadow-lg bg-gray-50" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
             <div class="flex py-4">
                 <ol class="inline-flex items-center mx-auto">
                     <li class="inline-flex items-center mr-2">

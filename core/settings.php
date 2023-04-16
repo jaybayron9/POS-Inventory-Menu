@@ -7,6 +7,7 @@ class Settings extends Connection {
             parent::del_photo('settings', 'logo', $_POST['id'], 'logo');
             $query = parent::$conn->query("update settings set
                 bussiness_name = '{$_POST['business_name']}',
+                bussiness_tin = '{$_POST['business_tin']}',
                 address = '{$_POST['business_address']}',
                 contact_no = '{$_POST['business_phone']}',
                 email = '{$_POST['business_email']}',
@@ -22,6 +23,7 @@ class Settings extends Connection {
         } else {
             $query = parent::$conn->query("update settings set
                 bussiness_name = '{$_POST['business_name']}',
+                bussiness_tin = '{$_POST['business_tin']}',
                 address = '{$_POST['business_address']}',
                 contact_no = '{$_POST['business_phone']}',
                 email = '{$_POST['business_email']}',

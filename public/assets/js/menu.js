@@ -294,18 +294,10 @@ $(document).ready(function () {
     var printDialogClosed = false;
 
     $('#print-receipt').click(function () {
-        var payment = $('#payment-amount').val();
-
         if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
             swal({
                 icon: "warning",
                 text: "No Orders Made",
-                confirmationbutton: true,
-            });
-        } else if (payment == "" && payment == 0) {
-            swal({
-                icon: "warning",
-                text: "Please enter the amount the customer wish to pay.",
                 confirmationbutton: true,
             });
         } else if ($('#customer').val() == ''){
@@ -343,11 +335,14 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (response) {
                     if (response.status == 'success') {
-                        var iframe = "<iframe src='receipt.php' style='display: none;' ></iframe>";
-                        $("body").append(iframe);
-                        var iframeElement = document.querySelector("iframe");
-                        iframeElement.contentWindow.print();
+                        // var iframe = "<iframe src='receipt.php' style='display: none;' ></iframe>";
+                        // $("body").append(iframe);
+                        // var iframeElement = document.querySelector("iframe");
+                        // iframeElement.contentWindow.print();
                         setTimeout(checkPrintDialogClosed, 2000);
+
+                        var url = 'receipt.php';
+                        $('#menu-list').html('<object data="' + url + '" type="application/pdf" class="w-full h-full">');
                     } else {
                         swal("Error", response.msg, "error");
                     }
@@ -390,12 +385,6 @@ $(document).ready(function () {
             swal({
                 icon: "warning",
                 text: "Please provide table no. or customer name.",
-                confirmationbutton: true,
-            });
-        } else if (payment == "" && payment == 0) {
-            swal({
-                icon: "warning",
-                text: "Please enter the amount the customer wish to pay.",
                 confirmationbutton: true,
             });
         } else {
@@ -481,12 +470,6 @@ $(document).ready(function () {
             swal({
                 icon: "warning",
                 text: "No Add-ons Made",
-                confirmationbutton: true,
-            });
-        } else if (payment == "" && payment == 0) {
-            swal({
-                icon: "warning",
-                text: "Please enter the amount the customer wish to pay.",
                 confirmationbutton: true,
             });
         } else if ($('#customer').val() == ''){

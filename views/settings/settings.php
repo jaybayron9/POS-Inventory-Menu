@@ -30,6 +30,10 @@
                     <input id="email" type="text" name="business_fb" placeholder="fb.com/hotplatesizzling" value="<?= Settings::settings('URL') ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                 </div>
                 <div class="col-span-full sm:col-span-3">
+                    <label for="Bus TIN" class="font-semibold text-sm text-gray-700">BUS. TIN</label>
+                    <input id="bustin" type="text" name="business_tin" placeholder="1234567810-000" value="<?= Settings::settings('bussiness_tin') ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                </div>
+                <div class="col-span-full sm:col-span-3">
                     <label for="Business logo" class="font-semibold text-sm text-gray-700">Business logo</label>
                     <div class="flex items-center space-x-2">
                         <img src="public/storage/eximage/<?= Settings::settings('logo') !== Null ? Settings::settings('logo') : 'icon.jpg' ?>" alt="" class="w-10 h-10 rounded-full bg-gray-200 p-1">
@@ -58,7 +62,13 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    alert(data);
+                    swal({
+                        title: "Success!",
+                        text: "Settings Updated Successfully",
+                        icon: "success",
+                        buttons: false,
+                        timer: 2000,
+                    })
                 },
             });
         });

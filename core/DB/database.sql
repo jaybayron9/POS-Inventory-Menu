@@ -1,4 +1,4 @@
--- Active: 1666468590274@@127.0.0.1@3306@hotplatepos
+-- Active: 1666468590274@@127.0.0.1@3306@hotplateposv2
 create database hotplateposv2;
 use  hotplateposv2;
 
@@ -6,6 +6,7 @@ use  hotplateposv2;
 CREATE TABLE settings (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     bussiness_name VARCHAR(255) NULL,
+    bussiness_tin VARCHAR(255) NULL,
     address VARCHAR(255) NULL,
     contact_no VARCHAR(255) NULL,
     email VARCHAR(255) NULL,
@@ -33,18 +34,21 @@ drop table users;
 
 CREATE TABLE orders (
     order_id INT(11) PRIMARY KEY AUTO_INCREMENT,
-    customer VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    price VARCHAR(255) NOT NULL,
-    quantity VARCHAR(255) NOT NULL,
-    total VARCHAR(255) NOT NULL,
-    total_discount VARCHAR(255) NULl,
-    discount VARCHAR(255) NULL,
-    service VARCHAR(255) NOT NULL,
-    pay_type VARCHAR(255) NOT NULL,
-    note LONGTEXT,
     invoice_no VARCHAR(255) NOT NULL,
+    customer VARCHAR(255) NOT NULL,
+    total VARCHAR(255) NOT NULL,
+    discount VARCHAR(255) NULL,
+    total_discount VARCHAR(255) NULl,
+    pay_type VARCHAR(255) NOT NULL,
+    payment VARCHAR(255) NOT NULL,
+    pay_change VARCHAR(255) NOT NULL,
+    service VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
+    payment_status VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    quantity VARCHAR(255) NOT NULL,
+    price VARCHAR(255) NOT NULL,
+    note LONGTEXT,
     order_seen int(1) NOT NULL,
     count_update int(11) NOT NULL,
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -126,3 +130,7 @@ VALUES
   ('Potatoes', 'Fresh potatoes for french fries', 100, 0.50, 50.00, 30, 'Farm Fresh Produce', 'Dry Storage'),
   ('Buns', 'Freshly baked hamburger buns', 150, 0.25, 37.50, 50, 'Bakery Co.', 'Dry Storage'),
   ('Cheese', 'Sliced American cheese', 50, 1.00, 50.00, 5, 'Dairy Farms Inc.', 'Walk-in Cooler');
+
+
+INSERT INTO `settings` (`id`, `bussiness_name`, `address`,`bussiness_tin`, `contact_no`, `email`, `URL`, `logo`, `auth`, `create_at`, `update_at`) VALUES
+(1, 'HotPlate Menu', '1149 Marcelo H. Del Pilar, Corner Cordero St, Arkong Bato, Valenzuela, 1444 Metro Manila, Valenzuela, Philippines', '12345678910-0000', '09263065035', 'hotplate@gmail.com', 'www.fb.com/hotplatesizzling', NULL, NULL, '2023-03-06 20:51:07', '2023-03-30 14:53:45');

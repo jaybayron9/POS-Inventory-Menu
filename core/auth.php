@@ -147,6 +147,7 @@ class Auth extends Connection {
         extract($_POST);
         $query = parent::$conn->query("
             UPDATE users SET 
+                name = '{$name}',
                 username = '{$username}',
                 email = '{$email}'
             WHERE user_id = {$_SESSION['log_id']}
