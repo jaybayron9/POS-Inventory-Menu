@@ -107,10 +107,10 @@ $(document).ready(function () {
             $priceCell.text(total_price);
         } else {
             var row = '<tr class="text-center order-rows hover:bg-green-100 border-b border-gray-200 product-row">';
-                    row += '<td class="text-left text-gray-900 pl-2 text-l font-medium capitalize">' + name + '</td>';
+                    row += '<td class="text-left text-gray-900 pl-2 py-2 text-l font-medium capitalize">' + name + '</td>';
                     row += '<td class="text-gray-900">' + price + '</td>';
                     row += '<td class="text-gray-900 quantity-cell">1</td>'; 
-                    row += '<td class="text-gray-900"><button class="delete-button"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mt-1 text-red-500"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button></td>';
+                    row += '<td class="delcol text-gray-900"><button class="delete-button"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mt-1 text-red-500"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button></td>';
                 row += '</tr>';
 
             $('tbody').append(row);
@@ -290,9 +290,6 @@ $(document).ready(function () {
         })
     }, 2000);
 
-    // Validate and Send request to print and place order
-    var printDialogClosed = false;
-
     $('#print-receipt').click(function () {
         if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
             swal({
@@ -335,14 +332,10 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (response) {
                     if (response.status == 'success') {
-                        // var iframe = "<iframe src='receipt.php' style='display: none;' ></iframe>";
-                        // $("body").append(iframe);
-                        // var iframeElement = document.querySelector("iframe");
-                        // iframeElement.contentWindow.print();
-                        setTimeout(checkPrintDialogClosed, 2000);
-
-                        var url = 'receipt.php';
-                        $('#menu-list').html('<object data="' + url + '" type="application/pdf" class="w-full h-full">');
+                        $("body").append("<iframe src='receipt.php' style='display: none;' ></iframe>");
+                        var iframeElement = document.querySelector("iframe");
+                        iframeElement.contentWindow.print();
+                        $('#menu-list').html('<object data="receipt.php" type="application/pdf" class="w-full h-full">');
                     } else {
                         swal("Error", response.msg, "error");
                     }
@@ -350,20 +343,6 @@ $(document).ready(function () {
             })
         }
     });
-
-    window.onbeforeprint = function () {
-        printDialogClosed = false;
-    }
-
-    window.onafterprint = function () {
-        printDialogClosed = true;
-    }
-
-    function checkPrintDialogClosed() {
-        if (!printDialogClosed) {
-            $('#send-request').removeClass('hidden').slideDown();
-        }
-    }
 
     $('#send-request').click(function () {
         var payment = $('#payment-amount').val();

@@ -111,6 +111,14 @@ if ($_SESSION['discount'] !== '0' && $_SESSION['discount'] !== '0.00' && $_SESSI
     $pdf->Cell(20,5,'-' . $discount,1,1,'C');
 }
 
+if (isset($_SESSION['discount_amount'])) {
+    $pdf->SetX(7);
+    $pdf->SetFont('courier','',8);
+    $pdf->Cell(20,5,'',0,0,'L');
+    $pdf->Cell(25,5,'DISCOUNT',1,0,'C');
+    $pdf->Cell(20,5,'-' . $_SESSION['discount_amount'],1,1,'C');
+}
+
 $grandtotal = floatval($_SESSION['total']) - $discount;
 
 $pdf->SetX(7);

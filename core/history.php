@@ -129,7 +129,7 @@ class History extends Connection {
         }
     }
 
-    public function reissue_receipt() {
+    public function receipt() {
         $query = parent::$conn->query("SELECT * FROM orders WHERE order_id = '{$_POST['order_id']}'");
         foreach ($query as $row) {
             $query = parent::$conn->query("SELECT * FROM orders WHERE order_id = '{$_POST['order_id']}'");
@@ -153,7 +153,7 @@ class History extends Connection {
                 $new_array = array();
                 foreach ($data as $item) {
                     $parts = explode(", ", $item['purchase']);
-                    $name = substr($parts[0], 1);
+                    $name = substr($parts[0], 0);
                     $price = $parts[2];
                     $quantity = $parts[1];
                     $new_item = array(
@@ -190,6 +190,68 @@ class History extends Connection {
                 payment_status = 'Paid'
             where order_id = '{$_POST['order_id']}'
         ");
+    }
+
+    public function reissue_receipt() {
+        $query = parent::$conn->query("SELECT * FROM orders WHERE order_id = '{$_POST['order_id']}'");
+        foreach ($query as $row) {
+            $query = parent::$conn->query("SELECT * FROM orders WHERE order_id = '{$_POST['order_id']}'");
+            foreach ($query as $row) {
+                $customer = explode(", ", $row['name']);
+                $name = array_filter($customer);
+
+                $fquantity  = array_map('intval', explode(", ", $row['quantity']));
+                $quantity = array_filter($fquantity);
+
+                $fprice  = array_map('intval', explode(", ", $row['price']));
+                $price = array_filter($fprice);
+
+                $data = [];
+                for ($i = 0; $i < count($name); $i++ ) {
+                    $data[$i] = array(
+                        'purchase' => $name[$i] . ', ' . $quantity[$i] . ', ' . $price[$i],
+                    );
+                }
+                
+                $new_array = array();
+                foreach ($data as $item) {
+                    $parts = explode(", ", $item['purchase']);
+                    $name = substr($parts[0], 0);
+                    $price = $parts[2];
+                    $quantity = $parts[1];
+                    $new_item = array(
+                        "name" => $name,
+                        "price" => $price,
+                        "quantity" => $quantity
+                    );
+                    if (!in_array($new_item, $new_array)) {
+                        $new_array[] = $new_item;
+                    }
+                }
+
+                $_SESSION['data'] =  $new_array; 
+            }
+
+            $_SESSION['total'] = $row['total'];
+            $_SESSION['customer'] = $row['customer'];
+            $_SESSION['service'] = $row['service'];
+            $_SESSION['payment_amount'] = $row['payment'];
+            $_SESSION['payment_change'] = $row['pay_change'];
+            $_SESSION['discount_amount'] = $row['discount'];
+            $_SESSION['invoice_no'] = $row['invoice_no'];
+            $_SESSION['create_at'] = $row['create_at'];
+        }
+    }
+
+    public function unset_receipt() {
+        unset($_SESSION['data']);
+        unset($_SESSION['total']);
+        unset($_SESSION['customer']);
+        unset($_SESSION['service']);
+        unset($_SESSION['payment_amount']);
+        unset($_SESSION['payment_change']);
+        unset($_SESSION['discount_amount']);
+        unset($_SESSION['invoice_no']);
     }
 }
 

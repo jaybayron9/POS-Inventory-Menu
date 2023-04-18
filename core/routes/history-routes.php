@@ -10,7 +10,9 @@ $historyfunc = [
     'toexportpdf' => ['obj' => $history, 'method' => 'toexportpdf'],
     'getsale' => ['obj' => $history, 'method' => 'getsale'],
     'delete_row' => ['obj' => $history, 'method' => 'delete_row'],
+    'receipt' => ['obj' => $history, 'method' => 'receipt'],
     'reissue_receipt' => ['obj' => $history, 'method' => 'reissue_receipt'],
+    'unset_receipt' => ['obj' => $history, 'method' => 'unset_receipt'],
 ];
 
 method($his, $historyfunc);

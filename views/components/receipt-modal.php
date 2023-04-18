@@ -65,7 +65,7 @@
                 }
                 
                 $.ajax({
-                    url: 'index.php?h=reissue_receipt',
+                    url: 'index.php?h=receipt',
                     type: 'POST',
                     data: {
                         order_id: $('#order_id').val(),

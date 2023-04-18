@@ -138,7 +138,7 @@
                                     <th scope="col" class="px-4 py-3">
                                         Quantity
                                     </th>
-                                    <th scope="col" class="px-4 py-3">
+                                    <th scope="col" id="acthd" class="px-4 py-3">
                                         Action
                                     </th>
                                 </tr>

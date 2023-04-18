@@ -58,12 +58,21 @@
                             </div>
                         </td>
                         <td>
-                            <a href="#" data-modal-toggle="receipt-modal" data-row-data="<?= $cust['total'] . ', ' . $cust['order_id'] ?>" class="row flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                                </svg>
-                                Receipt
-                            </a>
+                            <?php if( $cust['payment_status'] !== 'Paid' ) { ?>
+                                <a href="#" data-modal-toggle="receipt-modal" data-row-data="<?= $cust['total'] . ', ' . $cust['order_id'] ?>" class="row flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                    </svg>
+                                    Receipt
+                                </a>
+                            <?php } else { ?>
+                                <a href="#" data-row-data="<?= $cust['order_id'] ?>" class="reissue-receipt flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 whitespace-nowrap">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                    </svg>
+                                    Reissue Receipt
+                                </a>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>
@@ -123,5 +132,41 @@
             $('#total').html(Number(total_discount).toFixed(2));
             $('#order_id').val(secondValue);
         });
+
+        var printDialogClosed = false;
+        $('.reissue-receipt').click(function() {
+            $.ajax({
+                url: 'index.php?h=reissue_receipt',
+                type: 'POST',
+                data: {
+                    order_id: $(this).data('row-data'),
+                },
+                success: function(data) {
+                    var iframe = "<iframe src='receipt.php' style='display: none;' ></iframe>";
+                    $("body").append(iframe);
+                    var iframeElement = document.querySelector("iframe");
+                    iframeElement.contentWindow.print();
+                    setTimeout(checkPrintDialogClosed, 2000);
+                }
+            })
+        });
+
+        window.onbeforeprint = function () {
+        printDialogClosed = false;
+        }
+        window.onafterprint = function () {
+            printDialogClosed = true;
+        }
+        function checkPrintDialogClosed() {
+            if (!printDialogClosed) {
+                alert('Press Enter to Continue.');
+                $.ajax({
+                    url: 'index.php?h=unset_receipt',
+                    success: function(data) {
+                        window.location.reload();
+                    }
+                });
+            }
+        }
     });
 </script>
