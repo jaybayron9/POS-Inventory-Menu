@@ -101,9 +101,10 @@ foreach($_SESSION['data'] as $row){
     $pdf->Cell(12,5,$row['price'],1,1,'C');
 }
 
-$discount = floatval($_SESSION['total']) * floatval($_SESSION['discount']) / 100;
+$dis = isset($_SESSION['discount']) ? $_SESSION['discount'] : '0';
+$discount = floatval($_SESSION['total']) * floatval($dis) / 100;
 
-if ($_SESSION['discount'] !== '0' && $_SESSION['discount'] !== '0.00' && $_SESSION['discount'] !== '') {
+if (isset($_SESSION['discount']) && $_SESSION['discount'] !== '0' && $_SESSION['discount'] !== '0.00') {
     $pdf->SetX(7);
     $pdf->SetFont('courier','',8);
     $pdf->Cell(20,5,'',0,0,'L');

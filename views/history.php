@@ -72,20 +72,18 @@
         <table id="historytbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
             <thead>
                 <tr>
-                    <th data-priority="1">InvNo.</th>
-                    <th data-priority="2"></th>
-                    <th data-priority="3">Customer</th>
-                    <th data-priority="4">Discount</th>
-                    <th data-priority="5">Total</th>
-                    <th data-priority="6">Payment</th>
-                    <th data-priority="7">Change</th>
-                    <th data-priority="8">Service</th>
-                    <th data-priority="9">Status</th>
-                    <th data-priority="10">PaymentStatus</th>
-                    <th data-priority="11">DateCreated</th>
-                    <th data-priority="12">TimeCreated</th>
-                    <th data-priority="13">TimeUpdated</th>
-                    <th data-priority="14">Purchase</th>
+                    <th data-priority="1" class="text-xs">ID</th>
+                    <th data-priority="2" class="text-xs"></th>
+                    <th data-priority="3" class="text-xs">Customer</th>
+                    <th data-priority="4" class="text-xs">Discount</th>
+                    <th data-priority="5" class="text-xs">Total</th>
+                    <th data-priority="6" class="text-xs">Payment</th>
+                    <th data-priority="7" class="text-xs">Change</th>
+                    <th data-priority="8" class="text-xs">Service</th>
+                    <th data-priority="11" class="text-xs hidden">DateCreated</th>
+                    <th data-priority="12" class="text-xs">TimeCreated</th>
+                    <th data-priority="13" class="text-xs">TimeUpdated</th>
+                    <th data-priority="14" class="text-xs">Purchase</th>
                 </tr>
             </thead>
             <tbody>
@@ -105,17 +103,7 @@
                                 <?= $cust['service'] == "TK" ? 'TAKE OUT' : 'DINE IN' ?>
                             </div>
                         </td>
-                        <td>
-                            <div class="font-medium bg-gradient-to-r <?= $cust['status'] == "" ? 'from-green-400 to-green-700' : 'from-rose-400 to-rose-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
-                                <?= $cust['status'] == "" ? 'PENDING' : 'SERVED' ?>
-                            </div>
-                        </td>
-                        <td class="whitespace-nowrap">
-                            <div class="font-medium bg-gradient-to-r <?= $cust['payment_status'] == "Paid" ? 'from-sky-400 to-sky-700' : 'from-gray-400 to-gray-500' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap uppercase">
-                                <?= $cust['payment_status'] ?>
-                            </div>
-                        </td>
-                        <td class="whitespace-nowrap">
+                        <td class="whitespace-nowrap hidden">
                             <?= date('Y-m-d', strtotime($cust['create_at'])) ?>
                         </td>
                         <td class="whitespace-nowrap">
@@ -166,20 +154,18 @@
                     targets: 7
                 }],
                 columns: [
-                    { title: 'InvNo.' },
+                    { title: 'ID.' },
                     { title: '<input type="checkbox" name="" id="selectAll">' },
-                    { title: 'Table' },
-                    { title: 'Discount' },
-                    { title: 'Total' },
-                    { title: 'Payment' },
-                    { title: 'Change' },
-                    { title: 'Service' },
-                    { title: 'Status' },
-                    { title: 'PaymentStatus' },
-                    { title: 'DateCreated' },
-                    { title: 'TimeCreated' },
-                    { title: 'TimeUpdated' },
-                    { title: 'Purchase' },
+                    { title: 'TABLE' },
+                    { title: 'DISCOUNT' },
+                    { title: 'AMOUNT DUE' },
+                    { title: 'PAYMENT' },
+                    { title: 'CHANGE' },
+                    { title: 'SERVICE' },
+                    { title: 'DATE' },
+                    { title: 'CREATED' },
+                    { title: 'UPDATED' },
+                    { title: 'PURCHASE' },
                 ]
             })
             .columns.adjust()
@@ -189,7 +175,7 @@
             function(settings, data, dataIndex) {
                 var minDate = $('#start_date').val();
                 var maxDate = $('#end_date').val();
-                var date = data[10]; // assuming the date is in the first column
+                var date = data[8]; // assuming the date is in the first column
                 if (minDate === '' || maxDate === '') {
                     return true;
                 }

@@ -252,6 +252,7 @@ class History extends Connection {
         unset($_SESSION['payment_change']);
         unset($_SESSION['discount_amount']);
         unset($_SESSION['invoice_no']);
+        unset($_SESSION['discount']);
     }
 }
 

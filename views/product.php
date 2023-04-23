@@ -63,14 +63,14 @@
                 <table id="mealstbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                     <thead>
                         <tr>
-                            <th data-priority="1">Name</th>
-                            <th data-priority="3">Price</th>
-                            <th data-priority="4">Status</th>
-                            <th data-priority="6">Description</th>
-                            <th data-priority="5">Sale</th>
-                            <th data-priority="7">Created</th>
-                            <th data-priority="8">Updated</th>
-                            <th data-priority="2">Action</th>
+                            <th data-priority="1" class="text-xs">NAME</th>
+                            <th data-priority="3" class="text-xs">PRICE</th>
+                            <th data-priority="4" class="text-xs">STATUS</th>
+                            <th data-priority="6" class="text-xs">DESCRIPTION</th>
+                            <th data-priority="5" class="text-xs">SALE</th>
+                            <th data-priority="7" class="text-xs">CREATED</th>
+                            <th data-priority="8" class="text-xs">UPDATED</th>
+                            <th data-priority="2" class="text-xs">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>

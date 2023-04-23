@@ -336,6 +336,9 @@ $(document).ready(function () {
                         var iframeElement = document.querySelector("iframe");
                         iframeElement.contentWindow.print();
                         $('#menu-list').html('<object data="receipt.php" type="application/pdf" class="w-full h-full">');
+                        
+                        $('#print-receipt').slideUp();
+                        $('#send-request').removeClass('hidden').fadeIn();
                     } else {
                         swal("Error", response.msg, "error");
                     }
@@ -351,7 +354,7 @@ $(document).ready(function () {
         if (add_ons !== '') {
             swal({
                 icon: "warning",
-                text: "Cant make order with add-ons.",
+                text: "Cant make an order with a value in add-ons field.",
                 confirmationbutton: true,
             });
         } else if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {

@@ -280,15 +280,16 @@ class Menu extends Connection {
     }
 
     public function find_order() {
-        $reference = $_POST['reference'];
+        extract($_POST);
         $query = parent::$conn->query("
                 SELECT * FROM orders 
                 where 
                     (invoice_no = '{$reference}' or 
                     order_id = '{$reference}' or 
                     customer = '{$reference}') and
-                    payment_status = 'Unpaid'
-                    LIMIT 1
+                    payment_status = 'Paid' and
+                    DATE(create_at) = CURDATE()
+                LIMIT 1
             ");
 
         if($query) {
