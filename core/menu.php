@@ -35,8 +35,6 @@ class Menu extends Connection {
         $_SESSION['success'] = 'Order Placed';
         $_SESSION['notif'] = 'bell';
 
-        $payment_status = empty($_SESSION['payment_amount']) && $_SESSION['payment_amount'] == '' ? 'Unpaid' : 'Paid';
-
         $no = parent::$conn->query("SELECT * FROM orders WHERE invoice_no = '{$_SESSION['invoice_no']}'");
         if ($no->num_rows > 0) {
             $_SESSION['invoice_no'] = rand(1, 999);
@@ -45,6 +43,12 @@ class Menu extends Connection {
         $discount = floatval($_SESSION['total']) * floatval($_SESSION['discount']) / 100;
 
         $grandtotal = floatval($_SESSION['total']) - abs($discount);
+
+        $payment_status = empty($_SESSION['payment_amount']) && $_SESSION['payment_amount'] == '' ? 'Unpaid' : 'Paid';
+        
+        if ($_SESSION['payment_amount'] > 0 && $_SESSION['payment_amount'] < $grandtotal) {
+            $payment_status = 'Balance';
+        }
 
         $save = parent::$conn->query("INSERT INTO orders (
             customer, name, price, quantity, total, total_discount, discount, service, invoice_no, note, payment_status, payment, pay_change

@@ -94,7 +94,7 @@
                         <td class="text-gray-700"><?= $cust['invoice_no'] ?></td>
                         <td class="text-center"><input type="checkbox" data-row-data="<?= $cust['order_id'] ?>" id="" class="select " value="<?= $cust['order_id'] ?>"></td>
                         <td class="capitalize whitespace-nowrap"><?= $cust['customer'] !== '' ? $cust['customer'] : $cust['invoice_no'] ?></td>
-                        <td><span class="text-red-600">-</span> <?= floatval($cust['discount']) ?></td>
+                        <td><span class="text-green-600">₱</span><span class="text-red-600">-</span><?= floatval($cust['discount']) ?></td>
                         <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= floatval($cust['total_discount']) ?></td>
                         <td><span class="text-green-600">₱</span> <?= floatval($cust['payment']) ?></td>
                         <td><span class="text-green-600">₱</span> <?= floatval($cust['pay_change']) ?></td>

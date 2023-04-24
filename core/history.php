@@ -2,6 +2,13 @@
 
 class History extends Connection {
     public static function getHistory() {
+        return parent::$conn->query("SELECT * FROM orders 
+            WHERE payment_status = 'Paid' OR payment_status = 'Balance'
+            ORDER BY status, update_at;
+        ");
+    }
+
+    public static function getReceipt() {
         return parent::$conn->query("SELECT * FROM orders order by status");
     }
 
@@ -111,6 +118,7 @@ class History extends Connection {
                 SELECT SUM(total_discount) AS total_price 
                 FROM orders
                 WHERE 
+                    payment_status = 'Paid' AND
                     create_at BETWEEN '{$start} 00:00:00' AND '{$end} 23:59:59'
             ");
             
@@ -181,13 +189,18 @@ class History extends Connection {
 
         $total_discount = $_POST['total'] - $_POST['discount_amount'];
 
+        $payment_status = 'Paid';
+        if ($_POST['payment_amount'] > 0 && $_POST['payment_amount'] < $total_discount) {
+            $payment_status = 'Balance';
+        }
+
         parent::$conn->query("
             update orders set 
                 payment = '{$_POST['payment_amount']}',
                 pay_change = '{$_POST['change']}',
                 discount = '{$_POST['discount_amount']}',
                 total_discount = '{$total_discount}',
-                payment_status = 'Paid'
+                payment_status = '{$payment_status}'
             where order_id = '{$_POST['order_id']}'
         ");
     }

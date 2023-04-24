@@ -17,18 +17,19 @@
                     <th data-priority="4" class="text-xs">TOTAL</th>
                     <th data-priority="5" class="text-xs">DISCOUNT</th>
                     <th data-priority="6" class="text-xs">AMOUNT DUE</th>
-                    <th data-priority="10" class="text-xs">SERVICE TYPE</th>
-                    <th data-priority="8" class="text-xs">ORDER STATUS</th>
-                    <th data-priority="11" class="text-xs">PAYMENT STATUS</th>
+                    <th data-priority="7" class="text-xs">BALANCE</th>
+                    <th data-priority="11" class="text-xs">SERVICE TYPE</th>
+                    <th data-priority="10" class="text-xs">ORDER STATUS</th>
+                    <th data-priority="8" class="text-xs">PAYMENT STATUS</th>
                     <th data-priority="9" class="text-xs">RECEIPT</th>
-                    <th data-priority="11" class="text-xs">CREATED</th>
-                    <th data-priority="12" class="text-xs">UPDATED</th>
-                    <th data-priority="13" class="text-xs hidden">DATE</th>
+                    <th data-priority="12" class="text-xs">CREATED</th>
+                    <th data-priority="13" class="text-xs">UPDATED</th>
+                    <th data-priority="14" class="text-xs hidden">DATE</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                foreach (History::getHistory() as $cust) { ?>
+                foreach (History::getReceipt() as $cust) { ?>
                     <tr>
                         <td class="text-gray-700"><?= $cust['invoice_no'] ?></td>
                         <td class="capitalize whitespace-nowrap"><?= $cust['customer'] !== '' ? $cust['customer'] : $cust['invoice_no'] ?></td>
@@ -59,6 +60,7 @@
                         <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= floatval($cust['total']) ?>
                         <td class="whitespace-nowrap"><span class="text-red-600">-</span> <?= floatval($cust['discount']) ?>
                         <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= floatval($cust['total_discount']) ?>
+                        <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= $cust['pay_change'] < $cust['total'] ? floatval($cust['pay_change']) : 0 ?>
                         <td>
                             <div class="font-medium bg-gradient-to-r <?= $cust['service'] == "TK" ? 'from-blue-400 to-gray-700' : 'from-orange-400 to-orange-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
                                 <?= $cust['service'] == "TK" ? 'TAKE OUT' : 'DINE IN' ?>
@@ -117,6 +119,7 @@
                     { title: 'TOTAL' },
                     { title: 'DISCOUNT' },
                     { title: 'AMOUNT DUE' },
+                    { title: 'BALANCE & CHANGE' },
                     { title: 'SERVICE TYPE' },
                     { title: 'ORDER STATUS' },
                     { title: 'PAYMENT STATUS' },
@@ -132,7 +135,7 @@
         $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
                 var searchDate = $('#search_date').val();
-                var date = data[12]; // assuming the date is in the first column
+                var date = data[13]; // assuming the date is in the first column
                 if (searchDate === '') {
                     return true;
                 }
