@@ -30,6 +30,28 @@
             <button type="submit" class="ml-auto mb-5 mr-6 px-4 py-2 border rounded-md border-gray-500 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 rounded-md shadow-md hover:border-gray-50">Save</button>
         </div>
     </form>
+
+    <form id="recovery" class="bg-gray-100 rounded-md shadow-sm">
+        <fieldset class="grid grid-cols-4 gap-6 p-6 rounded-md bg-gray-100" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
+            <div class="space-y-2 col-span-full lg:col-span-1">
+                <p class="font-medium text-gray-900">Recovery Account</p>
+            </div>
+            <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
+                <div class="col-span-full sm:col-span-3">
+                    <label for="Hint" class="text-sm text-gray-700">Hint</label>
+                    <input id="hint" type="text" name="hint" placeholder="Enter hint" value="<?= mysqli_fetch_array(Auth::user($_SESSION['log_id']))['hint'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                </div>
+                <div class="col-span-full sm:col-span-3">
+                    <label for="answer" class="text-sm text-gray-700">Answer</label>
+                    <input id="answer" type="password" name="answer" placeholder="Enter Answer" value="<?= mysqli_fetch_array(Auth::user($_SESSION['log_id']))['answer'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                </div>
+            </div>
+        </fieldset>
+        <div class="flex" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
+            <button type="submit" class="ml-auto mb-5 mr-6 px-4 py-2 border rounded-md border-gray-500 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 rounded-md shadow-md hover:border-gray-50">Save</button>
+        </div>
+    </form>
+
     <form id="changePass" class="bg-gray-100 rounded-md shadow-sm">
         <fieldset class="grid grid-cols-4 gap-6 p-6 rounded-md bg-gray-100" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
             <div class="space-y-2 col-span-full lg:col-span-1">
@@ -90,6 +112,33 @@
             e.preventDefault();
             $.ajax({
                 url: 'index.php?s=change_user_password',
+                method: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == 'success') {
+                        swal({
+                            title: "Success!",
+                            text: data.msg,
+                            icon: "success",
+                            button: "OK",
+                        });
+                    } else {
+                        swal({
+                            title: "Error!",
+                            text: data.msg,
+                            icon: "error",
+                            button: "OK",
+                        });
+                    }
+                }
+            });
+        });
+
+        $('#recovery').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: 'index.php?s=recovery_account',
                 method: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',

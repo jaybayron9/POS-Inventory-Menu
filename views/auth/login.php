@@ -15,7 +15,7 @@
             <div class="mt-4">
                 <div>
                     <label class="block text-gray-700" for="email">Username<label>
-                    <input type="text" name="email" maxlength="40" placeholder="hotplate" class="border-gray-300 w-full px-4 py-2 mt-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
+                    <input type="text" name="email" maxlength="40" placeholder="Enter username" class="border-gray-300 w-full px-4 py-2 mt-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
                 </div>
                 <div class="mt-4">
                     <label class="block text-gray-700">Password<label>
@@ -59,7 +59,7 @@
             $('#login-div').addClass('hidden');
         });
 
-        $('#login').click(function() {
+        $('.login').click(function() {
             $('#forgot-div').addClass('hidden');
             $('#login-div').removeClass('hidden');
         });

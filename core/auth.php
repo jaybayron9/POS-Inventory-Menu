@@ -99,10 +99,27 @@ class Auth extends Connection {
                 PS: This password request only works on the computer where the application is installed";
             
             if ($email->send_email($from, $send_to, $subject, $body)) {
-                return parent::alert('success', 'Password request has been sent successfully.');
-            } else {
-                return parent::alert('error', 'There\'s a problem sending your password request.');
+                foreach($result as $row) {
+                    return json_encode(
+                        array(
+                            'hint' => $row['hint'],
+                            'status' => 'success', 
+                            'msg' => 'Password recovery link has been sent successfully.'
+                        )
+                    );
+                }
+            } else if ($result) {
+                foreach($result as $row) {
+                    return json_encode(
+                        array(
+                            'hint' => $row['hint'],
+                            'status' => 'success', 
+                            'msg' => 'There\'s a problem sending your password recovery link.'
+                        )
+                    );
+                }
             }
+            return parent::alert('error', 'There\'s a problem sending your password recovery link.');
         } 
         return parent::alert('error', 'Email not found.');
     }    
@@ -215,6 +232,36 @@ class Auth extends Connection {
         }else {
             echo 'User has not been deleted.';
         }
+    }
+
+    public function recovery_account() {
+        extract($_POST);
+        $query = parent::$conn->query("
+            UPDATE users SET 
+                hint = '{$hint}',
+                answer = '{$answer}'
+            WHERE 
+                user_id = '{$_SESSION['log_id']}'
+        ");
+
+        if($query){
+            return parent::alert('success', 'Security question and answer saved successfully.');
+        }else {
+            return parent::alert('error', 'Failed to save security question and answer. Please try again later.');
+        }
+    }
+
+    public function confirm_answer() {
+        extract($_POST);
+
+        $query = parent::$conn->query("select * from users where answer = '{$answer}' and email = '{$email}'");
+
+        if ($query) {
+            foreach ($query as $row) {
+                return parent::alert('success', 'Password : ' . $row['password']);
+            }
+        }
+        return parent::alert('error', 'Your answer is incorrect.');
     }
 }
 

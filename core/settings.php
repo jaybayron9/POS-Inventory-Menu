@@ -38,14 +38,10 @@ class Settings extends Connection {
         }
     }
 
-    public static function settings($data) {
-        $query = parent::$conn->query("
+    public function settings() {
+        return parent::$conn->query("
             select * from settings
         ");
-
-        foreach ($query as $row) {
-            return $row[$data];
-        }
     }
 }
 

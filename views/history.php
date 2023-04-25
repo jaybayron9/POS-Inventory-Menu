@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="public/assets/css/table.css">
 
 <section class="container mx-auto px-5">
-    <div class="bg-white p-4 rounded shadow-md mb-5 mt-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px; background-repeat: repeat;">
+    <div class="bg-white p-4 rounded shadow-md mb-5 mt-5">
         <div class="flex flex-wrap justify-center items-center gap-4 mb-3">
             <p class="font-light mr-5">Total Sale:
                 <span class="text-green-500">
@@ -31,8 +31,8 @@
                 Today
             </a>
 
-            <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="
-            rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-rose-400" type="button">Export
+            <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="click" class="
+            rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-rose-400" type="button">Report
                 <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>

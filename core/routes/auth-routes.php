@@ -12,6 +12,8 @@ $authFunc = [
     'change_user_password' => ['obj' => $auth, 'method' => 'change_user_password'],
     'add_user' => ['obj' => $auth, 'method' => 'add_user'],
     'delete_users' => ['obj' => $auth, 'method' => 'delete_users'],
+    'recovery_account' => ['obj' => $auth, 'method' => 'recovery_account'],
+    'confirm_answer' => ['obj' => $auth, 'method' => 'confirm_answer'],
 ];
 
 method($sec, $authFunc);

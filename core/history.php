@@ -129,7 +129,8 @@ class History extends Connection {
 
         $result = parent::$conn->query("
             SELECT SUM(total_discount) AS total_price 
-            FROM orders
+            FROM orders 
+            WHERE payment_status = 'Paid'
         ");
 
         foreach($result as $row){

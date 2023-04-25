@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= Settings::settings("bussiness_name") ?></title>
-    <link rel="shortcut icon" href="public/storage/eximage/<?= Settings::settings('logo') !== Null ? Settings::settings('logo') : 'icon.jpg' ?>" type="image/x-icon">
+    <title><?= mysqli_fetch_array($set->settings())['bussiness_name'] ?></title>
+    <link rel="shortcut icon" href="public/storage/eximage/<?= mysqli_fetch_array($set->settings())['logo'] !== Null ? mysqli_fetch_array($set->settings())['logo'] : 'icon.jpg' ?>" type="image/x-icon">
 
     <!-- Tailwind -->
     <script src="public/assets/js/tailwind.js"></script>

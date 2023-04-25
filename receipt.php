@@ -1,8 +1,9 @@
 <?php
 session_start();
 require('core/functions.php');
-require("core/connection.php");
-require("core/settings.php");
+require(core('connection'));
+require(core('auth'));
+require(core('settings'));
 
 date_default_timezone_set("Asia/Manila");
 require("public/receipt/fpdf.php");
@@ -16,7 +17,7 @@ $pdf->Cell(60,5,'HOTPLATE',0,1,'C');
 
 $pdf->SetFont('Courier','',7);
 
-$address_array = explode(", ", Settings::settings('address'));
+$address_array = explode(", ", mysqli_fetch_array($set->settings())['address']);
 $new_address = "";
 for ($i = 0; $i < count($address_array); $i++) {
     $new_address .= $address_array[$i];
@@ -32,10 +33,10 @@ $address_lines = explode("\n", $new_address);
 $pdf->Cell(60,3.5,$address_lines[0],0,1,'C');
 $pdf->Cell(60,3.5,$address_lines[1],0,1,'C');
 $pdf->Cell(60,3.5,$address_lines[2],0,1,'C');
-$pdf->Cell(60,3.5,Settings::settings('URL') ,0,1,'C');
-$pdf->Cell(60,3.5,Settings::settings('email') ,0,1,'C');
-$pdf->Cell(60,3.5,'+63 ' . Settings::settings('contact_no') ,0,1,'C');
-$pdf->Cell(60,3.5,'BUS. TIN : ' . Settings::settings('bussiness_tin') ,0,1,'C');
+$pdf->Cell(60,3.5, mysqli_fetch_array($set->settings())['URL'] ,0,1,'C');
+$pdf->Cell(60,3.5, mysqli_fetch_array($set->settings())['email'] ,0,1,'C');
+$pdf->Cell(60,3.5,'+63 ' .  mysqli_fetch_array($set->settings())['contact_no'] ,0,1,'C');
+$pdf->Cell(60,3.5,'BUS. TIN : ' .  mysqli_fetch_array($set->settings())['bussiness_tin'] ,0,1,'C');
 
 $pdf->SetX(7);
 $pdf->SetFont('courier','',12);

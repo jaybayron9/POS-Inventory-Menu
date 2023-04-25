@@ -6,8 +6,8 @@ session_start();
 require('core/functions.php');
 
 require(core('connection'));
-require(core('settings'));
 require(core('auth'));
+require(core('settings'));
 require(core('menu'));
 require(core('history'));
 require(core('inventory'));

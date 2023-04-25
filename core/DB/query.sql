@@ -18,14 +18,16 @@ CREATE TABLE settings (
 );
 drop table settings;
 
-CREATE TABLE users ( 
-    user_id INT AUTO_INCREMENT PRIMARY KEY,     
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NULL,
     username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(255) NOT NULL,
     token VARCHAR(255),
+    hint VARCHAR(255),
+    answer VARCHAR(255),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -59,11 +61,15 @@ drop table orders;
 
 CREATE TABLE products (
     product_id INT(11) PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    price VARCHAR(255) NOT NULL,
-    status VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
+    price VARCHAR(255),
+    status VARCHAR(255),
     picture LONGTEXT,
     description LONGTEXT,
+    in_stock INT(11) DEFAULT 0,
+    out_stock INT(11) DEFAULT 0,
+    reorder_level VARCHAR(30),
+    total VARCHAR(30),
     sale DECIMAL(8, 2),
     category VARCHAR(255),
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -121,7 +127,7 @@ INSERT INTO `products` (`product_id`, `name`, `price`, `status`, `picture`, `des
 (23, 'juice', '25', 'Available', NULL, '', '0.00', 'drinks', '2023-02-23 05:10:06', '2023-03-30 14:38:04'),
 (24, 'water', '0', 'Available', NULL, '', '0.00', 'drinks', '2023-02-23 05:11:20', '2023-03-30 14:38:10');
 
-update orders set status = '';
+update products set description = '';
 
 INSERT INTO inventory (item_name, description, quantity, unit_cost, total_value, reorder_level, supplier, location)
 VALUES 
