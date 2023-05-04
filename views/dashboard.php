@@ -1,34 +1,150 @@
-<section class="h-screen">
-    <div class="container grid gap-4 mx-auto md:grid-cols-2 lg:grid-cols-3 px-8 pt-12">
-        <div class="w-full ">
-            <a href="?p=menu" title="Menu" class="">
-                <img src="public/storage/eximage/menu.JPG" alt="image" class="object-cover w-full h-72 hover:scale-75 duration-500">
-            </a>
+<section class="bg-white pb-20">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:px-6">
+        <div class="max-w-screen-md mb-8">
+            <h2 class="text-4xl tracking-tight font-extrabold text-gray-900"> <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900">HOTPLATE</span> SIZZLING HOUSE</h2>
         </div>
-        <div class="w-full">
-            <a href="?p=order" title="Kitchen">
-                <img src="public/storage/eximage/icondf.jpg" alt="image"  class="object-cover w-full h-72 hover:scale-75 duration-500">
-            </a>
-        </div>
-        <div class="w-full">
-            <a href="?p=history" title="History">
-                <img src="public/storage/eximage/315713642_512392194256604_4340547884083996988_n.jpg" alt="image"  class="object-cover w-full h-72 hover:scale-75 duration-500">
-            </a>
-        </div>
-        <div class="w-full">
-            <a href="?p=product" title="Product">
-                <img src="public/storage/eximage/314743853_512393147589842_4533988882667891198_n.jpg" alt="image"  class="object-cover w-full h-72 hover:scale-75 duration-500">
-            </a>
-        </div>
-        <div class="w-full">
-            <a href="?p=inventory" title="Inventory">
-                <img src="public/storage/eximage/315177335_512392320923258_2682678787388495199_n.jpg" alt="image"  class="object-cover w-full h-72 hover:scale-75 duration-500">
-            </a>
-        </div>
-        <div class="w-full">
-            <a href="?p=settings" title="logout">
-                <img src="public/storage/eximage/315977633_512392367589920_1579731078182426994_n.jpg" alt="image"  class="object-cover w-full h-72 hover:scale-75 duration-500">
-            </a>
+        <div class="space-y-8 grid lg:grid-cols-4 md:grid-cols-2 gap-8 space-y-0">
+            <div class="p-2 rounded shadow-md">
+                <div id="sale" class="text-2xl font-bold"></div>
+                <div class="lg:flex gap-x-3">
+                    <label class="mb-2 text-xl font-semibold">Total Sale</label>
+                    <select name="" id="day-sale" class="h-8 p-1 rounded ml-auto">
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="last-7-days">7 Days</option>
+                        <option value="last-30-days">30 Days</option>
+                    </select>
+                </div>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="customer" class="text-2xl font-bold"></div>
+                <div class="lg:flex gap-x-3">
+                    <label class="mb-2 text-xl font-semibold whitespace-nowrap">Total Customers</label>
+                    <select name="" id="day-customer" class="h-8 p-1 rounded ml-auto">
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="last-7-days">7 Days</option>
+                        <option value="last-30-days">30 Days</option>
+                    </select>
+                </div>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="product-sale" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold ">Total Product Sale</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="aov" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold whitespace-nowrap">Average Order Value</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="thebest" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold">Best Seller</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="pending" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold">Pending Orders</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="unpaid" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold">Unpaid Orders</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="total-product" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold">Total Products</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="available" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold">Available Products</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="unvailable" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold">Unavailable Products</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="reorder" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold">Reorder Alert</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="low" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold">Low Stock</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="out-stock" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold">Out Of Stock</label>
+            </div>
+            <div class="p-2 rounded shadow-md">
+                <div id="total-staffs" class="text-2xl font-bold"></div>
+                <label class="mb-2 text-xl font-semibold">Total Staffs</label>
+            </div>
         </div>
     </div>
 </section>
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: 'index.php?d=sale',
+            method: 'POST',
+            data: {
+                totalSale: 'yesterday'
+            },
+            success: function(data) {
+                $('#sale').html(data);
+                $('#day-sale').val('yesterday');
+            }
+        });
+
+        $('#day-sale').change(function() {
+            var totalSale = $(this).val();
+            $.ajax({
+                url: 'index.php?d=sale',
+                method: 'POST',
+                data: {
+                    totalSale: totalSale
+                },
+                success: function(data) {
+                    $('#sale').html(data);
+                }
+            });
+        });
+
+        $.ajax({
+            url: 'index.php?d=customer',
+            method: 'POST',
+            data: {
+                totalCustomer: 'today'
+            },
+            success: function(data) {
+                $('#customer').html(data);
+                $('#day-customer').val('yesterday');
+            }
+        });
+
+        $('#day-customer').change(function() {
+            var totalCustomer = $(this).val();
+            $.ajax({
+                url: 'index.php?d=customer',
+                method: 'POST',
+                data: {
+                    totalCustomer: totalCustomer
+                },
+                success: function(data) {
+                    $('#customer').html(data);
+                }
+            });
+        });
+
+        $('#pending').load('index.php?d=pending');
+        $('#unpaid').load('index.php?d=unpaid');
+        $('#total-product').load('index.php?d=total-product');
+        $('#reorder').load('index.php?d=reorder');
+        $('#low').load('index.php?d=low');
+        $('#out-stock').load('index.php?d=out-stock');
+        $('#total-staffs').load('index.php?d=total-staffs');
+        $('#product-sale').load('index.php?d=product-sale');
+        $('#thebest').load('index.php?d=thebest');
+        $('#aov').load('index.php?d=aov');
+        $('#unvailable').load('index.php?d=unvailable');
+        $('#available').load('index.php?d=available');
+    });
+</script>

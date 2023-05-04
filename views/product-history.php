@@ -122,7 +122,7 @@
             });
 
             swal({
-                title: "Are you sure you want to delete this row(s)?" + rowData,
+                title: "Are you sure you want to delete this row(s)?",
                 text: "This action cannot be undone.",
                 icon: "warning",
                 buttons: ["No", "Yes"],

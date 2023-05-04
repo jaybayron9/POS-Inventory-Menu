@@ -151,9 +151,9 @@
             table.draw();
         });
 
-        // var today = new Date().toISOString().substr(0, 10);
-        // $('#search_date').val(today);
-        // table.draw();
+        var today = new Date().toISOString().substr(0, 10);
+        $('#search_date').val(today);
+        table.draw();
 
         $('.row').click(function() {
             var data = $(this).data('row-data');

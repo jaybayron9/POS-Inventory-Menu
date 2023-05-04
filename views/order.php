@@ -1,5 +1,9 @@
 <?php require(view('components/sound-notification')); ?>
 
+<div class="absolute right-5 z-100">
+    <div id="pending" class="text-4xl font-bold"></div>
+</div>
+
 <div class="h-screen">
     <section class="mx-auto">
         <?php
@@ -196,5 +200,7 @@
             }, time);
         }
         refreshOrder();
+
+        $('#pending').load('index.php?a=pending_orders');
     });
 </script>

@@ -75,6 +75,7 @@ CREATE TABLE products (
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 drop table products;
+update products set total = price * quantity;
 
 CREATE TABLE inventory (
     id INT AUTO_INCREMENT PRIMARY KEY,

@@ -23,8 +23,3 @@
 </head>
 
 <body class="overflow-x-hidden bg-rose-400">
-    <!-- 
-        background-image: url('public/storage/eximage/bg3.png');
-        background-size: 25px 25px;
-        background-repeat: repeat;  
-    -->

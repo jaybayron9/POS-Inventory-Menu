@@ -41,7 +41,7 @@
                 </ul>
             </div>
 
-            <p class="font-light mr-5">
+            <p class="font-light mr-5 capitalize">
                 <?= $menu->total_product_sale()['name'] ?>
                 <span class="text-green-500">
                     &#8369;

@@ -11,6 +11,7 @@ require(core('settings'));
 require(core('menu'));
 require(core('history'));
 require(core('inventory'));
+require(core('dashboard'));
 
 require(view('partial/head'));
 if ( Auth::isAuth() ) {
