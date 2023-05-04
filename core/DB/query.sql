@@ -66,8 +66,7 @@ CREATE TABLE products (
     status VARCHAR(255),
     picture LONGTEXT,
     description LONGTEXT,
-    in_stock INT(11) DEFAULT 0,
-    out_stock INT(11) DEFAULT 0,
+    quantity VARCHAR(30),
     reorder_level VARCHAR(30),
     total VARCHAR(30),
     sale DECIMAL(8, 2),
@@ -93,6 +92,16 @@ CREATE TABLE inventory (
 
 DROP table `inventory`;
 
+create table product_history(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    product_name VARCHAR(255),
+    type VARCHAR(255),
+    transaction_count INT NOT NULL,
+    updated_quantity INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+drop table `product_history`;
 
 INSERT INTO `inventory` (`id`, `item_name`, `description`, `quantity`, `unit_cost`, `total_value`, `reorder_level`, `supplier`, `location`, `created_at`, `updated_at`) VALUES
 (1, 'Beef', 'Fresh ground beef for burgers', 50, '2.50', '125.00', 10, 'Meat Co.', 'Walk-in Freezer', '2023-03-28 14:34:33', '2023-03-28 14:34:33'),

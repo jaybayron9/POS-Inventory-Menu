@@ -119,7 +119,7 @@
                             dataType: 'json',
                             success: function(response) {
                                 if (response.status == 'success') {
-                                    swal("Order Served", {
+                                    swal(response.msg, {
                                         icon: "success",
                                         buttons: false,
                                         timer: 2000,

@@ -20,6 +20,12 @@ $menuFunc = [
             'products', 'product_id', $id 
         ]
     ],
+    'in_out' => ['obj' => $menu, 'method' => 'in_out'],
+    'reorder_product' => ['obj' => $menu, 'method' => 'reorder_product'],
+    'delete_row' => ['obj' => $menu, 'method' => 'delete_row'],
+    'product_report' => ['obj' => $menu, 'method' => 'product_report'],
+    'delete_row_his' => ['obj' => $menu, 'method' => 'delete_row_his'],
+
     'status_product' => ['obj' => $menu, 'method' => 'up_status_meal'],
     'notif_orders' => ['obj' => $menu, 'method' => 'notif_orders'],
     'reset_sale' => ['obj' => $menu, 'method' => 'reset_sale'],

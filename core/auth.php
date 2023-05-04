@@ -82,45 +82,16 @@ class Auth extends Connection {
         $result = $stmt->get_result();
     
         if ($result->num_rows == 1) {
-            $id = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyz', 50)), 0, 50);
-
-            parent::$conn->query("
-                update users set token = '{$id}' where email = '{$email}' limit 1
-            ");
-            $_SESSION['reqpass_id'] = $id;
-            $email = new Emailer();
-
-            $from = 'dclinic139@gmail.com';
-            $send_to = $_POST['email'];
-            $subject = 'Password reset request';
-            $body = "You have requested to reset your password. <br><br>
-                Please <a href='http://localhost/HotPlatePOSv2/?p={$id}'>Click Here!</a> to reset your password:<br><br>
-                If you did not make this request, please ignore this email.<br><br>
-                PS: This password request only works on the computer where the application is installed";
-            
-            if ($email->send_email($from, $send_to, $subject, $body)) {
-                foreach($result as $row) {
-                    return json_encode(
-                        array(
-                            'hint' => $row['hint'],
-                            'status' => 'success', 
-                            'msg' => 'Password recovery link has been sent successfully.'
-                        )
-                    );
-                }
-            } else if ($result) {
-                foreach($result as $row) {
-                    return json_encode(
-                        array(
-                            'hint' => $row['hint'],
-                            'status' => 'success', 
-                            'msg' => 'There\'s a problem sending your password recovery link.'
-                        )
-                    );
-                }
+            foreach ($result as $row ) {
+                return json_encode(
+                    array(
+                        'hint' => $row['hint'],
+                        'status' => 'success', 
+                        'msg' => 'Email found.'
+                    )
+                );
             }
-            return parent::alert('error', 'There\'s a problem sending your password recovery link.');
-        } 
+        }
         return parent::alert('error', 'Email not found.');
     }    
 

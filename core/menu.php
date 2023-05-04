@@ -57,23 +57,6 @@ class Menu extends Connection {
         )");
 
         if ($save) {
-            foreach ($_SESSION['data'] as $sub_array) {
-                $prices = parent::$conn->query("select * from products");
-    
-                foreach ($prices as $price) {
-                    if ($sub_array['name'] == $price['name']) {
-                        $newsale = (int)$price['sale'] + (int)$sub_array['price'];
-                        
-                        parent::$conn->query("
-                            update products 
-                            set 
-                                sale = '{$newsale}' 
-                            where 
-                                name = '{$sub_array['name']}'
-                        ");
-                    }
-                }
-            }
             self::unset_orders();
             return parent::alert('success', 'Order placed.');
         }
@@ -98,13 +81,11 @@ class Menu extends Connection {
         return parent::alert('failed', 'There\'s a problem.');
     }
 
-    public function unset_session()
-    {
+    public function unset_session() {
         unset($_SESSION['success']);
     }
 
-    public function orders()
-    {
+    public function orders() {
         return parent::$conn->query("select * from orders where status like '' order by create_at");
     }
 
@@ -118,25 +99,57 @@ class Menu extends Connection {
         }
     }
 
-    public function up_order()
-    {
-        $result = parent::$conn->query(
-            "update orders 
-                    set 
-                        status = 'served' 
-                    where 
-                        order_id = '{$_POST['order_id']}'"
-        );
+    public function up_order() {
+        $result = parent::$conn->query("
+            update orders 
+            set 
+                status = 'served' 
+            where 
+                order_id = '{$_POST['order_id']}'
+        ");
 
         if ($result) {
+            $query = parent::$conn->query("SELECT * FROM orders WHERE order_id = '{$_POST['order_id']}'");
+                foreach ($query as $row) {
+                    $data = explode(', ', $row['name']);
+                    $price = explode(', ', $row['price']);
+                    $quantity = explode(', ', $row['quantity']);
+
+                    for ($i = 0; $i < count($data); $i++) {
+                        $prices = parent::$conn->query("select * from products");
+
+                        foreach ($prices as $price) {
+                            if ($data[$i] == $price['name']) {
+                                $newSale = (int)$price['sale'] + ((int)$price['price'] * (int)$quantity[$i]);
+                                $newQuantity = (int)$price['quantity'] - (int)$quantity[$i];
+                                $newTotal = $price['price'] * $newQuantity;
+                
+                                $query2 = parent::$conn->query("
+                                    update products 
+                                    set 
+                                        sale = '{$newSale}',
+                                        quantity = '{$newQuantity}',
+                                        total = '{$newTotal}'
+                                    where 
+                                        name = '{$data[$i]}'
+                                ");
+
+                                if ($query2) {
+                                    return parent::alert('success', 'Order served 1');
+                                }
+                                return parent::alert('error', 'There\'s a problem.');
+                            }
+                        }
+                    }
+                }
+
             return parent::alert('success', 'Order served');
         }
 
         return parent::alert('failed', 'There\'s a problem.');
     }
 
-    public function add_product()
-    {
+    public function add_product() {
         $newImage = parent::photo();
         if ($newImage) {
             $query =
@@ -164,8 +177,7 @@ class Menu extends Connection {
         }
     }
 
-    public function data_product() 
-    {
+    public function data_product() {
         $query = parent::$conn->query("select * from products where product_id = '{$_POST['id']}'");
         foreach ($query as $row) {
             if($row['picture'] == null) {
@@ -290,8 +302,9 @@ class Menu extends Connection {
                 where 
                     (invoice_no = '{$reference}' or 
                     order_id = '{$reference}' or 
-                    customer = '{$reference}') and
-                    payment_status = 'Paid' and
+                    customer = '{$reference}' or
+                    payment_status = 'Balance' or
+                    payment_status = 'Unpaid') and
                     DATE(create_at) = CURDATE()
                 LIMIT 1
             ");
@@ -401,6 +414,125 @@ class Menu extends Connection {
                 return parent::alert('failed', 'The customer\'s order is still being processed.');
             }
         }
+    }
+
+    public function in_out() {
+        $get_quantity = parent::$conn->query("select * from products where product_id = '{$_POST['product_id']}'");
+
+        foreach ($get_quantity as $row) {
+            $new_quantity = $row['quantity'];
+
+            if (isset($_POST['in'])) {
+                $new_quantity = $row['quantity'] + $_POST['in'];
+
+                parent::$conn->query("
+                        insert into product_history 
+                        set 
+                            product_id = '{$_POST['product_id']}',
+                            product_name = '{$row['name']}',
+                            type = 'IN',
+                            transaction_count = '{$_POST['in']}',
+                            updated_quantity = '{$new_quantity}'
+                    ");
+            } else {
+                $new_quantity = $row['quantity'] - $_POST['out'];
+                if ( $new_quantity < 0 ) {
+                    return parent::alert('failed', 'Unable to update product quantity.');
+                }
+
+                parent::$conn->query("
+                        insert into product_history 
+                        set 
+                            product_id = '{$_POST['product_id']}',
+                            product_name = '{$row['name']}',
+                            type = 'OUT',
+                            transaction_count = '{$_POST['out']}',
+                            updated_quantity = '{$new_quantity}'
+                    ");
+            }
+
+            $new_total = $row['price'] * $new_quantity;
+
+            $update_product = parent::$conn->query("
+                update products 
+                set 
+                    quantity = '{$new_quantity}',
+                    total = '{$new_total}'
+                where 
+                    product_id = '{$_POST['product_id']}'
+            ");
+    
+            if ($update_product) {
+                return parent::alert('success', 'Product quantity updated.');
+            }
+            return parent::alert('failed', 'Unable to update product quantity.');
+        }
+    }
+
+    public function product_history() {
+        return parent::$conn->query("
+                select * from product_history 
+                JOIN products 
+                ON product_history.product_id = products.product_id 
+                order by created_at desc"
+            );
+    }
+
+    public function reorder_product() {
+        $query = parent::$conn->query("
+            update products
+            set
+                reorder_level = '{$_POST['reorder']}'
+            where 
+                product_id = '{$_POST['product_id']}'
+        ");
+    }
+
+    public function delete_row() {
+        if (empty($_POST['data']) || empty($_POST['data'][0])) {
+            return parent::alert('error', 'Select at least one row to delt.');
+        }
+
+        foreach($_POST['data'] as $id) {
+            $query = parent::$conn->query("DELETE FROM products WHERE product_id = '{$id}'");
+            
+            if ($query) {
+                return parent::alert('success', 'Successfully deleted.');
+            }
+            return parent::alert('error', 'Error deleting product.');
+        }
+    }
+
+    public function delete_row_his() {
+        if (empty($_POST['data']) || empty($_POST['data'][0])) {
+            return parent::alert('error', 'Select at least one row to delt.');
+        }
+
+        foreach($_POST['data'] as $id) {
+            $query = parent::$conn->query("DELETE FROM product_history WHERE id = '{$id}'");
+            
+            if ($query) {
+                return parent::alert('success', 'Successfully deleted.');
+            }
+            return parent::alert('error', 'Error deleting product.');
+        }
+    }
+
+    public function product_report() {
+        if (empty($_POST['product_ids']) || empty($_POST['product_ids'][0])) {
+            return parent::alert('error', 'Select at least one row(s).');
+        }
+
+        $_SESSION['product_id'] = $_POST['product_ids'];
+
+        return parent::alert('success', '');
+    }
+
+    public function product_table($id) {
+        return parent::$conn->query("
+            select * from products 
+            where product_id = '{$id}'"
+        );
     }
 }
 

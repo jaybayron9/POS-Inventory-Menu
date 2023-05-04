@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="public/assets/css/table.css">
 
 <section class="container mx-auto">
-    <div class="bg-white p-4 rounded shadow-md mb-5 mt-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px; background-repeat: repeat;">
-        <div class="flex flex-wrap gap-4 mb-3">
-            <div class="flex border border-gray-500 px-2 rounded">
+    <div class="bg-white p-4 rounded shadow-md mb-5 mt-8">
+        <div class="flex flex-wrap gap-4">
+            <div class="flex ">
                 <label for="search_date" class="block mt-1 font-medium">DATE :&nbsp;</label>
                 <input type="date" id="search_date" name="date" class="border-none p-1">
             </div>
@@ -111,6 +111,7 @@
 <script>
     $(document).ready(function() {
         var table = $('#historytbl').DataTable({
+                "paging": false,
                 responsive: true,
                 columns: [
                     { title: 'ID.' },
@@ -150,9 +151,9 @@
             table.draw();
         });
 
-        var today = new Date().toISOString().substr(0, 10);
-        $('#search_date').val(today);
-        table.draw();
+        // var today = new Date().toISOString().substr(0, 10);
+        // $('#search_date').val(today);
+        // table.draw();
 
         $('.row').click(function() {
             var data = $(this).data('row-data');
