@@ -1,4 +1,4 @@
-<section class="bg-white pb-20">
+<section class="bg-white h-screen">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:px-6">
         <div class="max-w-screen-md mb-8">
             <h2 class="text-4xl tracking-tight font-extrabold text-gray-900"> <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900">HOTPLATE</span> SIZZLING HOUSE</h2>
@@ -112,7 +112,7 @@
             url: 'index.php?d=customer',
             method: 'POST',
             data: {
-                totalCustomer: 'today'
+                totalCustomer: 'yesterday'
             },
             success: function(data) {
                 $('#customer').html(data);

@@ -6,7 +6,7 @@
     <?php require(view('components/user/form-user')) ?>
 
     <section class="container mx-auto md:p-10 p-5">
-        <div class="bg-gray-50 p-4 rounded-lg shadow-md mb-5" style="background-image: url('public/storage/eximage/bg3.png'); background-size: 20px 20px;">
+        <div class="bg-gray-50 p-4 rounded shadow-md mb-5">
             <table id="userstbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                 <thead>
                     <tr>

@@ -124,7 +124,7 @@ class Menu extends Connection {
                                 $newQuantity = (int)$price['quantity'] - (int)$quantity[$i];
                                 $newTotal = $price['price'] * $newQuantity;
                 
-                                $query2 = parent::$conn->query("
+                                parent::$conn->query("
                                     update products 
                                     set 
                                         sale = '{$newSale}',
@@ -133,11 +133,6 @@ class Menu extends Connection {
                                     where 
                                         name = '{$data[$i]}'
                                 ");
-
-                                if ($query2) {
-                                    return parent::alert('success', 'Order served 1');
-                                }
-                                return parent::alert('error', 'There\'s a problem.');
                             }
                         }
                     }
@@ -161,8 +156,6 @@ class Menu extends Connection {
             $stmt = parent::$conn->prepare($query);
             $stmt->bind_param("sssss", $_POST['product'], $_POST['price'], $newImage, $_POST['category'], $_POST['description']);
             $stmt->execute();
-
-            return parent::alert('success', 'Product added.');
         } else {
             $query = "insert into products (
                     name, price, status, category,  description
@@ -172,9 +165,10 @@ class Menu extends Connection {
             $stmt = parent::$conn->prepare($query);
             $stmt->bind_param("ssss", $_POST['product'], $_POST['price'], $_POST['category'] , $_POST['description']);
             $stmt->execute();
-            // $_SESSION['failed'] = 'Unable to save';
-            return parent::alert('success', '');
         }
+        
+        parent::$conn->query("update products set total = '{$_POST['price']}' * quantity");
+        return parent::alert('success', 'Product added.');
     }
 
     public function data_product() {
@@ -211,10 +205,11 @@ class Menu extends Connection {
                     category = '{$_POST['category']}',
                     description = '{$_POST['description']}'
                 where 
-                    product_id = {$_POST['id']}
+                    product_id = '{$_POST['id']}'
             ");
         }
 
+        parent::$conn->query("update products set total = '{$_POST['price']}' * quantity where  product_id = '{$_POST['id']}'");
         return parent::alert('success', 'Product updated.');
     }
 
@@ -434,11 +429,31 @@ class Menu extends Connection {
                             transaction_count = '{$_POST['in']}',
                             updated_quantity = '{$new_quantity}'
                     ");
+                
+                if ($new_quantity > 0) {
+                    parent::$conn->query("
+                        update products 
+                        set 
+                            status = 'Available'
+                        where 
+                            product_id = '{$_POST['product_id']}'
+                    ");
+                }
             } else {
                 $new_quantity = $row['quantity'] - $_POST['out'];
                 if ( $new_quantity < 0 ) {
                     return parent::alert('failed', 'Unable to update product quantity.');
                 }
+
+                if ($new_quantity == 0) {
+                    parent::$conn->query("
+                        update products 
+                        set 
+                            status = 'Unavailable'
+                        where 
+                            product_id = '{$_POST['product_id']}'
+                    ");
+                } 
 
                 parent::$conn->query("
                         insert into product_history 
@@ -479,7 +494,7 @@ class Menu extends Connection {
     }
 
     public function reorder_product() {
-        $query = parent::$conn->query("
+        parent::$conn->query("
             update products
             set
                 reorder_level = '{$_POST['reorder']}'
@@ -494,13 +509,9 @@ class Menu extends Connection {
         }
 
         foreach($_POST['data'] as $id) {
-            $query = parent::$conn->query("DELETE FROM products WHERE product_id = '{$id}'");
-            
-            if ($query) {
-                return parent::alert('success', 'Successfully deleted.');
-            }
-            return parent::alert('error', 'Error deleting product.');
+            parent::$conn->query("DELETE FROM products WHERE product_id = '{$id}'");
         }
+        return parent::alert('success', 'Successfully deleted.');
     }
 
     public function delete_row_his() {
@@ -509,13 +520,9 @@ class Menu extends Connection {
         }
 
         foreach($_POST['data'] as $id) {
-            $query = parent::$conn->query("DELETE FROM product_history WHERE id = '{$id}'");
-            
-            if ($query) {
-                return parent::alert('success', 'Successfully deleted.');
-            }
-            return parent::alert('error', 'Error deleting product.');
+            parent::$conn->query("DELETE FROM product_history WHERE id = '{$id}'");
         }
+        return parent::alert('success', 'Successfully deleted.');
     }
 
     public function product_report() {
@@ -533,6 +540,10 @@ class Menu extends Connection {
             select * from products 
             where product_id = '{$id}'"
         );
+    }
+
+    public function update_sale() {
+        parent::$conn->query("update products set total = price * quantity");
     }
 }
 

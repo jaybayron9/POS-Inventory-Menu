@@ -13,6 +13,9 @@ require(core('history'));
 require(core('inventory'));
 require(core('dashboard'));
 
+// Always update total product sales
+$menu->update_sale();
+
 require(view('partial/head'));
 if ( Auth::isAuth() ) {
     require(view('partial/tabs'));
