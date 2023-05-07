@@ -22,4 +22,4 @@
     
 </head>
 
-<body class="overflow-x-hidden bg-rose-400">
+<body class="overflow-x-hidden bg-gray-200">

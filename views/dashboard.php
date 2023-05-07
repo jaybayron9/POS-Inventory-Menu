@@ -1,10 +1,10 @@
-<section class="bg-white h-screen">
+<section class="h-screen">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:px-6">
         <div class="max-w-screen-md mb-8">
             <h2 class="text-4xl tracking-tight font-extrabold text-gray-900"> <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900">HOTPLATE</span> SIZZLING HOUSE</h2>
         </div>
-        <div class="space-y-8 grid lg:grid-cols-4 md:grid-cols-2 gap-8 space-y-0">
-            <div class="p-2 rounded shadow-md">
+        <div class="space-y-8 grid lg:grid-cols-4 md:grid-cols-2 gap-6 space-y-0">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="sale" class="text-2xl font-bold"></div>
                 <div class="lg:flex gap-x-3">
                     <label class="mb-2 text-xl font-semibold">Total Sale</label>
@@ -16,7 +16,7 @@
                     </select>
                 </div>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="customer" class="text-2xl font-bold"></div>
                 <div class="lg:flex gap-x-3">
                     <label class="mb-2 text-xl font-semibold whitespace-nowrap">Total Customers</label>
@@ -28,51 +28,51 @@
                     </select>
                 </div>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="product-sale" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold ">Total Product Sale</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="aov" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold whitespace-nowrap">Average Order Value</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="thebest" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold">Best Seller</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="pending" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold">Pending Orders</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="unpaid" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold">Unpaid Orders</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="total-product" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold">Total Products</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="available" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold">Available Products</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="unvailable" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold">Unavailable Products</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="reorder" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold">Reorder Alert</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="low" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold">Low Stock</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="out-stock" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold">Out Of Stock</label>
             </div>
-            <div class="p-2 rounded shadow-md">
+            <div class="p-2 rounded shadow-md bg-white">
                 <div id="total-staffs" class="text-2xl font-bold"></div>
                 <label class="mb-2 text-xl font-semibold">Total Staffs</label>
             </div>
