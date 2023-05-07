@@ -12,7 +12,6 @@ return [
     'drinks' => view('product'),
     'add-ons' => view('product'),
     'other' => view('product'),
-    'inventory' => view('inventory'),
     'product-history' => view('product-history'),
     'receipts' => view('receipts'),
     'docs' => view('docs/documentation'),

@@ -1,6 +1,6 @@
 <section class="pt-5 pb-8">
     <div class="grid md:grid-cols-3">
-        <div id="menu-list" class="col-span-2 ml-4 mb-2 rounded-md shadow-lg bg-gray-50" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
+        <div id="menu-list" class="col-span-2 ml-4 mb-8 rounded-md shadow-lg bg-gray-50" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
             <div class="flex py-4">
                 <ol class="inline-flex items-center mx-auto">
                     <li class="inline-flex items-center mr-2">
@@ -25,7 +25,7 @@
                 <input type="search" name="" maxlength="35" placeholder="Search" class="search mx-auto text-center ml-auto h-8 rounded-md shadow bg-gray-50 w-1/3 font-medium border-gray-400">
             </div>
             <ul id="meals-menu" class="meal-list pr-3">
-                <div class="grid xl:grid-cols-6 md:grid-cols-4 sm:grid-cols-4 grid-cols-3 gap-3 ml-3 mb-4">
+                <div class="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-4 grid-cols-2 gap-3 ml-3 mb-4">
                     <?php
                     foreach ($menu->products_menu('meals') as $product) {
                     ?>
@@ -186,7 +186,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-center gap-3 mb-1 px-2">
+                <div id="payField" class="flex items-center justify-center gap-3 mb-1 px-2">
                     <div>
                         <label for="Payment amount" class="font-semibold text-xs">PAYMENT</label>
                         <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" data-row-data="1" placeholder="0" maxlength="5" class="payment w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
@@ -208,7 +208,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-center gap-3 px-2">
+                <div id="opField" class="flex items-center justify-center gap-3 px-2">
                     <div class="grid grid-cols-3 gap-3">
                         <div>
                             <div id="customer-label">
@@ -249,7 +249,7 @@
                             <label for="Note" class="font-semibold text-xs">ADD-ONS</label>
                             <input type="hidden" id="order_id">
                             <div class="flex">
-                                <input type="text" id="add-ons-to" placeholder="Ref no." title="Table no. | Invoice no. | Customer name" data-row-data="4" class="addons w-full rounded-l-full border-gray-400 shadow-md px-1 text-center mr-1 py-1">
+                                <input type="text" id="add-ons-to" placeholder="Table" title="Table no. | Invoice no. | Customer name" data-row-data="4" class="addons w-full rounded-l-full border-gray-400 shadow-md px-1 text-center mr-1 py-1">
                                 <button id="add-ons" title="Add-ons" class="border rounded-r-full pr-3 border-gray-500 hover:border-gray-50 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -261,7 +261,7 @@
                 </div>
 
                 <div class="flex items-center justify-left" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
-                    <div class="flex ml-2">
+                    <div id="opField2" class="flex ml-2">
                         <div>
                             <label for="Service type" class="font-semibold text-xs">SERVICE</label>
                             <div class="flex items-center hover:cursor-pointer">

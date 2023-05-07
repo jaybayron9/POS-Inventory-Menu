@@ -339,6 +339,11 @@ $(document).ready(function () {
                         
                         $('#print-receipt').slideUp();
                         $('#send-request').removeClass('hidden').fadeIn();
+                        $('.delete-button').addClass('hidden');
+                        $('#payField').addClass('hidden');
+                        $('#opField').addClass('hidden');
+                        $('#opField2').addClass('hidden');
+                        $('#acthd').addClass('hidden');
                     } else {
                         swal("Error", response.msg, "error");
                     }

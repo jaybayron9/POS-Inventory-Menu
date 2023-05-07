@@ -10,7 +10,6 @@ require(core('auth'));
 require(core('settings'));
 require(core('menu'));
 require(core('history'));
-require(core('inventory'));
 require(core('dashboard'));
 
 // Always update total product sales
