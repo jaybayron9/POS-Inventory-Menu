@@ -41,16 +41,6 @@
                 </ul>
             </div>
 
-            <p class="font-light mr-5 capitalize">
-                <?= $menu->total_product_sale()['name'] ?>
-                <span class="text-green-500">
-                    &#8369;
-                </span>
-                <span id="sale" class="font-semibold">
-                    <?= '&nbsp;' . number_format($menu->total_product_sale()['sale'], 2) ?>
-                </span>
-            </p>
-
             <button id="" class="modal-open add-product ml-auto rounded-md flex bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 text-center inline-flex items-center border border-gray-500 hover:border-rose-400">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

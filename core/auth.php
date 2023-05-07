@@ -227,10 +227,12 @@ class Auth extends Connection {
 
         $query = parent::$conn->query("select * from users where answer = '{$answer}' and email = '{$email}'");
 
-        if ($query) {
-            foreach ($query as $row) {
-                return parent::alert('success', 'Password : ' . $row['password']);
+        if ($query->num_rows > 0) {
+            if ($newpassword == $retypepassword) {
+                parent::$conn->query("UPDATE users set password = '{$newpassword}'");
+                return parent::alert('success', 'Password successfully changed.');
             }
+            return parent::alert('error', 'Password does not match.');
         }
         return parent::alert('error', 'Your answer is incorrect.');
     }

@@ -43,13 +43,19 @@
         <form id="question-form" class="hidden">
             <div class="mt-2">
                 <label class="block text-gray-700" for="Hint">Hint</label>
-                <p id="hint" class="px-4 py-2 mt-1 text-gray-900">
-
-                </p>
+                <input type="text" name="hint" id="hint" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900">
             </div>
             <div>
                 <label class="block text-gray-700" for="Answer">Answer</label>
                 <input type="text" name="answer" id="answer" placeholder="Enter Answer" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
+            </div>
+            <div>
+                <label class="block text-gray-700" for="newpassword">New Password</label>
+                <input type="text" name="newpassword" id="newpassword" placeholder="Enter new password" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
+            </div>
+            <div>
+                <label class="block text-gray-700" for="retypepassword">Retype Password</label>
+                <input type="text" name="retypepassword" id="retypepassword" placeholder="Retype new password" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
             </div>
             <div class="flex items-baseline justify-between mt-2">
                 <a href="#" class="login text-sm text-blue-600 hover:underline">I remember my account!</a>
@@ -81,7 +87,10 @@
                         $('#sendbtn').addClass('hidden');
                         $('#question-form').removeClass('hidden');
                         $('#email').prop('disabled', true)
-                        $('#hint').html(data.hint);
+                        $('#hint').val(data.hint);
+                        setTimeout(function() {
+                            $('#forgot-success').slideUp('hidden');
+                        }, 4000);
                     } else if (data.status == 'error') {
                         $('#forgot-success').addClass('hidden');
                         $('#forgot-alert').removeClass('hidden');
@@ -100,7 +109,9 @@
                 type: 'POST',
                 data: {
                     'email': $('#email').val(),
-                    'answer': $('#answer').val()
+                    'answer': $('#answer').val(),
+                    'newpassword': $('#newpassword').val(),
+                    'retypepassword': $('#retypepassword').val()
                 },
                 dataType: 'json',
                 success: function(resp) {
