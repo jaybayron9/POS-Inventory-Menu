@@ -84,6 +84,7 @@ $(document).ready(function () {
         var price = parseFloat(values[2]);
         var exist = false;
         var $quantityCell, $priceCell;
+        var quantity = 1;
 
         $('tbody tr td:first-child').each(function () {
             if ($(this).text() === name) {
@@ -95,7 +96,12 @@ $(document).ready(function () {
         });
 
         if (isNaN(price)) {
-            console.log("Invalid price value");
+            swal({
+                icon: 'warning',
+                title: "Invalid price value",
+                confirmationbutton: true,
+                dangerMode: true,
+            });
             return;
         }
         if (exist) {
@@ -123,6 +129,25 @@ $(document).ready(function () {
         updateTotal();
         discounted();
         change();
+
+        $.ajax({
+            url: 'index.php?a=availability',
+            type: 'POST',
+            data: {
+                p_id: id,
+                p_quantity: quantity
+            },
+            success: function(resp) {
+                if (resp == 'true') {
+                    swal({
+                        icon: 'warning',
+                        title: "The requested quantity exceeds the available stock of the product.",
+                        confirmationbutton: true,
+                        dangerMode: true,
+                    });
+                }
+            }   
+        });
     });
 
     // Subtract the added item quantity
@@ -416,6 +441,14 @@ $(document).ready(function () {
                             $('#info-voice-no').html(resp.invoice_no);
                             $('#info-created-at').html(resp.create_at);
                             $('#info-status').html(resp.status == '' ? 'Pending' : resp.status);
+
+                            var status = $('#info-status').text();
+                            if (status == 'Pending') {
+                                $('#info-status').addClass('px-1 bg-green-600 rounded shadow text-white');
+                            } else {
+                                $('#info-status').addClass('px-1 bg-rose-600 rounded shadow text-white');
+                            }
+
                             $('#info-odered-list').html(resp.ordered_list);
                             $('#customer-label').addClass('flex pt-1');
                             $('#cust-profile').removeClass('hidden');
@@ -450,14 +483,16 @@ $(document).ready(function () {
         if (add_ons == '') {
             swal({
                 icon: "warning",
-                text: "Provide the order reference number.",
+                text: "Provide the table number.",
                 confirmationbutton: true,
+                dangerMode: true,
             });
         } else if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
             swal({
                 icon: "warning",
                 text: "No Add-ons Made",
                 confirmationbutton: true,
+                dangerMode: true,
             });
         } else if ($('#customer').val() == ''){
             swal({

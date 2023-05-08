@@ -25,7 +25,7 @@
             <div class="mt-4">
                 <div>
                     <label class="block text-gray-700" for="email">Email<label>
-                            <input type="text" name="email" id="email" placeholder="Enter email" maxlength="50" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
+                            <input type="text" name="email" id="email" placeholder="Enter Email Adress" maxlength="50" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900">
                 </div>
                 <div id="sendbtn" class="flex items-baseline justify-between mt-2">
                     <a href="#" class="login text-sm text-blue-600 hover:underline">I remember my account!</a>
@@ -43,19 +43,19 @@
         <form id="question-form" class="hidden">
             <div class="mt-2">
                 <label class="block text-gray-700" for="Hint">Hint</label>
-                <input type="text" name="hint" id="hint" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900">
+                <input type="text" name="hint" id="hint" class="border-none w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" disabled>
             </div>
             <div>
                 <label class="block text-gray-700" for="Answer">Answer</label>
-                <input type="text" name="answer" id="answer" placeholder="Enter Answer" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
+                <input type="password" name="answer" id="answer" placeholder="Enter Answer" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
             </div>
             <div>
                 <label class="block text-gray-700" for="newpassword">New Password</label>
-                <input type="text" name="newpassword" id="newpassword" placeholder="Enter new password" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
+                <input type="password" name="newpassword" id="newpassword" placeholder="Enter new password" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
             </div>
             <div>
                 <label class="block text-gray-700" for="retypepassword">Retype Password</label>
-                <input type="text" name="retypepassword" id="retypepassword" placeholder="Retype new password" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
+                <input type="password" name="retypepassword" id="retypepassword" placeholder="Retype new password" class="border-gray-300 w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
             </div>
             <div class="flex items-baseline justify-between mt-2">
                 <a href="#" class="login text-sm text-blue-600 hover:underline">I remember my account!</a>
@@ -97,6 +97,7 @@
                         $('#forgot-msg').html(data.msg);
                         $('#send').removeClass('hidden');
                         $('#loading').addClass('hidden');
+                        $('#email').val('');
                     }
                 }
             });

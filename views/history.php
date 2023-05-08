@@ -1,3 +1,5 @@
+<?php if (Auth::isAdmin()) { ?>
+    
 <link rel="stylesheet" href="public/assets/css/table.css">
 
 <section class="container mx-auto px-5">
@@ -166,7 +168,7 @@
                     { title: 'CREATED' },
                     { title: 'UPDATED' },
                     { title: 'PURCHASE' },
-                ]
+                ],
             })
             .columns.adjust()
             .responsive.recalc();
@@ -401,3 +403,9 @@
         setInterval(setSale(), 2000);
     });
 </script>
+
+<?php } else { ?>
+    <div class="flex justify-center items-center">
+        <h1 class="mt-20 text-2xl font-bold text-gray-500">Unauthorized User</h1>
+    </div>
+<?php } ?>

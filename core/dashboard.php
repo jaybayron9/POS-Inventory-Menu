@@ -92,7 +92,7 @@ class Dashboard extends Connection {
     }
 
     public function totalStaffs() {
-        $sql = parent::$conn->query("SELECT COUNT(*) AS total FROM users");
+        $sql = parent::$conn->query("SELECT COUNT(*) AS total FROM users WHERE role = 'staff'");
         $row = mysqli_fetch_assoc($sql);
         echo $row['total'];
     }

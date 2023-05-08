@@ -129,6 +129,9 @@
                     { title: 'UPDATED' },
                     { title: 'DATE' },
                 ],
+                initComplete: function () {
+                    $('#historytbl_filter input').attr('maxlength', 35);
+                }
             })
             .columns.adjust()
             .responsive.recalc();

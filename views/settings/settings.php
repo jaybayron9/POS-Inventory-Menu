@@ -11,33 +11,33 @@
             <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                 <div class="col-span-full sm:col-span-3">
                     <label for="Bussiness Name" class="font-semibold text-sm text-gray-700">Bussiness Name</label>
-                    <input id="username" type="text" name="business_name" placeholder="HotPlate Sizzling House" value="<?= mysqli_fetch_array($set->settings())['bussiness_name'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    <input id="name" type="text" name="business_name" maxlength="50" placeholder="HotPlate Sizzling House" value="<?= mysqli_fetch_array($set->settings())['bussiness_name'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                 </div>
                 <div class="col-span-full sm:col-span-3">
-                    <label for="Bussiness Name" class="font-semibold text-sm text-gray-700">Address</label>
-                    <input id="username" type="text" name="business_address" placeholder="1149 Marcelo H. Del Pilar, Corner Cordero St Arkong Bato, Valenzuela, 1444 Metro Manila Valenzuela, Philippines" value="<?= mysqli_fetch_array($set->settings())['address'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    <label for="address" class="font-semibold text-sm text-gray-700">Address</label>
+                    <input id="address" type="text" name="business_address" maxlength="50" placeholder="1149 Marcelo H. Del Pilar, Corner Cordero St Arkong Bato, Valenzuela, 1444 Metro Manila Valenzuela, Philippines" value="<?= mysqli_fetch_array($set->settings())['address'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required> 
                 </div>
                 <div class="col-span-full sm:col-span-3">
                     <label for="Phone No." class="font-semibold text-sm text-gray-700">Phone No.</label>
-                    <input id="username" type="text" name="business_phone" placeholder="+92 26-306-5035" value="<?= mysqli_fetch_array($set->settings())['contact_no'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    <input id="phone" type="text" name="business_phone" maxlength="11" placeholder="+92 26-306-5035" value="<?= mysqli_fetch_array($set->settings())['contact_no'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                 </div>
                 <div class="col-span-full sm:col-span-3">
                     <label for="email" class="font-semibold text-sm text-gray-700">Email</label>
-                    <input id="email" type="email" name="business_email" placeholder="hotplate@gmail.com" value="<?= mysqli_fetch_array($set->settings())['email'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    <input id="email" type="email" name="business_email" maxlength="50" placeholder="hotplate@gmail.com" value="<?= mysqli_fetch_array($set->settings())['email'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                 </div>
                 <div class="col-span-full sm:col-span-3">
-                    <label for="email" class="font-semibold text-sm text-gray-700">Facebook URL</label>
-                    <input id="email" type="text" name="business_fb" placeholder="fb.com/hotplatesizzling" value="<?= mysqli_fetch_array($set->settings())['URL'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    <label for="url" class="font-semibold text-sm text-gray-700">Facebook URL</label>
+                    <input id="url" type="text" name="business_fb" maxlength="50" placeholder="fb.com/hotplatesizzling" value="<?= mysqli_fetch_array($set->settings())['URL'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                 </div>
                 <div class="col-span-full sm:col-span-3">
                     <label for="Bus TIN" class="font-semibold text-sm text-gray-700">BUS. TIN</label>
-                    <input id="bustin" type="text" name="business_tin" placeholder="1234567810-000" value="<?= mysqli_fetch_array($set->settings())['bussiness_tin'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    <input id="bustin" type="text" name="business_tin" maxlength="30" placeholder="1234567810-000" value="<?= mysqli_fetch_array($set->settings())['bussiness_tin'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                 </div>
                 <div class="col-span-full sm:col-span-3">
                     <label for="Business logo" class="font-semibold text-sm text-gray-700">Business logo</label>
                     <div class="flex items-center space-x-2">
                         <img src="public/storage/eximage/<?= mysqli_fetch_array($set->settings())['logo'] !== Null ? mysqli_fetch_array($set->settings())['logo'] : 'icon.jpg' ?>" alt="" class="w-10 h-10 rounded-full bg-gray-200 p-1">
-                        <input type="file" name="image" class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg block w-full">
+                        <input type="file" name="image" accept="image/*" class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg block w-full">
                     </div>
                 </div>
             </div>

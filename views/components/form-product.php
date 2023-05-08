@@ -26,11 +26,11 @@
                     <h1 id="title-form" class="col-span-2 text-2xl font-semibold mb-2 text-center">Add Product</h1>
                     <div class="mb-2">
                         <label for="product" class="">Product Name</label>
-                        <input type="text" name="product" id="product" class="w-full rounded-md" required>
+                        <input type="text" name="product" id="product" maxlength="50" class="w-full rounded-md" required>
                     </div>
                     <div class="mb-2">
                         <label for="Price">Price</label>
-                        <input type="text" name="price" id="price" class="w-full rounded-md myInput" required>
+                        <input type="text" name="price" id="price" maxlength="11" class="w-full rounded-md myInput" required>
                     </div>
                     <div class="mb-2">
                         <label for="category">Category</label>
@@ -43,11 +43,11 @@
                     </div>
                     <div class="mb-2">
                         <label for="description">Description</label>
-                        <textarea name="description" id="description" cols="30" rows="1" class="w-full rounded-md p-2"></textarea>
+                        <textarea name="description" id="description" maxlength="70" cols="30" rows="1" class="w-full rounded-md p-2"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="Product image">Upload image</label>
-                        <input type="file" name="image" id="" class="rounded-md bg-blue-300 w-full font-semibold">
+                        <input type="file" name="image" id="" accept="image/*" class="rounded-md bg-blue-300 w-full font-semibold">
                     </div>
                     <div class="mb-4">
                         <img id="img-con" src="" alt="product image" class="h-44 w-full rounded-md">

@@ -122,7 +122,7 @@
             </ul>
         </div>
 
-        <div class="col-span-1 mx-4 mb-2 rounded-md shadow-lg bg-gray-50 sticky top-6">
+        <div class="col-span-1 mx-4 mb-7 rounded-md shadow-lg bg-gray-50 sticky top-6">
             <div class="px-2 mb-3">
                 <div style="height: 410px" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
                     <div id="table-scrollbar" class="d-table overflow-x-auto overflow-y-auto" style="max-height: 400px;">
@@ -199,7 +199,12 @@
 
                     <div>
                         <label for="Discount" class="font-semibold text-xs">%&nbsp;DISCOUNT</label>
-                        <input type="text" id="discount" name="discount" title="Discount" data-row-data="2" placeholder="0" maxlength="5" class="discount w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1">
+                        <input type="text" id="discount" name="discount" title="Discount" data-row-data="2" placeholder="0" maxlength="5" class="discount w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" list="discountList">
+                        <datalist id="discountList">
+                            <?php for ($i=1; $i <= 99; $i++) { ?>
+                            <option value="<?= $i ?>">
+                            <?php } ?>
+                        </datalist>
                     </div>
 
                     <div>
@@ -222,7 +227,7 @@
                                     <div class="p-2 space-y-1">
                                         <p id="info-customer" class="font-semibold text-medium text-dark text-lg uppercase text-center rounded shadow shadow-gray-400">
                                         </p>
-                                        <p class="font-light text-sm text-dark capitalize">Invoice no. :
+                                        <p class="font-light text-sm text-dark capitalize">Invoice # :
                                             <span id="info-voice-no" class="font-normal"></span>
                                         </p>
                                         <p class="font-light text-sm text-dark capitalize">Created :
@@ -238,7 +243,12 @@
                                     <div data-popper-arrow></div>
                                 </div>
                             </div>
-                            <input type="text" id="customer" name="customer" title="Customer name" placeholder="Name | Table no." maxlength="20" data-row-data="3" class="customer w-full rounded-md border-gray-400 shadow-md py-1">
+                            <input type="text" id="customer" name="customer" title="Customer name" placeholder="Table no. | ID" maxlength="20" data-row-data="3" class="customer w-full rounded-md border-gray-400 shadow-md py-1" list="tableList">
+                            <datalist id="tableList" class="w-10">
+                                <?php for ($i = 1; $i <= 20; $i++) { ?>
+                                <option value="Table <?= $i ?>">
+                                <?php } ?>
+                            </datalist>
                         </div>
                         <div>
                             <label for="Note" class="font-semibold text-xs">NOTE</label>
@@ -249,7 +259,13 @@
                             <label for="Note" class="font-semibold text-xs">ADD-ONS</label>
                             <input type="hidden" id="order_id">
                             <div class="flex">
-                                <input type="text" id="add-ons-to" placeholder="Table" title="Table no. | Invoice no. | Customer name" data-row-data="4" class="addons w-full rounded-l-full border-gray-400 shadow-md px-1 text-center mr-1 py-1">
+                                <input type="text" id="add-ons-to" placeholder="Table" title="Table no. | Invoice no. | Customer name" maxlength="10" data-row-data="4" class="addons w-full rounded-l-full border-gray-400 shadow-md px-1 text-center mr-1 py-1" list="addonsTableList">
+                                <datalist id="addonsTableList" class="w-10">
+                                    <?php foreach($menu->tableAddons() as $row) { ?>
+                                    <option value="<?= $row['customer'] ?>">
+                                    <?php } ?>
+                                </datalist>
+                                
                                 <button id="add-ons" title="Add-ons" class="border rounded-r-full pr-3 border-gray-500 hover:border-gray-50 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

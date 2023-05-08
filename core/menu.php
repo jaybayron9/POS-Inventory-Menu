@@ -296,10 +296,7 @@ class Menu extends Connection {
                 SELECT * FROM orders 
                 where 
                     (invoice_no = '{$reference}' or 
-                    order_id = '{$reference}' or 
-                    customer = '{$reference}' or
-                    payment_status = 'Balance' or
-                    payment_status = 'Unpaid') and
+                    customer = '{$reference}') and
                     DATE(create_at) = CURDATE()
                 LIMIT 1
             ");
@@ -544,6 +541,28 @@ class Menu extends Connection {
 
     public function update_sale() {
         parent::$conn->query("update products set total = price * quantity");
+        parent::$conn->query("UPDATE products SET status = 'Unavailable' WHERE quantity < 1");
+        parent::$conn->query("UPDATE products SET status = 'Available' WHERE quantity > 0");
+    }
+
+    public function checkProductQuantity() {
+        $get_quantity = parent::$conn->query("select quantity from products where product_id = '{$_POST['p_id']}'");
+        foreach ($get_quantity as $row) {
+            if ($_POST['p_quantity'] >= $row['quantity']) {
+                echo 'true';
+            } else {
+                echo 'false';
+            }
+        }
+    }
+
+    public function tableAddons() {
+        return parent::$conn->query("
+            SELECT order_id, customer FROM orders 
+            WHERE status = 'served'
+            ORDER BY ABS(TIMESTAMPDIFF(SECOND, create_at, NOW())) 
+            LIMIT 20
+        ");
     }
 }
 

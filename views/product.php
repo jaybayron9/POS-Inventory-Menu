@@ -1,3 +1,5 @@
+<?php if (Auth::isAdmin()) { ?>
+
 <link rel="stylesheet" href="public/assets/css/table.css">
 
 <section class="container mx-auto px-5">
@@ -317,23 +319,26 @@ require(view('components/form-product'));
 <script type="text/javascript">
     $(function() {
         $('#category-table').DataTable({
+            initComplete: function () {
+                $('#historytbl_filter input').attr('maxlength', 35);
+            },
             "paging": false,
             responsive: true,
             columns: [
-                    { title: '#' },
-                    { title: '<input type="checkbox" name="" id="selectAll">' },
-                    { title: 'NAME' },
-                    { title: 'STATUS' },
-                    { title: 'PRICE' },
-                    { title: 'ON HAND' },
-                    { title: 'REORDER LEVEL' },
-                    { title: 'TOTAL' },
-                    { title: 'SALE' },
-                    { title: 'CREATED' },
-                    { title: 'UPDATED' },
-                    { title: 'ACTION' },
-                    { title: 'DESCRIPTION' }
-                ],
+                { title: '#' },
+                { title: '<input type="checkbox" name="" id="selectAll">' },
+                { title: 'NAME' },
+                { title: 'STATUS' },
+                { title: 'PRICE' },
+                { title: 'ON HAND' },
+                { title: 'REORDER LEVEL' },
+                { title: 'TOTAL' },
+                { title: 'SALE' },
+                { title: 'CREATED' },
+                { title: 'UPDATED' },
+                { title: 'ACTION' },
+                { title: 'DESCRIPTION' }
+            ],
         }).columns.adjust().responsive.recalc();
 
         $('#selectAll').click(function() {
@@ -610,3 +615,9 @@ require(view('components/form-product'));
         }
     });
 </script>
+
+<?php } else { ?>
+    <div class="flex justify-center items-center">
+        <h1 class="mt-20 text-2xl font-bold text-gray-500">Unauthorized User</h1>
+    </div>
+<?php } ?>

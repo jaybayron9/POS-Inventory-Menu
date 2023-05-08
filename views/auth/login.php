@@ -15,11 +15,11 @@
             <div class="mt-4">
                 <div>
                     <label class="block text-gray-700" for="email">Username<label>
-                    <input type="text" name="email" maxlength="40" placeholder="Enter username" class="border-gray-300 w-full px-4 py-2 mt-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
+                    <input type="text" name="email" id="username" maxlength="40" placeholder="Enter Username" class="border-gray-300 w-full px-4 py-2 mt-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
                 </div>
                 <div class="mt-4">
                     <label class="block text-gray-700">Password<label>
-                    <input type="password" name="password" maxlength="30" autocomplete="off" placeholder="********" class="border-gray-300 w-full px-4 py-2 mt-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
+                    <input type="password" name="password" id="password" maxlength="30" autocomplete="off" placeholder="********" class="border-gray-300 w-full px-4 py-2 mt-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-600 text-gray-900" required>
                 </div>
                 <div class="flex items-baseline justify-between mt-2">
                     <a href="#" id="forgot" class="text-sm text-blue-600 hover:underline">Forgot your password?</a>
@@ -49,6 +49,8 @@
                     } else if (data.status == 'error') {
                         $('#auth-alert').removeClass('hidden');
                         $('#alert-msg').html(data.msg);
+                        $('#username').val('');
+                        $('#password').val('');
                     }
                 }
             });

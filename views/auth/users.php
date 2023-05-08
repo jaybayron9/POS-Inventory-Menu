@@ -41,7 +41,7 @@
         $(document).ready(function() {
             $('#userstbl').DataTable({
                     "paging": true,
-                    responsive: true
+                    responsive: true,
                 })
                 .columns.adjust()
                 .responsive.recalc();

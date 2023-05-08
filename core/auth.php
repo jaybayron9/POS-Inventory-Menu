@@ -118,7 +118,7 @@ class Auth extends Connection {
 
     public static function users() {
         return parent::$conn->query("
-            select * from users where role = 'Cashier' or role = 'Chef'
+            select * from users where role = 'Staff'
         ");
     }
 
@@ -234,7 +234,7 @@ class Auth extends Connection {
             }
             return parent::alert('error', 'Password does not match.');
         }
-        return parent::alert('error', 'Your answer is incorrect.');
+        return parent::alert('error', 'Incorrect answer.');
     }
 }
 

@@ -12,6 +12,7 @@ $menuFunc = [
     'endsess' => ['obj' => $menu, 'method' => 'endsess'],
     'up_order' => ['obj' => $menu, 'method' => 'up_order'],
     'unset' => ['obj' => $menu, 'method' => 'unset_session'],
+    'availability' => ['obj' => $menu, 'method' => 'checkProductQuantity'],
     // Product CRUD
     'add_product' => ['obj' => $menu, 'method' => 'add_product'],
     'data_product' => ['obj' => $menu, 'method' => 'data_product'],
