@@ -1,0 +1,11 @@
+{
+    "configurations": [
+    
+        {
+            "type": "msedge",
+            "name": "http://localhost/GitHub/HotPlatePOSv2/?p=menu",
+            "request": "launch",
+            "url": "http://localhost/GitHub/HotPlatePOSv2/?p=menu"
+        }
+    ]
+}

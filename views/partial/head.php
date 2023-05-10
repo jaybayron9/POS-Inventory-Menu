@@ -16,6 +16,8 @@
     <script src="public/assets/js/jquery.min.js"></script>
     <!-- SweetAlert -->
     <script src="public/assets/js/sweetalert.js"></script>
+    <!-- Cookie -->
+    <script src="public/assets/js/jquery.cookie.min.js"></script>
     <!-- DataTables -->
     <link href="public/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="public/assets/css/responsive.dataTables.min.css" rel="stylesheet" />

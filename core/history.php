@@ -45,14 +45,13 @@ class History extends Connection {
 
     public function export_csv() {
         header('Content-Type: text/csv; charset=utf-8');
-        $filename = 'sales_report_-' . date('m-d-Y') . '.csv';
+        $filename = 'orders_report_-' . date('m-d-Y') . '.csv';
         header('Content-Disposition: attachment; filename=' . $filename);
         $output = fopen("php://output", "w");
-        fputcsv($output, array('Order ID', 'Invoice No.', 'Purchase', 'Total', 'Discounted Total', 'Service'));
+        fputcsv($output, array('OID.', 'INV#', 'PURCHASE', 'TYPE', 'CASH', 'CHANGE','DISCOUNT', 'TOTAL'));
 
         $total = 0;
         $discount = 0;
-        $newTotal = 0;
 
         foreach ($_SESSION['orders_ids'] as $ids) {
             $query = parent::$conn->query("SELECT * FROM orders WHERE order_id = '{$ids}'");
@@ -72,9 +71,11 @@ class History extends Connection {
                         'order_id' => $row['order_id'],
                         'Invoice_no' => $row['invoice_no'],
                         'purchase' => $name[$i] . ', ' . $quantity[$i] . ', ' . $price[$i],
-                        'total' => $row['total'],
+                        'service' => $row['service'],
+                        'payment' => $row['payment'],
+                        'change' => $row['pay_change'],
                         'discount' => $row['discount'],
-                        'service' => $row['service']
+                        'total' => $row['total_discount'],
                     );
                 }
 
@@ -84,13 +85,11 @@ class History extends Connection {
                 fputcsv($output, array(''));
             }
 
-            $total += $row['total'];
             $discount += $row['discount'];
-            $newTotal += $row['total_discount'];
+            $total += $row['total_discount'];
         }
 
-        fputcsv($output, array('', '', 'TOTAL', number_format($total, 2), number_format($discount, 2)));
-        fputcsv($output, array('', '','NEW TOTAL', number_format($newTotal, 2)));
+        fputcsv($output, array('', '','','','','TOTAL', number_format($discount), number_format($total)));
         fputcsv($output, array('From Date', 'To Date'));
         fputcsv($output, array($_SESSION['fromDate'], $_SESSION['toDate']));
         unset($_SESSION['fromDate']);

@@ -292,16 +292,23 @@ class Menu extends Connection {
 
     public function find_order() {
         extract($_POST);
+        $parts = explode("|", $reference);
+        $parts = array_map('trim', $parts);
+        $table = $parts[0];
+        $invoice_no = $parts[1];
+        $order_id = $parts[2];
+
         $query = parent::$conn->query("
                 SELECT * FROM orders 
-                where 
-                    (invoice_no = '{$reference}' or 
-                    customer = '{$reference}') and
+                WHERE 
+                    customer = '{$table}' and
+                    invoice_no = '{$invoice_no}' and
+                    order_id = '{$order_id}' and
                     DATE(create_at) = CURDATE()
                 LIMIT 1
             ");
 
-        if($query) {
+        if($query->num_rows > 0) {
             foreach ($query as $row) {
                 $pname = explode(", ", $row['name']);
                 $name = array_filter($pname);
@@ -316,6 +323,7 @@ class Menu extends Connection {
                 }
 
                 return json_encode(array(
+                    'status' => 'success',
                     'order_id' => $row['order_id'],
                     'invoice_no' => $row['invoice_no'],
                     'customer' => $row['customer'],
@@ -328,11 +336,12 @@ class Menu extends Connection {
                 ));
             }
         }
-        return parent::alert('failed', 'No records.');
+        return parent::alert('failed', 'No record');
     }
 
     public function addons() {
         $name = ""; $price = ""; $quantity = "";
+        
         foreach ($_POST['data'] as $value) {
             $count = parent::$conn->query("select count_update from orders where order_id = '{$_POST['order_id']}'");
             foreach ($count as $row) {
@@ -403,7 +412,7 @@ class Menu extends Connection {
                         return parent::alert("failed", "Unable to update order.");
                     }
                 } 
-                return parent::alert('failed', 'The customer\'s order is still being processed.');
+                return parent::alert('failed', 'The customer\'s order is currently being processed.');
             }
         }
     }
@@ -528,6 +537,7 @@ class Menu extends Connection {
         }
 
         $_SESSION['product_id'] = $_POST['product_ids'];
+        $_SESSION['category'] = $_POST['category'];
 
         return parent::alert('success', '');
     }
@@ -558,11 +568,23 @@ class Menu extends Connection {
 
     public function tableAddons() {
         return parent::$conn->query("
-            SELECT order_id, customer FROM orders 
-            WHERE status = 'served'
+            SELECT * FROM orders
             ORDER BY ABS(TIMESTAMPDIFF(SECOND, create_at, NOW())) 
-            LIMIT 20
+            LIMIT 50
         ");
+    }
+
+    public function remove_pict() {
+        $get_pict = parent::$conn->query("select * from products where product_id = '{$_POST['id']}'");
+
+        if ($get_pict->num_rows > 0) {
+            foreach ($get_pict as $row) {
+                unlink('public/storage/uploads/' . $row['picture']);
+                parent::$conn->query("update products set picture = NULL where product_id = '{$_POST['id']}'");
+                return parent::alert('success', 'Product picture removed.');
+            }
+        }
+        return parent::alert('error', 'There\'s an error removing the picture.');
     }
 }
 

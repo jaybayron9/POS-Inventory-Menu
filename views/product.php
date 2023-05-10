@@ -58,7 +58,24 @@
             <div id="report" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 bg-gray-100">
                 <ul class="py-2 text-sm text-gray-700 text-gray-800" aria-labelledby="dropdownHoverButton">
                     <li>
-                        <a href="#" id="exportpdf" class="flex block px-8 py-2 hover:bg-gray-600 hover:text-white">
+                        <?php 
+                            $category = '';
+                            switch (true) {
+                                case urlIs('p=meals') || urlIs('p=product'):
+                                    $category = 'Meals';
+                                    break;
+                                case urlIs('p=drinks'):
+                                    $category = 'Drinks';
+                                    break;
+                                case urlIs('p=add-ons'):
+                                    $category = 'Add-ons';
+                                    break;
+                                case urlIs('p=other'):
+                                    $category = 'Other';
+                                    break;
+                            }
+                        ?>
+                        <a href="#" id="exportpdf" data-row-data="<?= $category ?>" class="flex block px-8 py-2 hover:bg-gray-600 hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                             </svg>
@@ -85,228 +102,229 @@
             </a>
         </div>
 
-        <table id="category-table" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
-            <thead>
-                <tr>
-                    <th data-priority="1" class="text-xs"></th>
-                    <th data-priority="2" class="text-xs"></th>
-                    <th data-priority="3" class="text-xs">NAME</th>
-                    <th data-priority="6" class="text-xs">STATUS</th>
-                    <th data-priority="5" class="text-xs">PRICE</th>
-                    <th data-priority="7" class="text-xs">QTY</th>
-                    <th data-priority="8" class="text-xs">REORDER LEVEL</th>
-                    <th data-priority="9" class="text-xs">TOTAL</th>
-                    <th data-priority="10" class="text-xs">SALE</th>
-                    <th data-priority="11" class="text-xs">CREATED</th>
-                    <th data-priority="12" class="text-xs">UPDATED</th>
-                    <th data-priority="4" class="text-xs">ACTION</th>
-                    <th data-priority="13" class="text-xs">DESCRIPTION</th>
-                </tr>
-            </thead>
-            <?php if (urlIs('p=meals') || urlIs('p=product')) { ?>
-                <tbody>
-                    <?php
-                    $ids = 0;
-                    foreach ($menu->products_menu('meals') as $productmeals) { ?>
-                        <tr>
-                            <td><?= $id++ ?></td>
-                            <td class="text-center">
-                            <input type="checkbox" data-row-data="<?= $productmeals['product_id'] ?>" id="" class="select" value="<?= $productmeals['product_id'] ?>">
-                            </td>
-                            <td class="flex ml-4">
-                                <img src="public/storage/uploads/<?= $productmeals['picture'] !== Null ? $productmeals['picture'] : 'default.jpg' ?>" alt="Product image" class="h-10 w-10 rounded-full">
-                                <p class="pt-2 ml-2 capitalize"><?= $productmeals['name'] ?></p>
-                            </td>
-                            <td class="text-center">
-                                <select data-row-data="<?= $productmeals['product_id'] ?>" class="status-product">
-                                    <option value="" selected hidden><?= $productmeals['status'] !== '' ? $productmeals['status'] : 'Status' ?></option>
-                                    <option value="Available">Available</option>
-                                    <option value="Unavailable">Unavailable</option>
-                                </select>
-                            </td>
-                            <td><span class="text-green-600">₱</span> <?= $productmeals['price'] ?></td>
-                            <td class="<?= $productmeals['quantity'] <= $productmeals['reorder_level'] ? 'text-red-500' : '' ?>"><?= $productmeals['quantity'] ?></td>
-                            <td><input type="text" value="<?= $productmeals['reorder_level'] ?>" data-row-data="<?= $productmeals['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
-                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($productmeals['total']) ?></td>
-                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($productmeals['sale']) ?></td>
-                            <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productmeals['create_at'])) ?></td>
-                            <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productmeals['update_at'])) ?></td>
-                            <td class="whitespace-nowrap">
-                                <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $productmeals['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    IN
-                                </a>
-                                <a href="#" data-modal-toggle="out-modal" data-row-data="<?=$productmeals['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    OUT
-                                </a>
-                                <a href="#" data-row-data="<?= $productmeals['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    EDIT
-                                </a>
-                            </td>
-                            <td>
-                                <?php
-                                $ing = array_filter(explode(", ", $productmeals['description']));
+        <div id="pdf-view">
+            <table id="category-table" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                <thead>
+                    <tr>
+                        <th data-priority="1" class="text-xs"></th>
+                        <th data-priority="2" class="text-xs"></th>
+                        <th data-priority="3" class="text-xs">NAME</th>
+                        <th data-priority="6" class="text-xs">STATUS</th>
+                        <th data-priority="5" class="text-xs">PRICE</th>
+                        <th data-priority="7" class="text-xs">QTY</th>
+                        <th data-priority="8" class="text-xs">REORDER LEVEL</th>
+                        <th data-priority="9" class="text-xs">TOTAL</th>
+                        <th data-priority="10" class="text-xs">SALE</th>
+                        <th data-priority="11" class="text-xs">CREATED</th>
+                        <th data-priority="12" class="text-xs">UPDATED</th>
+                        <th data-priority="4" class="text-xs">ACTION</th>
+                        <th data-priority="13" class="text-xs">DESCRIPTION</th>
+                    </tr>
+                </thead>
+                <?php if (urlIs('p=meals') || urlIs('p=product')) { ?>
+                    <tbody>
+                        <?php
+                        $ids = 0;
+                        foreach ($menu->products_menu('meals') as $productmeals) { ?>
+                            <tr>
+                                <td><?= $id++ ?></td>
+                                <td class="text-center">
+                                <input type="checkbox" data-row-data="<?= $productmeals['product_id'] ?>" id="" class="select" value="<?= $productmeals['product_id'] ?>">
+                                </td>
+                                <td class="flex ml-4">
+                                    <img src="public/storage/uploads/<?= $productmeals['picture'] !== Null ? $productmeals['picture'] : 'default.jpg' ?>" alt="Product image" class="h-10 w-10 rounded-full">
+                                    <p class="pt-2 ml-2 capitalize"><?= $productmeals['name'] ?></p>
+                                </td>
+                                <td class="text-center">
+                                    <select data-row-data="<?= $productmeals['product_id'] ?>" class="status-product">
+                                        <option value="" selected hidden><?= $productmeals['status'] !== '' ? $productmeals['status'] : 'Status' ?></option>
+                                        <option value="Available">Available</option>
+                                        <option value="Unavailable">Unavailable</option>
+                                    </select>
+                                </td>
+                                <td><span class="text-green-600">₱</span> <?= $productmeals['price'] ?></td>
+                                <td class="<?= $productmeals['quantity'] <= $productmeals['reorder_level'] ? 'text-red-500' : '' ?>"><?= $productmeals['quantity'] ?></td>
+                                <td><input type="text" value="<?= $productmeals['reorder_level'] ?>" data-row-data="<?= $productmeals['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
+                                <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($productmeals['total']) ?></td>
+                                <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($productmeals['sale']) ?></td>
+                                <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productmeals['create_at'])) ?></td>
+                                <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productmeals['update_at'])) ?></td>
+                                <td class="whitespace-nowrap">
+                                    <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $productmeals['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        IN
+                                    </a>
+                                    <a href="#" data-modal-toggle="out-modal" data-row-data="<?=$productmeals['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        OUT
+                                    </a>
+                                    <a href="#" data-row-data="<?= $productmeals['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        EDIT
+                                    </a>
+                                </td>
+                                <td>
+                                    <?php
+                                    $ing = array_filter(explode(", ", $productmeals['description']));
 
-                                for ($i = 0; $i < count($ing); $i++) {
-                                    echo "<span class='bg-gray-200 capitalize rounded-md m-1 px-1 font-semibold text-gray-700'>" . $ing[$i] . "</span>";
-                                }
-                                ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            <?php } else if (urlIs('p=drinks')) { ?>
-                <tbody>
-                    <?php
-                    foreach ($menu->products_menu('drinks') as $productdrinks) { ?>
-                        <tr>
-                            <td><?= $id++ ?></td>
-                            <td class="text-center">
-                            <input type="checkbox" data-row-data="<?= $productdrinks['product_id'] ?>" id="" class="select" value="<?= $productdrinks['product_id'] ?>">
-                            </td>
-                            <td class="flex ml-4">
-                                <img src="public/storage/uploads/<?= $productdrinks['picture'] !== Null ? $productdrinks['picture'] : 'default.jpg' ?>" alt="Product image" class="h-10 w-10 rounded-full">
-                                <p class="pt-2 ml-2 capitalize"><?= $productdrinks['name'] ?></p>
-                            </td>
-                            <td class="text-center">
-                                <select data-row-data="<?= $productdrinks['product_id'] ?>" class="status-product">
-                                    <option value="" selected hidden><?= $productdrinks['status'] !== '' ? $productdrinks['status'] : 'Status' ?></option>
-                                    <option value="Available">Available</option>
-                                    <option value="Unavailable">Unavailable</option>
-                                </select>
-                            </td>
-                            <td><span class="text-green-600">₱</span> <?= $productdrinks['price'] ?></td>
-                            <td class="<?= $productdrinks['quantity'] <= $productdrinks['reorder_level'] ? 'text-red-500' : '' ?>"><?= $productdrinks['quantity'] ?></td>
-                            <td><input type="text" value="<?= $productdrinks['reorder_level'] ?>" data-row-data="<?= $productdrinks['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
-                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($productdrinks['total']) ?></td>
-                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($productdrinks['sale']) ?></td>
-                            <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productdrinks['create_at'])) ?></td>
-                            <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productdrinks['update_at'])) ?></td>
-                            <td class="whitespace-nowrap">
-                                <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $productdrinks['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    IN
-                                </a>
-                                <a href="#" data-modal-toggle="out-modal" data-row-data="<?=$productdrinks['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    OUT
-                                </a>
-                                <a href="#" data-row-data="<?= $productdrinks['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    EDIT
-                                </a>
-                            </td>
-                            <td>
-                                <?php
-                                $ing = array_filter(explode(", ", $productdrinks['description']));
+                                    for ($i = 0; $i < count($ing); $i++) {
+                                        echo "<span class='bg-gray-200 capitalize rounded-md m-1 px-1 font-semibold text-gray-700'>" . $ing[$i] . "</span>";
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                <?php } else if (urlIs('p=drinks')) { ?>
+                    <tbody>
+                        <?php
+                        foreach ($menu->products_menu('drinks') as $productdrinks) { ?>
+                            <tr>
+                                <td><?= $id++ ?></td>
+                                <td class="text-center">
+                                <input type="checkbox" data-row-data="<?= $productdrinks['product_id'] ?>" id="" class="select" value="<?= $productdrinks['product_id'] ?>">
+                                </td>
+                                <td class="flex ml-4">
+                                    <img src="public/storage/uploads/<?= $productdrinks['picture'] !== Null ? $productdrinks['picture'] : 'default.jpg' ?>" alt="Product image" class="h-10 w-10 rounded-full">
+                                    <p class="pt-2 ml-2 capitalize"><?= $productdrinks['name'] ?></p>
+                                </td>
+                                <td class="text-center">
+                                    <select data-row-data="<?= $productdrinks['product_id'] ?>" class="status-product">
+                                        <option value="" selected hidden><?= $productdrinks['status'] !== '' ? $productdrinks['status'] : 'Status' ?></option>
+                                        <option value="Available">Available</option>
+                                        <option value="Unavailable">Unavailable</option>
+                                    </select>
+                                </td>
+                                <td><span class="text-green-600">₱</span> <?= $productdrinks['price'] ?></td>
+                                <td class="<?= $productdrinks['quantity'] <= $productdrinks['reorder_level'] ? 'text-red-500' : '' ?>"><?= $productdrinks['quantity'] ?></td>
+                                <td><input type="text" value="<?= $productdrinks['reorder_level'] ?>" data-row-data="<?= $productdrinks['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
+                                <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($productdrinks['total']) ?></td>
+                                <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($productdrinks['sale']) ?></td>
+                                <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productdrinks['create_at'])) ?></td>
+                                <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productdrinks['update_at'])) ?></td>
+                                <td class="whitespace-nowrap">
+                                    <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $productdrinks['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        IN
+                                    </a>
+                                    <a href="#" data-modal-toggle="out-modal" data-row-data="<?=$productdrinks['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        OUT
+                                    </a>
+                                    <a href="#" data-row-data="<?= $productdrinks['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        EDIT
+                                    </a>
+                                </td>
+                                <td>
+                                    <?php
+                                    $ing = array_filter(explode(", ", $productdrinks['description']));
 
-                                for ($i = 0; $i < count($ing); $i++) {
-                                    echo "<span class='bg-gray-200 capitalize rounded-md m-1 px-1 font-semibold text-gray-700'>" . $ing[$i] . "</span>";
-                                }
-                                ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            <?php } else if (urlIs('p=add-ons')) { ?>
-                <tbody>
-                    <?php
-                    foreach ($menu->products_menu('add-ons') as $addons) { ?>
-                        <tr>
-                            <td><?= $id++ ?></td>
-                            <td class="text-center">
-                            <input type="checkbox" data-row-data="<?= $addons['product_id'] ?>" id="" class="select" value="<?= $addons['product_id'] ?>">
-                            </td>
-                            <td class="flex ml-4">
-                                <img src="public/storage/uploads/<?= $addons['picture'] !== Null ? $addons['picture'] : 'default.jpg' ?>" alt="Product image" class="h-10 w-10 rounded-full">
-                                <p class="pt-2 ml-2 capitalize"><?= $addons['name'] ?></p>
-                            </td>
-                            <td class="text-center">
-                                <select data-row-data="<?= $addons['product_id'] ?>" class="status-product">
-                                    <option value="" selected hidden><?= $addons['status'] !== '' ? $addons['status'] : 'Status' ?></option>
-                                    <option value="Available">Available</option>
-                                    <option value="Unavailable">Unavailable</option>
-                                </select>
-                            </td>
-                            <td><span class="text-green-600">₱</span> <?= $addons['price'] ?></td>
-                            <td class="<?= $addons['quantity'] <= $addons['reorder_level'] ? 'text-red-500' : '' ?>"><?= $addons['quantity'] ?></td>
-                            <td><input type="text" value="<?= $addons['reorder_level'] ?>" data-row-data="<?= $addons['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
-                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($addons['total']) ?></td>
-                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($addons['sale']) ?></td>
-                            <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($addons['create_at'])) ?></td>
-                            <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($addons['update_at'])) ?></td>
-                            <td class="whitespace-nowrap">
-                                <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $addons['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    IN
-                                </a>
-                                <a href="#" data-modal-toggle="out-modal" data-row-data="<?=$addons['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    OUT
-                                </a>
-                                <a href="#" data-row-data="<?= $addons['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    EDIT
-                                </a>
-                            </td>
-                            <td>
-                                <?php
-                                $ing = array_filter(explode(", ", $addons['description']));
+                                    for ($i = 0; $i < count($ing); $i++) {
+                                        echo "<span class='bg-gray-200 capitalize rounded-md m-1 px-1 font-semibold text-gray-700'>" . $ing[$i] . "</span>";
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                <?php } else if (urlIs('p=add-ons')) { ?>
+                    <tbody>
+                        <?php
+                        foreach ($menu->products_menu('add-ons') as $addons) { ?>
+                            <tr>
+                                <td><?= $id++ ?></td>
+                                <td class="text-center">
+                                <input type="checkbox" data-row-data="<?= $addons['product_id'] ?>" id="" class="select" value="<?= $addons['product_id'] ?>">
+                                </td>
+                                <td class="flex ml-4">
+                                    <img src="public/storage/uploads/<?= $addons['picture'] !== Null ? $addons['picture'] : 'default.jpg' ?>" alt="Product image" class="h-10 w-10 rounded-full">
+                                    <p class="pt-2 ml-2 capitalize"><?= $addons['name'] ?></p>
+                                </td>
+                                <td class="text-center">
+                                    <select data-row-data="<?= $addons['product_id'] ?>" class="status-product">
+                                        <option value="" selected hidden><?= $addons['status'] !== '' ? $addons['status'] : 'Status' ?></option>
+                                        <option value="Available">Available</option>
+                                        <option value="Unavailable">Unavailable</option>
+                                    </select>
+                                </td>
+                                <td><span class="text-green-600">₱</span> <?= $addons['price'] ?></td>
+                                <td class="<?= $addons['quantity'] <= $addons['reorder_level'] ? 'text-red-500' : '' ?>"><?= $addons['quantity'] ?></td>
+                                <td><input type="text" value="<?= $addons['reorder_level'] ?>" data-row-data="<?= $addons['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
+                                <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($addons['total']) ?></td>
+                                <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($addons['sale']) ?></td>
+                                <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($addons['create_at'])) ?></td>
+                                <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($addons['update_at'])) ?></td>
+                                <td class="whitespace-nowrap">
+                                    <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $addons['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        IN
+                                    </a>
+                                    <a href="#" data-modal-toggle="out-modal" data-row-data="<?=$addons['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        OUT
+                                    </a>
+                                    <a href="#" data-row-data="<?= $addons['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        EDIT
+                                    </a>
+                                </td>
+                                <td>
+                                    <?php
+                                    $ing = array_filter(explode(", ", $addons['description']));
 
-                                for ($i = 0; $i < count($ing); $i++) {
-                                    echo "<span class='bg-gray-200 capitalize rounded-md m-1 px-1 font-semibold text-gray-700'>" . $ing[$i] . "</span>";
-                                }
-                                ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            <?php } else if (urlIs('p=other')) { ?>
-                <tbody>
-                    <?php
-                    foreach ($menu->products_menu('other') as $other) { ?>
-                        <tr>
-                            <td><?= $id++ ?></td>
-                            <td class="text-center">
-                            <input type="checkbox" data-row-data="<?= $other['product_id'] ?>" id="" class="select" value="<?= $other['product_id'] ?>">
-                            </td>
-                            <td class="flex ml-4">
-                                <img src="public/storage/uploads/<?= $other['picture'] !== Null ? $other['picture'] : 'default.jpg' ?>" alt="Product image" class="h-10 w-10 rounded-full">
-                                <p class="pt-2 ml-2 capitalize"><?= $other['name'] ?></p>
-                            </td>
-                            <td class="text-center">
-                                <select data-row-data="<?= $other['product_id'] ?>" class="status-product">
-                                    <option value="" selected hidden><?= $other['status'] !== '' ? $other['status'] : 'Status' ?></option>
-                                    <option value="Available">Available</option>
-                                    <option value="Unavailable">Unavailable</option>
-                                </select>
-                            </td>
-                            <td><span class="text-green-600">₱</span> <?= $other['price'] ?></td>
-                            <td class="<?= $other['quantity'] <= $other['reorder_level'] ? 'text-red-500' : '' ?>"><?= $other['quantity'] ?></td>
-                            <td><input type="text" value="<?= $other['reorder_level'] ?>" data-row-data="<?= $other['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
-                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($other['total']) ?></td>
-                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($other['sale']) ?></td>
-                            <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($other['create_at'])) ?></td>
-                            <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($other['update_at'])) ?></td>
-                            <td class="whitespace-nowrap">
-                                <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $other['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    IN
-                                </a>
-                                <a href="#" data-modal-toggle="out-modal" data-row-data="<?= $other['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    OUT
-                                </a>
-                                <a href="#" data-row-data="<?= $other['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
-                                    EDIT
-                                </a>
-                            </td>
-                            <td>
-                                <?php
-                                $ing = array_filter(explode(", ", $other['description']));
+                                    for ($i = 0; $i < count($ing); $i++) {
+                                        echo "<span class='bg-gray-200 capitalize rounded-md m-1 px-1 font-semibold text-gray-700'>" . $ing[$i] . "</span>";
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                <?php } else if (urlIs('p=other')) { ?>
+                    <tbody>
+                        <?php
+                        foreach ($menu->products_menu('other') as $other) { ?>
+                            <tr>
+                                <td><?= $id++ ?></td>
+                                <td class="text-center">
+                                <input type="checkbox" data-row-data="<?= $other['product_id'] ?>" id="" class="select" value="<?= $other['product_id'] ?>">
+                                </td>
+                                <td class="flex ml-4">
+                                    <img src="public/storage/uploads/<?= $other['picture'] !== Null ? $other['picture'] : 'default.jpg' ?>" alt="Product image" class="h-10 w-10 rounded-full">
+                                    <p class="pt-2 ml-2 capitalize"><?= $other['name'] ?></p>
+                                </td>
+                                <td class="text-center">
+                                    <select data-row-data="<?= $other['product_id'] ?>" class="status-product">
+                                        <option value="" selected hidden><?= $other['status'] !== '' ? $other['status'] : 'Status' ?></option>
+                                        <option value="Available">Available</option>
+                                        <option value="Unavailable">Unavailable</option>
+                                    </select>
+                                </td>
+                                <td><span class="text-green-600">₱</span> <?= $other['price'] ?></td>
+                                <td class="<?= $other['quantity'] <= $other['reorder_level'] ? 'text-red-500' : '' ?>"><?= $other['quantity'] ?></td>
+                                <td><input type="text" value="<?= $other['reorder_level'] ?>" data-row-data="<?= $other['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
+                                <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($other['total']) ?></td>
+                                <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($other['sale']) ?></td>
+                                <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($other['create_at'])) ?></td>
+                                <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($other['update_at'])) ?></td>
+                                <td class="whitespace-nowrap">
+                                    <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $other['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        IN
+                                    </a>
+                                    <a href="#" data-modal-toggle="out-modal" data-row-data="<?= $other['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        OUT
+                                    </a>
+                                    <a href="#" data-row-data="<?= $other['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                        EDIT
+                                    </a>
+                                </td>
+                                <td>
+                                    <?php
+                                    $ing = array_filter(explode(", ", $other['description']));
 
-                                for ($i = 0; $i < count($ing); $i++) {
-                                    echo "<span class='bg-gray-200 capitalize rounded-md m-1 px-1 font-semibold text-gray-700'>" . $ing[$i] . "</span>";
-                                }
-                                ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            <?php } ?>
-        </table>
-
+                                    for ($i = 0; $i < count($ing); $i++) {
+                                        echo "<span class='bg-gray-200 capitalize rounded-md m-1 px-1 font-semibold text-gray-700'>" . $ing[$i] . "</span>";
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                <?php } ?>
+            </table>
+        </div>
     </div>
 </section>
 
@@ -551,28 +569,25 @@ require(view('components/form-product'));
                 }
             });
             $.ajax({
-                url: 'index.php?a=product_report',
+                url: 'index.php?a=product_report', 
                 type: 'POST',
                 data: {
-                    'product_ids': rowData
+                    'product_ids': rowData,
+                    'category': $("#exportpdf").data('row-data'),
                 },
                 dataType: 'json',
                 success: function(resp) {
-                    if (resp.status = 'success') {
-                        var newWindow = window.open('inventory-report.php');
-
-                        $(newWindow).on('load', function() {
-                            newWindow.print();
-                        });
+                    if (resp.status == 'success') {
+                        $('#pdf-view').html('<object data="pdf-inventory.php" type="application/pdf" class="w-full h-screen">');
                     } else {
                         swal({
                             text: resp.msg,
-                            icon: "error",
+                            icon: resp.status,
                             buttons: false,
                             timer: 2000,
                         });
                     }
-                }
+                },
             });
         });
 

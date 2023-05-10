@@ -126,6 +126,28 @@ class Dashboard extends Connection {
         $row = mysqli_fetch_assoc($sql);
         echo $row['total'];
     }
+
+    public function onHandTotalProduct($ids) {
+        $total = 0;
+        foreach ($ids as $id) {
+            $sql = parent::$conn->query("SELECT total FROM products WHERE product_id = '{$id}'");
+            foreach ($sql as $row) {
+                $total += $row['total'];
+            }
+        }
+        return $total;
+    }
+
+    public function totalProductSale($ids) {
+        $total = 0;
+        foreach ($ids as $id) {
+            $sql = parent::$conn->query("SELECT sale FROM products WHERE product_id = '{$id}'");
+            foreach ($sql as $row) {
+                $total += $row['sale'];
+            }
+        }
+        return $total;
+    }
 }
 
 require(core('routes/dashboard-routes'));

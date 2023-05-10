@@ -12,15 +12,13 @@ require(core('menu'));
 require(core('history'));
 require(core('dashboard'));
 
-// Always update total product sales
+// Always update prduct information
 $menu->update_sale();
 
 require(view('partial/head'));
 if ( Auth::isAuth() ) {
     require(view('partial/tabs'));
     require( checkUrl($get) );
-} else if ( Auth::isSetPassReq() ) {
-    require( checkUrl($_SESSION['reqpass_id']) );
 } else {
     require( checkUrl('login') );
 }

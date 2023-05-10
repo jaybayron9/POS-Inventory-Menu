@@ -17,6 +17,7 @@ $menuFunc = [
     'add_product' => ['obj' => $menu, 'method' => 'add_product'],
     'data_product' => ['obj' => $menu, 'method' => 'data_product'],
     'update_product' => ['obj' => $menu, 'method' => 'update_product'],
+    'remove_picture' => ['obj' => $menu, 'method' => 'remove_pict'],
     'delete_product' => ['obj' => $menu, 'method' => 'delete', 'args' => [
             'products', 'product_id', $id 
         ]

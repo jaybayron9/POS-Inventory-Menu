@@ -59,7 +59,7 @@ $pdf->SetFont('Courier','B',15);
 $pdf->Cell(10,4,$_SESSION['customer'],0,1,'');
 
 $pdf->SetFont('Courier','',8);
-$pdf->Cell(20,4,'Service : ',0,0,'');
+$pdf->Cell(20,4,'Type : ',0,0,'');
 
 $service = $_SESSION['service'] == 'DN' ? 'Dine in' : 'Take out';
 

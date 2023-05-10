@@ -25,23 +25,6 @@ class Auth extends Connection {
         }
     }
 
-    public static function isSetPassReq() {
-        $reqpass_id = isset($_SESSION['reqpass_id']) ? $_SESSION['reqpass_id'] : '!@#$%^&*)(I*&^%$#*';
-        if (isset($_GET['p']) == $reqpass_id && checkUrl($reqpass_id) == 'views/auth/pass-reset.php') {
-            $query = parent::$conn->query("
-                select * from users 
-                where 
-                    token = '{$_GET['p']}'
-            ");
-
-            if($query->num_rows == 1){
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
     public function login() {
         $stmt = parent::$conn->prepare("
             select * from users 

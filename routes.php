@@ -1,8 +1,7 @@
 <?php
 
-$reqpass_id = isset($_SESSION['reqpass_id']) ? $_SESSION['reqpass_id'] : '!@#$%^&*)(I*&^%$#$%^&*&^%$%^&*';
-
 return [
+    '404' => view('auth/404'),
     '' => view('dashboard'),
     'menu' => view('menu'),
     'order' => view('order'),
@@ -20,8 +19,5 @@ return [
     'login' => view('auth/login'),
     'users' => view('auth/users'),
     'profile' => view('auth/profile'),
-    $reqpass_id => view('auth/pass-reset'),
     'settings' => view('settings/settings'),
-
-    '404' => view('auth/404'),
 ];

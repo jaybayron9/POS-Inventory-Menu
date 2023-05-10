@@ -61,7 +61,8 @@
                                         if (strpos($order['name'], '+') !== false) {
                                         ?>
                                             <tr class="<?= $no % 2 !== 0 ? 'bg-gray-200' : '' ?> border-b hover:bg-green-200 capitalize">
-                                                <th scope="row" class="px-1 font-light"><?= $no++ ?></th>
+                                                <th scope="row" class="px-1 font-light hidden"><?= $no++ ?></th>
+                                                <th scope="row" class="px-1 font-light"><input type="checkbox" id="<?= $order['order_id'] . $name[$i] . $quantity[$i] ?>"></th>
                                                 <th scope="row" class="<?= strpos($name[$i], '+') !== false ? '' : 'line-through decoration-2 decoration-double decoration-red-500' ?> pl-6 py-1 font-medium text-gray-900 whitespace-nowrap">
                                                     <?= str_replace('+', '<span class=" bg-blue-500 px-1 rounded-full mr-1 font-extrabold text-1x text-white">+</span>', $name[$i]); ?>
                                                 </th>
@@ -73,7 +74,8 @@
                                         } else {
                                             ?>
                                             <tr class="<?= $no % 2 !== 0 ? 'bg-gray-200' : '' ?> border-b hover:bg-green-200 capitalize">
-                                                <th scope="row" class="px-1 font-light"><?= $no++ ?></th>
+                                                <th scope="row" class="px-1 font-light hidden"><?= $no++ ?></th>
+                                                <th scope="row" class="px-1 font-light"><input type="checkbox" id="<?= $order['order_id'] . $name[$i] . $quantity[$i]  ?>"></th>
                                                 <th scope="row" class="pl-6 py-1 font-medium text-gray-900 whitespace-nowrap">
                                                     <?= $name[$i] ?>
                                                 </th>
@@ -196,5 +198,31 @@
             }, time);
         }
         refreshOrder();
+
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            
+            if (parts.length === 2) {
+                return parts.pop().split(";").shift();
+            }
+            return "";
+        }
+
+        $('input[type=checkbox]').click(function() {
+            var name = $(this).attr('id');
+            var value = $(this).prop('checked');
+
+            document.cookie = name + "=" + value;
+        });
+
+        $('input[type=checkbox]').each(function() {
+            var name = $(this).attr('id');
+            var value = getCookie(name);
+
+            if (value !== "") {
+                $(this).prop('checked', value === "true");
+            }
+        });
     });
 </script>

@@ -25,7 +25,10 @@
                 <div class="flex items-center justify-center gap-3">
                     <div>
                         <label for="Payment amount" class="font-semibold text-xs">PAYMENT</label>
-                        <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" data-row-data="1" placeholder="0" maxlength="5" class="payment w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1">
+                        <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" data-row-data="1" placeholder="0" maxlength="11" class="payment w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" list="paymenttList">
+                        <datalist id="paymenttList">
+                            <option id="op-pay" value="">
+                        </datalist>
                     </div>
 
                     <div data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
@@ -35,7 +38,12 @@
 
                     <div>
                         <label for="Discount" class="font-semibold text-xs">%&nbsp;DISCOUNT</label>
-                        <input type="text" id="discount" name="discount" title="Discount" placeholder="0" maxlength="5" class="discount w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1">
+                        <input type="text" id="discount" name="discount" title="Discount" placeholder="0" maxlength="5" class="discount w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" list="discountList">
+                        <datalist id="discountList">
+                            <?php for ($i=1; $i <= 99; $i++) { ?>
+                            <option value="<?= $i ?>">
+                            <?php } ?>
+                        </datalist>
                     </div>
 
                     <div>
@@ -51,127 +59,126 @@
     </div>
 </div>
 
-    <script>
-        $(document).ready(function() {
-            $('#print-receipt').click(function(e) {
-                e.preventDefault();
-                var payment = $('#payment-amount').val();
+<script>
+    $(document).ready(function() {
+        $('#print-receipt').click(function(e) {
+            e.preventDefault();
+            var payment = $('#payment-amount').val();
 
-                if(payment == '' || payment == 0) {
-                    return swal({
-                        title: "Payment amount is required",
-                        icon: "warning",
-                        button: "OK",
-                    })
-                }
-                
-                $.ajax({
-                    url: 'index.php?h=receipt',
-                    type: 'POST',
-                    data: {
-                        order_id: $('#order_id').val(),
-                        total: $('#total').html(),
-                        payment_amount: $('#payment-amount').val(),
-                        change: $('#change').val(),
-                        discount: $('#discount').val(),
-                        discount_amount: $('#discountamount').val(),
-                    },
-                    success: function(resp) {
-                        var iframe = "<iframe src='receipt.php' style='display: none;' ></iframe>";
-                        $("body").append(iframe);
-                        var iframeElement = document.querySelector("iframe");
-                        iframeElement.contentWindow.print();
-                    }
-                });
-            });
-
-            $('#change').val('0.00');
-            $('#discountamount').val('0.00');
-            $('#discount').val('0.00');
-            $('#payment-amount').on('input', function() {
-                change();
-            });
-
-            // event listener to discount field
-            $('#discount').on('input', function() {
-                if ($(this).val() > 0) {
-                    $('#discoutotal').removeClass('hidden');
-                } else {
-                    $('#discount').val(0);
-                    $('#discoutotal').addClass('hidden');
-                }
-
-                if (parseFloat($("#discount").val()) >= 100) {
-                    swal({
-                        title: "Error!",
-                        text: "Discount must be below than 100",
-                        icon: "error",
-                        button: "Ok",
-                    })
-                }
-
-                discounted();
-                updateTotal();
-            });
-
-            $('#discount').on('focus', function() {
-                if ($(this).val() == '0') {
-                    $(this).val('');
-                }
-            }).on('blur', function() {
-                if ($(this).val() == '') {
-                    $(this).val('0');
+            if(payment == '' || payment == 0) {
+                return swal({
+                    title: "Payment amount is required",
+                    icon: "warning",
+                    button: "OK",
+                })
+            }
+            
+            $.ajax({
+                url: 'index.php?h=receipt',
+                type: 'POST',
+                data: {
+                    order_id: $('#order_id').val(),
+                    total: $('#total').html(),
+                    payment_amount: $('#payment-amount').val(),
+                    change: $('#change').val(),
+                    discount: $('#discount').val(),
+                    discount_amount: $('#discountamount').val(),
+                },
+                success: function(resp) {
+                    var iframe = "<iframe src='receipt.php' style='display: none;' ></iframe>";
+                    $("body").append(iframe);
+                    var iframeElement = document.querySelector("iframe");
+                    iframeElement.contentWindow.print();
                 }
             });
+        });
 
-            // validation for number field
-            $('.myInput').on('keydown keyup', function(event) {
-                var input = $(this);
-                var value = input.val();
+        $('#change').val('0.00');
+        $('#discountamount').val('0.00');
+        $('#payment-amount').on('input', function() {
+            change();
+        });
 
-                value = value.replace(/[^0-9\.]/g, '');
-
-                var decimalCount = (value.match(/\./g) || []).length;
-                if (decimalCount > 1) {
-                    value = value.replace(/\.+$/, '');
-                }
-
-                input.val(value);
-            });
-
-
-            function discounted() {
-                var total = parseFloat($('#total').html());
-                var discount = parseFloat($('#discount').val());
-                var payment = parseFloat($('#payment-amount').val());
-
-                var discountAmount = total * (discount / 100);
-                var NewTotal = total - discountAmount;
-                var NewChange = payment - NewTotal;
-
-                $('#discountamount').val(discountAmount.toFixed(2));
-                $('#finaltotal').html(NewTotal.toFixed(2));
-                $('#change').val(NewChange.toFixed(2));
+        // event listener to discount field
+        $('#discount').on('input', function() {
+            if ($(this).val() > 0) {
+                $('#discoutotal').removeClass('hidden');
+            } else {
+                $('#discount').val(0);
+                $('#discoutotal').addClass('hidden');
             }
 
-            // change
-            function change() {
-                if ($('#finaltotal').html() == '') {
-                    $('#change').val(parseFloat($('#payment-amount').val()).toFixed(2) - parseFloat($('#total').html()).toFixed(2));
-                } else {
-                    $('#change').val(parseFloat($('#payment-amount').val()).toFixed(2) - parseFloat($('#finaltotal').html()).toFixed(2));
-                }
+            if (parseFloat($("#discount").val()) >= 100) {
+                swal({
+                    title: "Error!",
+                    text: "Discount must be below than 100",
+                    icon: "error",
+                    button: "Ok",
+                })
             }
 
-            $(document).keydown(function(event) {
-                if (event.which == 27) {
-                    // Your code to handle the escape key event goes here
-                    window.location.reload(true);
-                }
-            });
+            discounted();
+            updateTotal();
+        });
 
-            $('#x-button').click(function() {
+        $('#discount').on('focus', function() {
+            if ($(this).val() == '0') {
+                $(this).val('');
+            }
+        }).on('blur', function() {
+            if ($(this).val() == '') {
+                $(this).val('0');
+            }
+        });
+
+        // validation for number field
+        $('.myInput').on('keydown keyup', function(event) {
+            var input = $(this);
+            var value = input.val();
+
+            value = value.replace(/[^0-9\.]/g, '');
+
+            var decimalCount = (value.match(/\./g) || []).length;
+            if (decimalCount > 1) {
+                value = value.replace(/\.+$/, '');
+            }
+
+            input.val(value);
+        });
+
+
+        function discounted() {
+            var total = parseFloat($('#total').html());
+            var discount = parseFloat($('#discount').val());
+            var payment = parseFloat($('#payment-amount').val());
+
+            var discountAmount = total * (discount / 100);
+            var NewTotal = total - discountAmount;
+            var NewChange = payment - NewTotal;
+
+            $('#discountamount').val(discountAmount.toFixed(2));
+            $('#finaltotal').html(NewTotal.toFixed(2));
+            $('#change').val(NewChange.toFixed(2));
+        }
+
+        // change
+        function change() {
+            if ($('#finaltotal').html() == '') {
+                $('#change').val(parseFloat($('#payment-amount').val()).toFixed(2) - parseFloat($('#total').html()).toFixed(2));
+            } else {
+                $('#change').val(parseFloat($('#payment-amount').val()).toFixed(2) - parseFloat($('#finaltotal').html()).toFixed(2));
+            }
+        }
+
+        $(document).keydown(function(event) {
+            if (event.which == 27) {
+                // Your code to handle the escape key event goes here
                 window.location.reload(true);
-            });
-        })
-    </script>
+            }
+        });
+
+        $('#x-button').click(function() {
+            window.location.reload(true);
+        });
+    })
+</script>

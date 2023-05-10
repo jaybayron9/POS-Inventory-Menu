@@ -43,19 +43,19 @@
             <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 bg-gray-100">
                 <ul class="py-2 text-sm text-gray-700 text-gray-800" aria-labelledby="dropdownHoverButton">
                     <li>
-                        <a href="#" id="exportcsv" class="flex block px-8 py-2 hover:bg-gray-600 hover:text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                            </svg>
-                            CSV
-                        </a>
-                    </li>
-                    <li>
                         <a href="#" id="exportpdf" class="flex block px-8 py-2 hover:bg-gray-600 hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                             </svg>
                             PDF
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="exportcsv" class="flex block px-8 py-2 hover:bg-gray-600 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                            </svg>
+                            CSV
                         </a>
                     </li>
                 </ul>
@@ -71,77 +71,79 @@
                 </svg>
             </a>
         </div>
-        <table id="historytbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
-            <thead>
-                <tr>
-                    <th data-priority="1" class="text-xs">ID</th>
-                    <th data-priority="2" class="text-xs"></th>
-                    <th data-priority="3" class="text-xs">Customer</th>
-                    <th data-priority="4" class="text-xs">Discount</th>
-                    <th data-priority="5" class="text-xs">Total</th>
-                    <th data-priority="6" class="text-xs">Payment</th>
-                    <th data-priority="7" class="text-xs">Change</th>
-                    <th data-priority="8" class="text-xs">Service</th>
-                    <th data-priority="11" class="text-xs hidden">DateCreated</th>
-                    <th data-priority="12" class="text-xs">TimeCreated</th>
-                    <th data-priority="13" class="text-xs">TimeUpdated</th>
-                    <th data-priority="14" class="text-xs">Purchase</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $no = 1;
-                foreach (History::getHistory() as $cust) { ?>
+        <div id="pdf-view">
+            <table id="historytbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+                <thead>
                     <tr>
-                        <td class="text-gray-700"><?= $cust['invoice_no'] ?></td>
-                        <td class="text-center"><input type="checkbox" data-row-data="<?= $cust['order_id'] ?>" id="" class="select " value="<?= $cust['order_id'] ?>"></td>
-                        <td class="capitalize whitespace-nowrap"><?= $cust['customer'] !== '' ? $cust['customer'] : $cust['invoice_no'] ?></td>
-                        <td><span class="text-green-600">₱</span><span class="text-red-600">-</span><?= floatval($cust['discount']) ?></td>
-                        <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= floatval($cust['total_discount']) ?></td>
-                        <td><span class="text-green-600">₱</span> <?= floatval($cust['payment']) ?></td>
-                        <td><span class="text-green-600">₱</span> <?= floatval($cust['pay_change']) ?></td>
-                        <td>
-                            <div class="font-medium bg-gradient-to-r <?= $cust['service'] == "TK" ? 'from-blue-400 to-gray-700' : 'from-orange-400 to-orange-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
-                                <?= $cust['service'] == "TK" ? 'TAKE OUT' : 'DINE IN' ?>
-                            </div>
-                        </td>
-                        <td class="whitespace-nowrap hidden">
-                            <?= date('Y-m-d', strtotime($cust['create_at'])) ?>
-                        </td>
-                        <td class="whitespace-nowrap">
-                            <?= date('g: i A', strtotime($cust['update_at'])) ?>
-                        </td>
-                        <td class="whitespace-nowrap">
-                            <?= date('g: i A', strtotime($cust['create_at']))?>
-                        </td>
-                        <td class="whitespace-nowrap">
-                            <?php
-                            $name = array_filter(explode(", ", $cust['name']));
-                            $price = array_filter(explode(", ", $cust['price']));
-                            $quantity = array_filter(explode(", ", $cust['quantity']));
-
-                            for ($i = 0; $i < count($name); $i++) {
-                                echo "<span class='bg-gray-200 rounded-l m-0 px-2 shadow '>"
-                                    . $name[$i] .
-                                    "</span>";
-                                echo "<span class='bg-gray-200 m-0 px-1 bg-sky-300 shadow'>"
-                                    . $quantity[$i] .
-                                    "</span>";
-                                if (empty($price[$i])) {
-                                    echo "<span class='bg-gray-200 rounded-r m-0 px-1 bg-green-300 shadow'></span>";
-                                } else {
-                                    echo "<span class='bg-gray-200 rounded-r m-0 px-1 bg-green-300 shadow'>"
-                                        . $price[$i] .
-                                        "</span>";
-                                }
-                                echo "<span class='text-red-700 m-1'></span>";
-                            }
-                            ?>
-                        </td>
+                        <th data-priority="1" class="text-xs">ID</th>
+                        <th data-priority="2" class="text-xs"></th>
+                        <th data-priority="3" class="text-xs">Customer</th>
+                        <th data-priority="4" class="text-xs">Discount</th>
+                        <th data-priority="5" class="text-xs">Total due</th>
+                        <th data-priority="6" class="text-xs">cash</th>
+                        <th data-priority="7" class="text-xs">Change</th>
+                        <th data-priority="8" class="text-xs">Service</th>
+                        <th data-priority="11" class="text-xs hidden">DateCreated</th>
+                        <th data-priority="12" class="text-xs">TimeCreated</th>
+                        <th data-priority="13" class="text-xs">TimeUpdated</th>
+                        <th data-priority="14" class="text-xs">Purchase</th>
                     </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php
+                    $no = 1;
+                    foreach (History::getHistory() as $cust) { ?>
+                        <tr>
+                            <td class="text-gray-700"><?= $cust['invoice_no'] ?></td>
+                            <td class="text-center"><input type="checkbox" data-row-data="<?= $cust['order_id'] ?>" id="" class="select " value="<?= $cust['order_id'] ?>"></td>
+                            <td class="capitalize whitespace-nowrap"><?= $cust['customer'] !== '' ? $cust['customer'] : $cust['invoice_no'] ?></td>
+                            <td><span class="text-green-600">₱</span><span class="text-red-600">-</span><?= floatval($cust['discount']) ?></td>
+                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= floatval($cust['total_discount']) ?></td>
+                            <td><span class="text-green-600">₱</span> <?= floatval($cust['payment']) ?></td>
+                            <td><span class="text-green-600">₱</span> <?= floatval($cust['pay_change']) ?></td>
+                            <td>
+                                <div class="font-medium bg-gradient-to-r <?= $cust['service'] == "TK" ? 'from-blue-400 to-gray-700' : 'from-orange-400 to-orange-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
+                                    <?= $cust['service'] == "TK" ? 'TAKE OUT' : 'DINE IN' ?>
+                                </div>
+                            </td>
+                            <td class="whitespace-nowrap hidden">
+                                <?= date('Y-m-d', strtotime($cust['create_at'])) ?>
+                            </td>
+                            <td class="whitespace-nowrap">
+                                <?= date('g: i A', strtotime($cust['update_at'])) ?>
+                            </td>
+                            <td class="whitespace-nowrap">
+                                <?= date('g: i A', strtotime($cust['create_at']))?>
+                            </td>
+                            <td class="whitespace-nowrap">
+                                <?php
+                                $name = array_filter(explode(", ", $cust['name']));
+                                $price = array_filter(explode(", ", $cust['price']));
+                                $quantity = array_filter(explode(", ", $cust['quantity']));
+
+                                for ($i = 0; $i < count($name); $i++) {
+                                    echo "<span class='bg-gray-200 rounded-l m-0 px-2 shadow '>"
+                                        . $name[$i] .
+                                        "</span>";
+                                    echo "<span class='bg-gray-200 m-0 px-1 bg-sky-300 shadow'>"
+                                        . $quantity[$i] .
+                                        "</span>";
+                                    if (empty($price[$i])) {
+                                        echo "<span class='bg-gray-200 rounded-r m-0 px-1 bg-green-300 shadow'></span>";
+                                    } else {
+                                        echo "<span class='bg-gray-200 rounded-r m-0 px-1 bg-green-300 shadow'>"
+                                            . $price[$i] .
+                                            "</span>";
+                                    }
+                                    echo "<span class='text-red-700 m-1'></span>";
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
 
@@ -156,12 +158,12 @@
                     targets: 7
                 }],
                 columns: [
-                    { title: 'ID.' },
+                    { title: 'INV#' },
                     { title: '<input type="checkbox" name="" id="selectAll">' },
                     { title: 'TABLE' },
                     { title: 'DISCOUNT' },
-                    { title: 'AMOUNT DUE' },
-                    { title: 'PAYMENT' },
+                    { title: 'TOTAL DUE' },
+                    { title: 'CASH' },
                     { title: 'CHANGE' },
                     { title: 'SERVICE' },
                     { title: 'DATE' },
@@ -358,21 +360,18 @@
                 dataType: 'json',
                 success: function(resp) {
                     if (resp.status == 'success') {
-                        swal({
-                            text: 'Exporting to PDF',
-                            icon: "success",
-                            buttons: false,
-                            timer: 2000,
-                        }).then(() => {
-                            var pdfPath = "pdf-history.php";
-                            var link = $("<a></a>")
-                                .attr("href", pdfPath)
-                                .attr("target", "_blank")
-                                .attr("download", "")
-                                .appendTo("body");
-                            link[0].click();
-                            link.remove();
-                        });
+                        $('#pdf-view').html('<object data="pdf-history.php" type="application/pdf" class="w-full h-screen">');
+                        // swal({
+                        //     text: 'Exporting to PDF',
+                        //     icon: "success",
+                        //     buttons: false,
+                        //     timer: 2000,
+                        // }).then(() => {
+                            // var pdfPath = "pdf-history.php";
+                            // var link = $("<a></a>").attr("href", pdfPath).attr("target", "_blank").attr("download", "").appendTo("body");
+                            // link[0].click();
+                            // link.remove();
+                        // });
                     } else {
                         swal({
                             text: resp.msg,

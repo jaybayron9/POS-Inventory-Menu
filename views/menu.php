@@ -156,7 +156,7 @@
                         <p class="p-3 mx-16 font-semibold text-lg text-green-700">₱ <span id="total" class="text-gray-900"></span></p>
                     </div>
                     <div class="discounttotal hidden flex w-full bg-gray-50 border-t border-gray-200">
-                        <p class="p-3 ml-3 font-semibold text-xs">TOTAL DISCOUNT</p>
+                        <p class="p-3 ml-3 font-semibold text-xs">TOTAL DUE</p>
                         <p class="p-3 mx-6 font-semibold text-xl text-green-700">₱ <span id="finaltotal" class="text-gray-900"></span></p>
                     </div>
                 </div>
@@ -186,10 +186,14 @@
                     </div>
                 </div>
 
-                <div id="payField" class="flex items-center justify-center gap-3 mb-1 px-2">
+                <div class="flex items-center justify-center gap-3 mb-1 px-2">
                     <div>
                         <label for="Payment amount" class="font-semibold text-xs">PAYMENT</label>
-                        <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" data-row-data="1" placeholder="0" maxlength="5" class="payment w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop">
+                        <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" data-row-data="1" placeholder="0" maxlength="5" class="payment w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop" list="paymenttList">
+                        <datalist id="paymenttList">
+                            <option id="op-totaldue" value="">
+                                <option id="op-subtotal" value="">
+                        </datalist>
                     </div>
 
                     <div data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
@@ -213,11 +217,11 @@
                     </div>
                 </div>
 
-                <div id="opField" class="flex items-center justify-center gap-3 px-2">
+                <div class="flex items-center justify-center gap-3 px-2">
                     <div class="grid grid-cols-3 gap-3">
                         <div>
                             <div id="customer-label">
-                                <label class="font-semibold text-xs">CUSTOMER</label>
+                                <label class="font-semibold text-xs">CUSTOMER <span class="text-red-500">*</span></label>
                                 <div id="cust-profile" class="w-9 h-5 ml-auto text-sky-700 hidden" data-popover-target="customer-profile" data-popover-placement="top">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-mt-3">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
@@ -243,7 +247,7 @@
                                     <div data-popper-arrow></div>
                                 </div>
                             </div>
-                            <input type="text" id="customer" name="customer" title="Customer name" placeholder="Table no. | ID" maxlength="20" data-row-data="3" class="customer w-full rounded-md border-gray-400 shadow-md py-1" list="tableList">
+                            <input type="text" id="customer" name="customer" title="Customer name" placeholder="Table #" maxlength="20" data-row-data="3" class="customer w-full rounded-md border-gray-400 shadow-md py-1" list="tableList">
                             <datalist id="tableList" class="w-10">
                                 <?php for ($i = 1; $i <= 20; $i++) { ?>
                                 <option value="Table <?= $i ?>">
@@ -256,13 +260,13 @@
                         </div>
 
                         <div>
-                            <label for="Note" class="font-semibold text-xs">ADD-ONS</label>
+                            <label for="Note" id="addons-label" class="font-semibold text-xs">ADD-ONS</label>
                             <input type="hidden" id="order_id">
                             <div class="flex">
-                                <input type="text" id="add-ons-to" placeholder="Table" title="Table no. | Invoice no. | Customer name" maxlength="10" data-row-data="4" class="addons w-full rounded-l-full border-gray-400 shadow-md px-1 text-center mr-1 py-1" list="addonsTableList">
+                                <input type="text" id="add-ons-to" placeholder="Table" title="Table no. | Invoice no. | Order Id | Time" maxlength="50" data-row-data="4" class="addons w-full rounded-l-full border-gray-400 shadow-md px-1 text-center mr-1 py-1" list="addonsTableList">
                                 <datalist id="addonsTableList" class="w-10">
                                     <?php foreach($menu->tableAddons() as $row) { ?>
-                                    <option value="<?= $row['customer'] ?>">
+                                    <option value="<?= $row['customer'] . '   |   ' . $row['invoice_no'] . '   |   ' . $row['order_id'] . '   |   ' . date('F j, g:i A', strtotime($row['create_at'])) ?>">
                                     <?php } ?>
                                 </datalist>
                                 
@@ -279,7 +283,7 @@
                 <div class="flex items-center justify-left" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
                     <div id="opField2" class="flex ml-2">
                         <div>
-                            <label for="Service type" class="font-semibold text-xs">SERVICE</label>
+                            <label for="Service type" class="font-semibold text-xs">TYPE</label>
                             <div class="flex items-center hover:cursor-pointer">
                                 <input id="horizontal-list-radio-license" checked type="radio" value="DN" title="Dine in" name="service" title="Dine in" class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-rose-600 checked:border-rose-600 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer">
                                 <label for="horizontal-list-radio-license" title="Dine in" class="px-2 text-base font-bold text-gray-900 dark:text-gray-800 hover:cursor-pointer">DN</label>

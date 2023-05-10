@@ -73,7 +73,7 @@ $(document).ready(function () {
         $(this).height(this.scrollHeight);
     });
 
-// Receipt Record
+    // Receipt Record
     // Add to the receipt table
     $('.add-button').click(function () {
         var str = $(this).data('row-data');
@@ -228,6 +228,7 @@ $(document).ready(function () {
             $tbody.find('tr:contains("No Orders Made")').remove();
         }
 
+        $('#op-subtotal').val(total);
         $('#total').text(total);
     }
     updateTotal();
@@ -245,8 +246,9 @@ $(document).ready(function () {
         $('#discountamount').val(discountAmount.toFixed(2));
         $('#finaltotal').html(NewTotal.toFixed(2));
         $('#change').val(NewChange.toFixed(2));
+        $('#op-totaldue').val(NewTotal);
     }
-
+    
     // change
     function change(){
         if($('#finaltotal').html() == '' ) {
@@ -365,8 +367,7 @@ $(document).ready(function () {
                         $('#print-receipt').slideUp();
                         $('#send-request').removeClass('hidden').fadeIn();
                         $('.delete-button').addClass('hidden');
-                        $('#payField').addClass('hidden');
-                        $('#opField').addClass('hidden');
+                        $('#payment-amount, #discount, #customer, #note, #add-ons-to').addClass('cursor-not-allowed').attr('disabled', true);
                         $('#opField2').addClass('hidden');
                         $('#acthd').addClass('hidden');
                     } else {
@@ -453,24 +454,19 @@ $(document).ready(function () {
                             $('#customer-label').addClass('flex pt-1');
                             $('#cust-profile').removeClass('hidden');
                             $('#order_id').val(resp.order_id);
-                            swal({
-                                icon: "success",
-                                text: "Customer Found",
-                                buttons: false,
-                                timer: 1500,
-                            })
                         } else {
                             $('#customer-label').removeClass('flex pt-1');
                             $('#cust-profile').addClass('hidden');
-                            $('#customer').addClass('text-red-500').val(resp.msg);
+                            $('#customer').addClass('placeholder:text-red-500').attr('placeholder', resp.msg);
                             $('#order_id').val('');
                         }
                     }
                 });
             } else {
-                $('#customer').removeClass('text-red-500').addClass('text-gray-700').val('');
+                $('#customer').removeClass('placeholder:text-red-500').addClass('text-gray-700').attr('placeholder', 'Table #');
                 $('#customer-label').removeClass('flex pt-1');
                 $('#cust-profile').addClass('hidden');
+                $('#customer').val('');
                 $('#order_id').val('');
             }
         });
@@ -544,10 +540,20 @@ $(document).ready(function () {
                             icon: "warning",
                             text: resp.msg,
                             confirmationbutton: true,
+                            dangerMode: true,
                         })
                     }
                 }
             });
         }
+    });
+
+    $('#addons-label').click(function() {
+        $('#add-ons-to').val('');
+        $('#customer').removeClass('placeholder:text-red-500').addClass('text-gray-700').attr('placeholder', 'Table #');
+        $('#customer-label').removeClass('flex pt-1');
+        $('#cust-profile').addClass('hidden');
+        $('#customer').val('');
+        $('#order_id').val('');
     });
 });

@@ -54,6 +54,7 @@
                     </div>
                     <!--Footer-->
                     <div class="col-span-2 flex justify-end pt-2 bottom-0">
+                        <button id="removebtn" type="submit" class="px-4 bg-red-500 p-3 rounded-lg text-white hover:bg-red-400 hover:text-white mr-auto">Remove Photo</button>
                         <button id="savebtn" type="submit" class="savebtn px-4 bg-transparent p-3 rounded-lg text-blue-500 hover:bg-gray-100 hover:text-blue-400 mr-2">Save</button>
                         <button id="updatebtn" type="submit" class="updatebtn px-4 bg-transparent p-3 rounded-lg text-blue-500 hover:bg-gray-100 hover:text-blue-400 mr-2">Update</button>
                         <a href="#" class="modal-close px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400">Close</a>
@@ -124,10 +125,41 @@
                                 icon: "success",
                                 button: false,
                                 time: 1000,
-                            })
-                            setTimeout(function() {
+                            }).then(()=>{
                                 location.reload(true);
-                            }, 1100);
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
+        $('#removebtn').click(function() {
+            $("#product-form").submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: 'index.php?a=remove_picture',
+                    type: 'POST',
+                    data: new FormData(this),
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status == 'success') {
+                            swal({
+                                title: "Success!",
+                                text: "Picture removed successfully",
+                                icon: "success",
+                                button: false,
+                                time: 1000,
+                            }).then(()=>{ location.reload(true); });
+                        } else {
+                            swal({
+                                title: "Error!",
+                                text: "Unable to remove picture",
+                                icon: "error",
+                                button: "Ok",
+                            })
                         }
                     }
                 });

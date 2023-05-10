@@ -93,10 +93,10 @@
                             <?php } ?>
                         </td>
                         <td class="whitespace-nowrap">
-                            <?= date('g: i a', strtotime($cust['update_at'])) ?>
-                        </td>
-                        <td class="whitespace-nowrap">
                             <?= date('g: i a', strtotime($cust['create_at']))?>
+                            </td>
+                            <td class="whitespace-nowrap">
+                            <?= date('g: i a', strtotime($cust['update_at'])) ?>
                         </td>
                         <td class="whitespace-nowrap hidden"><?= date('Y-m-d', strtotime($cust['create_at'])) ?></td>
                     </tr>
@@ -167,6 +167,7 @@
 
             $('#total').html(Number(total_discount).toFixed(2));
             $('#order_id').val(secondValue);
+            $('#op-pay').val(Number(total_discount).toFixed(2));
         });
 
         var printDialogClosed = false;
