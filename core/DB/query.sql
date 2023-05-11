@@ -1,152 +1,187 @@
--- Active: 1666468590274@@127.0.0.1@3306@hotplateposv2
-create database hotplateposv2;
-use  hotplateposv2;
+-- Active: 1666468590274@@127.0.0.1@3306@hotplatepos
+create database hotplatepos;
+use  hotplatepos;
 
--- warning: do not execute, not yet ready!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CREATE TABLE settings (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
-    bussiness_name VARCHAR(255) NULL,
-    bussiness_tin VARCHAR(255) NULL,
-    address VARCHAR(255) NULL,
-    contact_no VARCHAR(255) NULL,
-    email VARCHAR(255) NULL,
-    URL VARCHAR(255) NULL,
-    logo VARCHAR(255) NULL,
-    auth VARCHAR(255) NULL,
-    create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    bussiness_name VARCHAR(200),
+    bussiness_tin VARCHAR(50),
+    address VARCHAR(100),
+    contact_no VARCHAR(20),
+    email VARCHAR(50),
+    URL VARCHAR(100),
+    logo LONGTEXT,
+    auth VARCHAR(255),
+    create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
 );
-drop table settings;
+    drop table settings;
 
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NULL,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role VARCHAR(255) NOT NULL,
-    token VARCHAR(255),
+    name VARCHAR(50) NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL,
     hint VARCHAR(255),
     answer VARCHAR(255),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-
-drop table users;
+    drop table users;
 
 CREATE TABLE orders (
-    order_id INT(11) PRIMARY KEY AUTO_INCREMENT,
-    invoice_no VARCHAR(255) NOT NULL,
-    customer VARCHAR(255) NOT NULL,
-    total VARCHAR(255) NOT NULL,
-    discount VARCHAR(255) NULL,
-    total_discount VARCHAR(255) NULl,
-    pay_type VARCHAR(255) NOT NULL,
-    payment VARCHAR(255) NOT NULL,
-    pay_change VARCHAR(255) NOT NULL,
-    service VARCHAR(255) NOT NULL,
-    status VARCHAR(255) NOT NULL,
-    payment_status VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    quantity VARCHAR(255) NOT NULL,
-    price VARCHAR(255) NOT NULL,
+    order_id INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    invoice_no INT(11) NOT NULL,
+    customer VARCHAR(50) NOT NULL,
+    total VARCHAR(20) NOT NULL,
+    discount VARCHAR(20),
+    total_discount VARCHAR(20),
+    pay_type VARCHAR(20),
+    payment INT DEFAULT 0,
+    pay_change VARCHAR(20),
+    service VARCHAR(20) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    payment_status VARCHAR(20),
+    name LONGTEXT NOT NULL,
+    quantity LONGTEXT NOT NULL,
+    price LONGTEXT NOT NULL,
     note LONGTEXT,
     order_seen int(1) NOT NULL,
     count_update int(11) NOT NULL,
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-
-drop table orders;
+    drop table orders;
 
 CREATE TABLE products (
     product_id INT(11) PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255),
-    price VARCHAR(255),
-    status VARCHAR(255),
+    name VARCHAR(50),
+    price INT(11),
+    status VARCHAR(50),
     picture LONGTEXT,
     description LONGTEXT,
-    quantity VARCHAR(30),
-    reorder_level VARCHAR(30),
-    total VARCHAR(30),
-    sale DECIMAL(8, 2),
-    category VARCHAR(255),
+    quantity INT(11),
+    reorder_level INT(11),
+    total DECIMAL(10, 2),
+    sale DECIMAL(10, 2),
+    category VARCHAR(50),
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-drop table products;
-update products set total = price * quantity;
-
-CREATE TABLE inventory (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    item_name VARCHAR(255) NOT NULL,
-    description VARCHAR(255),
-    quantity INT NOT NULL,
-    unit_cost DECIMAL(10,2) NOT NULL,
-    total_value DECIMAL(10,2) NOT NULL,
-    reorder_level INT NOT NULL,
-    supplier VARCHAR(255),
-    location VARCHAR(255),
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
-DROP table `inventory`;
+    drop table products;
 
 create table product_history(
     id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
-    product_name VARCHAR(255),
-    type VARCHAR(255),
+    product_name VARCHAR(50),
+    type VARCHAR(50),
     transaction_count INT NOT NULL,
     updated_quantity INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-drop table `product_history`;
+    drop table product_history;
+    
+create table daily_report() {
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category VARCHAR(50),
+    total_sales DECIMAL(10,2),
+    total_discount DECIMAL(10,2),
+    total_tax DECIMAL(10,2),
+    total_profit DECIMAL(10,2),
+    total_cost DECIMAL(10,2),
+    total_quantity INT,
+    total_orders INT,
+    total_customers INT,
+    total_products INT,
+    total_suppliers INT,
+    total_transactions INT,
+    total_payments INT, 
+    total_expenses INT,
+    total_receivables INT,
+    total_payables INT,
+    total_cash INT,
+    total_credit INT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+};
+    drop table daily_report;
 
-INSERT INTO `inventory` (`id`, `item_name`, `description`, `quantity`, `unit_cost`, `total_value`, `reorder_level`, `supplier`, `location`, `created_at`, `updated_at`) VALUES
-(1, 'Beef', 'Fresh ground beef for burgers', 50, '2.50', '125.00', 10, 'Meat Co.', 'Walk-in Freezer', '2023-03-28 14:34:33', '2023-03-28 14:34:33'),
-(2, 'Chicken Breast', 'Boneless, skinless chicken breast', 75, '2.00', '150.00', 20, 'Poultry Farms Inc.', 'Walk-in Cooler', '2023-03-28 14:34:33', '2023-03-28 14:34:33'),
-(3, 'Potatoes', 'Fresh potatoes for french fries', 100, '0.50', '50.00', 30, 'Farm Fresh Produce', 'Dry Storage', '2023-03-28 14:34:33', '2023-03-28 14:34:33'),
-(4, 'Buns', 'Freshly baked hamburger buns', 150, '0.25', '37.50', 50, 'Bakery Co.', 'Dry Storage', '2023-03-28 14:34:33', '2023-03-28 14:34:33'),
-(5, 'Cheese', 'Sliced American cheese', 50, '1.00', '50.00', 5, 'Dairy Farms Inc.', 'Walk-in Cooler', '2023-03-28 14:34:33', '2023-03-28 14:34:33');
+-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-INSERT INTO `products` (`product_id`, `name`, `price`, `status`, `picture`, `description`, `sale`, `category`, `create_at`, `update_at`) VALUES
-(1, 'Longadog', '80', 'Available', NULL, 'Sugar, Salt, Olive Oil, Balsamic Vinegar, Garlic, Onions, Tomatoes, Lettuce, Salmon Fillets, Beef Sirloin', '80.00', 'meals', '2023-01-24 03:08:45', '2023-03-31 15:42:48'),
-(2, 'Burger Steak', '80', 'Available', NULL, 'Ground beef, Onion, Bread crumbs, Egg, Worcestershire sauce, Salt, Black pepper, Butter, Flour, Beef broth, Soy sauce, Onion powder, Garlic powder, Cornstarch, Water', '80.00', 'meals', '2023-01-24 03:10:52', '2023-03-31 15:42:48'),
-(3, 'Tocino Tips', '85', 'Available', NULL, 'Pork shoulder or pork belly, sliced into thin tips, Pineapple juice, Soy sauce, Brown sugar, Garlic, minced, Salt, Black pepper, Red food coloring', '85.00', 'meals', '2023-01-24 03:10:52', '2023-03-31 15:42:48'),
-(4, 'Chicken BBQ', '85', 'Available', NULL, 'Chicken thighs or chicken legs, Soy sauce, Ketchup, Brown sugar, Garlic, minced, Lemon or calamansi juice, Salt, Black pepper, Cooking oil', '0.00', 'meals', '2023-01-24 03:10:52', '2023-03-30 14:51:46'),
-(5, 'Pork BBQ', '85', 'Available', NULL, 'Pork shoulder or pork belly, Soy sauce, Vinegar, Brown sugar, Ketchup, Garlic, minced, Salt, Black pepper, Banana ketchup, Pineapple juice, Wooden skewers', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-30 14:51:46'),
-(6, 'Chicken Teriyaki', '90', 'Available', NULL, 'Chicken, Soy sauce, Mirin, Sake, Sugar, Garlic, minced, Ginger, grated, Cornstarch, Water, Vegetable oil', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-31 15:41:55'),
-(7, 'Pork Teriyaki', '90', 'Available', NULL, 'Pork, Soy sauce, Mirin, Sake, Sugar, Garlic, minced, Ginger, grated, Sesame oil, Cornstarch, Water, Green onions, Sesame seeds', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-28 15:16:52'),
-(8, 'Hungarian', '90', 'Available', NULL, 'Pork, beef, Garlic, Salt, Black pepper, Paprika, Caraway seeds, Allspice, Coriander seeds, Mustard seeds, Water or red wine', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-29 13:30:33'),
-(9, 'Tapa Tips', '90', 'Available', NULL, 'Beef sirloin,  Soy sauce, Vinegar, Brown sugar, Garlic, minced, Salt, Black pepper', '90.00', 'meals', '2023-01-24 03:16:45', '2023-03-31 15:43:11'),
-(10, 'Porkchop', '90', 'Available', NULL, 'Pork chops, Salt, Black pepper, Garlic powder, Paprika, Olive oil or vegetable oil, Butter, Fresh herbs', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-30 14:51:46'),
-(11, 'Pork Sisig', '95', 'Available', NULL, 'Pork head, ears, and liver, Onion, Garlic, Ginger, Calamansi juice, Soy sauce, Vinegar, Mayonnaise, Salt, Black pepper, Red chili peppers', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-31 15:41:55'),
-(12, 'Spicy Beef Tapa', '95', 'Available', NULL, 'Beef sirloin, Soy sauce, Vinegar, Brown sugar, Garlic, minced, Salt, Black pepper, Red pepper flakes, Oil', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-31 15:41:55'),
-(13, 'Liempo', '95', 'Available', NULL, 'Pork belly, Soy sauce, Vinegar, Garlic, minced, Salt, Black pepper, Brown sugar, Lemon', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-28 15:16:52'),
-(14, 'Gambas', '100', 'Available', NULL, 'Large shrimp, Garlic, minced, Olive oil, Paprika, Red pepper flakes, Lemon juice, Salt, Parsley', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-28 15:16:52'),
-(15, 'Beef Pares', '100', 'Available', NULL, 'Beef chuck, Soy sauce, Brown sugar, Star anise, Garlic, minced, Ginger, sliced, Water, Cornstarch, Salt, Black pepper, Oil', '100.00', 'meals', '2023-01-24 03:16:45', '2023-03-31 15:43:11'),
-(16, 'Boneless Bangus', '100', 'Available', NULL, 'Boneless Bangus,\r\nVinegar,\r\nGarlic, minced,\r\nSalt,\r\nBlack pepper,\r\nOil', '100.00', 'meals', '2023-01-24 03:16:45', '2023-03-31 15:43:11'),
-(17, 'T-Bone', '160', 'Available', NULL, 'T-bone steak, Salt, Black pepper, Olive oil, Butter, Garlic cloves, Fresh herbs', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-28 15:16:52'),
-(18, 'Porter House', '170', 'Available', NULL, 'Porterhouse steak, Salt, Black pepper, Olive oil, Garlic cloves,', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-23 02:48:59'),
-(19, 'Sizzling Tofu', '140', 'Available', NULL, 'Firm tofu, \r\nCornstarch,\r\nCooking oil,\r\nGarlic, \r\nOnion,\r\nBell peppers,\r\nSoy sauce,\r\nOyster sauce,\r\nSugar,\r\nWater,\r\nGreen onions,', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-31 15:41:55'),
-(20, 'Sizzling Hotdog', '140', 'Available', NULL, 'Hotdogs,\r\nCooking oil,\r\nOnions,\r\nSoy sauce,\r\nKetchup,\r\nWorcestershire sauce,\r\nSugar,\r\nWater,\r\nCornstarch', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-31 15:41:55'),
-(21, 'Sizzling Sisig', '160', 'Available', NULL, 'Hotdogs, Onions, Butter, Ketchup, Mayonnaise, Mustard, Worcestershire sauce, Soy sauce, Sugar, Lemon juice, Salt, Black pepper, Cheese, Chili flakes	', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-30 14:51:46'),
-(22, 'Sizzling Gambas', '180', 'Available', NULL, 'Shrimp, Garlic,  Onion, Tomato sauce, Soy sauce, Worcestershire sauce, Sugar, Red chili peppers, Butter, Olive oil, Salt, Black pepper, Spring onions', '0.00', 'meals', '2023-01-24 03:16:45', '2023-03-23 02:49:00'),
-(23, 'juice', '25', 'Available', NULL, '', '0.00', 'drinks', '2023-02-23 05:10:06', '2023-03-30 14:38:04'),
-(24, 'water', '0', 'Available', NULL, '', '0.00', 'drinks', '2023-02-23 05:11:20', '2023-03-30 14:38:10');
+INSERT INTO `products` (`product_id`, `name`, `price`, `status`, `picture`, `description`, `quantity`, `reorder_level`, `total`, `sale`, `category`, `create_at`, `update_at`) VALUES
+    (1, 'Longadog', 80, 'Available', NULL, NULL, 50, 25, '4000.00', '0.00', 'meals', '2023-01-23 19:08:45', '2023-05-11 10:39:28'),
+    (2, 'Burger Steak', 80, 'Available', NULL, NULL, 50, 25, '4000.00', '0.00', 'meals', '2023-01-23 19:10:52', '2023-05-11 10:39:28'),
+    (3, 'Tocino Tips', 85, 'Available', NULL, NULL, 50, 25, '4250.00', '0.00', 'meals', '2023-01-23 19:10:52', '2023-05-11 10:39:28'),
+    (4, 'Chicken BBQ', 85, 'Available', NULL, NULL, 50, 25, '4250.00', '0.00', 'meals', '2023-01-23 19:10:52', '2023-05-11 10:39:28'),
+    (5, 'Pork BBQ', 85, 'Available', NULL, NULL, 50, 25, '4250.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (6, 'Chicken Teriyaki', 90, 'Available', NULL, NULL, 50, 25, '4500.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (7, 'Pork Teriyaki', 90, 'Available', NULL, NULL, 50, 25, '4500.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (8, 'Hungarian', 90, 'Available', NULL, NULL, 50, 25, '4500.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (9, 'Tapa Tips', 90, 'Available', NULL, NULL, 50, 25, '4500.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (10, 'Porkchop', 90, 'Available', NULL, NULL, 50, 25, '4500.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (11, 'Pork Sisig', 95, 'Available', NULL, NULL, 50, 25, '4750.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (12, 'Spicy Beef Tapa', 95, 'Available', NULL, NULL, 50, 25, '4750.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (13, 'Liempo', 95, 'Available', NULL, NULL, 50, 25, '4750.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (14, 'Gambas', 100, 'Available', NULL, NULL, 50, 25, '5000.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (15, 'Beef Pares', 100, 'Available', NULL, NULL, 50, 25, '5000.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (16, 'Boneless Bangus', 100, 'Available', NULL, NULL, 50, 25, '5000.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (17, 'T-Bone', 160, 'Available', NULL, NULL, 50, 25, '8000.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (18, 'Porter House', 170, 'Available', NULL, NULL, 50, 25, '8500.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (19, 'Sizzling Tofu', 140, 'Available', NULL, NULL, 50, 25, '7000.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (20, 'Sizzling Hotdog', 140, 'Available', NULL, NULL, 50, 25, '7000.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (21, 'Sizzling Sisig', 160, 'Available', NULL, NULL, 50, 25, '8000.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (22, 'Sizzling Gambas', 180, 'Available', NULL, NULL, 50, 25, '9000.00', '0.00', 'meals', '2023-01-23 19:16:45', '2023-05-11 10:39:28'),
+    (23, 'Coke', 20, 'Available', NULL, NULL, 50, 25, '1000.00', '0.00', 'drinks', '2023-05-11 09:32:07', '2023-05-11 10:39:28'),
+    (24, 'Royal', 20, 'Available', NULL, NULL, 50, 25, '1000.00', '0.00', 'drinks', '2023-05-11 09:33:01', '2023-05-11 10:39:28'),
+    (25, 'Sprite', 20, 'Available', NULL, NULL, 50, 25, '1000.00', '0.00', 'drinks', '2023-05-11 09:33:15', '2023-05-11 10:39:28'),
+    (26, 'Red Tea', 50, 'Available', NULL, NULL, 50, 25, '2500.00', '0.00', 'drinks', '2023-05-11 09:33:37', '2023-05-11 10:39:28'),
+    (27, 'Cucumber', 50, 'Available', NULL, NULL, 50, 25, '2500.00', '0.00', 'drinks', '2023-05-11 09:34:01', '2023-05-11 10:39:28'),
+    (28, 'Blue Lemonade', 50, 'Available', NULL, NULL, 50, 25, '2500.00', '0.00', 'drinks', '2023-05-11 09:34:22', '2023-05-11 10:39:28'),
+    (29, 'Rice', 15, 'Available', NULL, NULL, 50, 25, '750.00', '0.00', 'add-ons', '2023-05-11 09:34:37', '2023-05-11 10:39:28'),
+    (30, 'Gravy', 15, 'Available', NULL, NULL, 50, 25, '750.00', '0.00', 'add-ons', '2023-05-11 09:34:50', '2023-05-11 10:39:28'),
+    (31, 'Egg', 15, 'Available', NULL, NULL, 50, 25, '750.00', '0.00', 'add-ons', '2023-05-11 09:35:01', '2023-05-11 10:39:28'),
+    (32, 'Mix Veggies', 15, 'Available', NULL, NULL, 50, 25, '750.00', '0.00', 'add-ons', '2023-05-11 09:35:15', '2023-05-11 10:39:28'),
+    (33, 'Takeout Box', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:36:25', '2023-05-11 10:39:26'),
+    (34, 'Gravy Cup', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:36:25', '2023-05-11 10:39:26'),
+    (35, 'Yello Coloring', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (36, 'Pares Cup', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (37, '12oz Plastic Cup', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (38, 'Plastic Medium', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (39, 'Plastic Small', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (40, 'Oyster', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (41, 'Mix Veggies', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (42, 'Sessame Seed', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (43, 'Fried Garlic', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (44, 'Butter', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (45, 'Brown Sugar', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (46, 'Magic Sarap', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (47, 'Cornstarch', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (48, 'Beef Cubes', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (49, 'Oil', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (50, 'Soy Sauce', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (51, 'Red Chili', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (52, 'Green Chili', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (53, 'Calamansi', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (54, 'Onion', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (55, 'Hot Sauce', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (56, 'Catsup', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (57, 'Rice', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (58, 'Egg', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (59, 'Spoon/Fork', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (60, 'Vinegar', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (61, 'Mayonnase', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (62, 'Margarine', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (63, 'Seasoning LIQ.', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (64, 'Bell Pepper', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (65, 'Garlic', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26'),
+    (66, 'Salt/Pepper', 0, 'Available', NULL, NULL, 50, 25, '0.00', '0.00', 'supplies', '2023-05-11 09:42:29', '2023-05-11 10:39:26');
+INSERT INTO `settings` (`id`, `bussiness_name`, `bussiness_tin`, `address`, `contact_no`, `email`, `URL`, `logo`, `auth`, `create_at`, `update_at`) VALUES
+    (1, 'HotPlate Menu', '12345678910-0000', '1149 MARCELO H. DEL PILAR, CORNER CORDERO ST., ARKONG BATO, VALENZUELA 1444 METRO, MANILA VALENZUELA, PHILIPPINES', '09263065035', 'hotplate@gmail.com', 'fb.com/hotplatesizzling', NULL, NULL, '2023-03-06 12:51:07', '2023-04-14 13:34:58');
 
-update products set description = '';
-
-INSERT INTO inventory (item_name, description, quantity, unit_cost, total_value, reorder_level, supplier, location)
-VALUES 
-  ('Beef', 'Fresh ground beef for burgers', 50, 2.50, 125.00, 10, 'Meat Co.', 'Walk-in Freezer'),
-  ('Chicken Breast', 'Boneless, skinless chicken breast', 75, 2.00, 150.00, 20, 'Poultry Farms Inc.', 'Walk-in Cooler'),
-  ('Potatoes', 'Fresh potatoes for french fries', 100, 0.50, 50.00, 30, 'Farm Fresh Produce', 'Dry Storage'),
-  ('Buns', 'Freshly baked hamburger buns', 150, 0.25, 37.50, 50, 'Bakery Co.', 'Dry Storage'),
-  ('Cheese', 'Sliced American cheese', 50, 1.00, 50.00, 5, 'Dairy Farms Inc.', 'Walk-in Cooler');
-
-
-INSERT INTO `settings` (`id`, `bussiness_name`, `address`,`bussiness_tin`, `contact_no`, `email`, `URL`, `logo`, `auth`, `create_at`, `update_at`) VALUES
-(1, 'HotPlate Menu', '1149 Marcelo H. Del Pilar, Corner Cordero St, Arkong Bato, Valenzuela, 1444 Metro Manila, Valenzuela, Philippines', '12345678910-0000', '09263065035', 'hotplate@gmail.com', 'www.fb.com/hotplatesizzling', NULL, NULL, '2023-03-06 20:51:07', '2023-03-30 14:53:45');
+INSERT INTO `users` (`user_id`, `name`, `username`, `email`, `password`, `role`, `hint`, `answer`, `created_at`, `update_at`) VALUES
+    (1, 'Admin', 'admin', 'admin@gmail.com', 'admin', 'Admin', 'favorite color?', 'blue', '2023-04-25 17:08:54', '2023-05-08 11:35:05'),
+    (2, 'staff one', 'staff1', 'staffone@gmail.com', 'admin', 'Staff', NULL, NULL, '2023-05-08 19:22:04', '2023-05-08 11:42:19');

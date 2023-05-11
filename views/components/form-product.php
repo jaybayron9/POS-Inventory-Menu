@@ -38,7 +38,7 @@
                             <option value="meals">Meals</option>
                             <option value="drinks">Drinks</option>
                             <option value="add-ons">Add-ons</option>
-                            <option value="other">Other</option>
+                            <option value="supplies">Supplies</option>
                         </select>
                     </div>
                     <div class="mb-2">

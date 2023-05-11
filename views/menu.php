@@ -189,7 +189,7 @@
                 <div class="flex items-center justify-center gap-3 mb-1 px-2">
                     <div>
                         <label for="Payment amount" class="font-semibold text-xs">PAYMENT</label>
-                        <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" data-row-data="1" placeholder="0" maxlength="5" class="payment w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop" list="paymenttList">
+                        <input type="text" id="payment-amount" name="payment_amount" title="Payment amount" data-row-data="1" placeholder="0" maxlength="11" class="payment w-full rounded-l-md border-gray-400 shadow-md text-green-700 myInput placeholder:text-green-500 py-1" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="false" aria-controls="drawer-backdrop" list="paymenttList">
                         <datalist id="paymenttList">
                             <option id="op-totaldue" value="">
                                 <option id="op-subtotal" value="">

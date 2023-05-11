@@ -65,7 +65,7 @@ class PDF extends FPDF {
         }
     }
 
-    function FancyTable($header, $data) {
+    function FancyTable($header, $data, $tableHeight) {
         $this->SetCol(0);
         // Colors, line width and bold font
         $this->SetFillColor(255, 0, 0);
@@ -74,9 +74,10 @@ class PDF extends FPDF {
         $this->SetLineWidth(.3);
         $this->SetFont('', 'B');
         // Header
-        $w = array(12, 15, 50,13, 25, 25, 25, 25);
-        for ($i = 0; $i < count($header); $i++)
-        $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', true );
+        $w = array(12, 48, 13, 25, 23, 23, 23, 23);
+        for ($i = 0; $i < count($header); $i++) {
+            $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', true);
+        }
         $this->Ln();
         // Color and font restoration
         $this->SetFillColor(224, 235, 255);
@@ -85,6 +86,21 @@ class PDF extends FPDF {
         // Data
         $fill = false;
         foreach ($data as $id) {
+            // Check if there is enough space for the next row
+            if ($this->GetY() + 6 > $tableHeight) { // Adjust the value 6 as needed
+                $this->AddPage();
+                $this->SetCol(0);
+                $this->SetFont('', 'B');
+                for ($i = 0; $i < count($header); $i++) {
+                    $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', true);
+                }
+                $this->Ln();
+                $this->SetFillColor(224, 235, 255);
+                $this->SetTextColor(0);
+                $this->SetFont('');
+                $fill = false;
+            }
+
             $query = Connection::$conn->query("SELECT * FROM orders WHERE order_id = '{$id}'");
             foreach ($query as $row) {
                 $customer = explode(", ", $row['name']);
@@ -99,26 +115,26 @@ class PDF extends FPDF {
                 $orders = [];
                 for ($i = 0; $i < count($name); $i++) {
                     $orders[$i] = array(
-                        'order_id' => $row['order_id'],
                         'Invoice_no' => $row['invoice_no'],
                         'purchase' => $name[$i] . ', ' . $quantity[$i] . ', ' . $price[$i],
-                        'total' => $row['total'],
-                        'discount' => $row['discount'],
                         'service' => $row['service'],
-                        'payment' => $row['payment'],
-                        'change' => $row['pay_change']
+                        'cash' => $row['payment'],
+                        'change' => $row['pay_change'],
+                        'subtotal' => $row['total'],
+                        'discount' => $row['discount'],
+                        'totaldue' => $row['total_discount'],
                     );
                 }
                 
                 foreach($orders as $order) {
-                    $this->Cell($w[0], 6, $order['order_id'], 'LR', 0, 'L', $fill);
-                    $this->Cell($w[1], 6, $order['Invoice_no'], 'LR', 0, 'L', $fill);
-                    $this->Cell($w[2], 6, $order['purchase'], 'LR', 0, 'L', $fill);
-                    $this->Cell($w[3], 6, $order['service'], 'LR', 0, 'C', $fill);
-                    $this->Cell($w[4], 6, number_format($order['payment']), 'LR', 0, 'R', $fill);
-                    $this->Cell($w[5], 6, number_format($order['change']), 'LR', 0, 'R', $fill);
-                    $this->Cell($w[6], 6, number_format($order['discount']), 'LR', 0, 'R', $fill);
-                    $this->Cell($w[7], 6, number_format($order['total']), 'LR', 0, 'R', $fill);
+                    $this->Cell($w[0], 6, $order['Invoice_no'], 'LR', 0, 'L', $fill);
+                    $this->Cell($w[1], 6, $order['purchase'], 'LR', 0, 'L', $fill);
+                    $this->Cell($w[2], 6, $order['service'], 'LR', 0, 'C', $fill);
+                    $this->Cell($w[3], 6, number_format($order['cash']), 'LR', 0, 'R', $fill);
+                    $this->Cell($w[4], 6, number_format($order['change']), 'LR', 0, 'R', $fill);
+                    $this->Cell($w[5], 6, number_format($order['subtotal']), 'LR', 0, 'R', $fill);
+                    $this->Cell($w[6], 6, number_format($order['discount'],2), 'LR', 0, 'R', $fill);
+                    $this->Cell($w[7], 6, number_format($order['totaldue'],2), 'LR', 0, 'R', $fill);
                     $this->Ln();
                     $fill = !$fill;
                 }
@@ -129,23 +145,12 @@ class PDF extends FPDF {
         $this->Cell(array_sum($w), 0, '', 'T');
     }
 
-    public function getSale($data) {
+    public function getTotal($data, $column) {
         $total = 0;
         foreach ($data as $id) {
             $query = Connection::$conn->query("SELECT * FROM orders WHERE order_id = '{$id}'");
             foreach ($query as $row) {
-                $total += $row['total_discount'];
-            }
-        }
-        return $total;
-    }
-
-    public function getDiscount($data) {
-        $total = 0;
-        foreach ($data as $id) {
-            $query = Connection::$conn->query("SELECT * FROM orders WHERE order_id = '{$id}'");
-            foreach ($query as $row) {
-                $total += $row['discount'];
+                $total += $row[$column];
             }
         }
         return $total;
@@ -161,9 +166,13 @@ class PDF extends FPDF {
 $pdf = new PDF();
 $pdf->AddPage();
 
-$header = array('OID.', 'INV#', 'PURCHASE','TYPE', 'CASH', 'CHANGE', 'DISCOUNT', 'TOTAL');
+$header = array('INV#', 'PURCHASE','TYPE', 'CASH', 'CHANGE', 'SUBTOTAL', 'DISCOUNT', 'TOTALDUE');
 $pdf->SetFont('Courier', '', 10);
-$pdf->FancyTable($header, $_SESSION['pdf']);
+
+// Calculate the height of the table based on the number of rows
+$tableHeight = $pdf->GetPageHeight() - $pdf->GetY() - 1;
+
+$pdf->FancyTable($header, $_SESSION['pdf'], $tableHeight);
 
 $pdf->SetCol(0);
 $pdf->SetFillColor(255,0,0);
@@ -171,13 +180,19 @@ $pdf->SetTextColor(255);
 $pdf->SetDrawColor(128,0,0);
 $pdf->SetLineWidth(.3);
 $pdf->SetFont('','B');
-$pdf->Cell(140,7,'TOTAL',1,0,'C',true);
-$pdf->Cell(25,7,number_format($pdf->getDiscount($_SESSION['pdf'])),1,0,'C',true);
-$pdf->Cell(25,7,number_format($pdf->getSale($_SESSION['pdf'])),1,0,'C',true);
+$pdf->Cell(121,7,'TOTAL',1,0,'C',true);
+$pdf->Cell(23,7,number_format($pdf->getTotal($_SESSION['pdf'], 'total')),1,0,'C',true);
+$pdf->Cell(23,7,number_format($pdf->getTotal($_SESSION['pdf'], 'discount'),2),1,0,'C',true);
+$pdf->Cell(23,7,number_format($pdf->getTotal($_SESSION['pdf'], 'total_discount'),2),1,0,'C',true);
 
+// Check if there is enough space for the next content
+if ($pdf->GetY() + 20 > $pdf->GetPageHeight()) { // Adjust the value 20 as needed
+    $pdf->AddPage();
+}
+
+// Continue adding content or output the PDF
 // $filename = 'history_report_' . date('m-d-Y') . '.pdf';
 // $pdf->Output($filename, 'D');
 
 $pdf->Output();
 $pdf->unsetSession();
-?>

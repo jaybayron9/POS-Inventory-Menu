@@ -9,7 +9,17 @@ class History extends Connection {
     }
 
     public static function getReceipt() {
-        return parent::$conn->query("SELECT * FROM orders order by status");
+        return parent::$conn->query("
+            SELECT *
+            FROM orders
+            ORDER BY
+            CASE 
+                WHEN payment_status = 'Unpaid' THEN 1
+                WHEN payment_status = 'Balance' THEN 2
+                WHEN payment_status = 'Paid' THEN 3
+                ELSE 4 
+            END, `create_at`
+        ");
     }
 
     public function clear_history() {
@@ -190,7 +200,7 @@ class History extends Connection {
         $total_discount = $_POST['total'] - $_POST['discount_amount'];
 
         $payment_status = 'Paid';
-        if ($_POST['payment_amount'] > 0 && $_POST['payment_amount'] < $total_discount) {
+        if ($_POST['payment_amount'] > 0 && $_POST['payment_amount'] < $_POST['total']) {
             $payment_status = 'Balance';
         }
 

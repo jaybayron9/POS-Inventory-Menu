@@ -6,7 +6,6 @@ require(core('auth'));
 require(core('settings'));
 
 date_default_timezone_set("Asia/Manila");
-require("public/receipt/fpdf.php");
 
 $pdf = new FPDF ('P','mm',array(80,200));
 $pdf->AddPage();
@@ -126,7 +125,7 @@ $grandtotal = floatval($_SESSION['total']) - $discount;
 $pdf->SetX(7);
 $pdf->SetFont('courier','B',10);
 $pdf->Cell(20,5,'',0,0,'L');
-$pdf->Cell(25,5,'TOTAL',1,0,'C');
+$pdf->Cell(25,5,'TOTAL DUE',1,0,'C');
 $pdf->Cell(20,5,$grandtotal,1,1,'C');
 
 $pdf->SetX(7);

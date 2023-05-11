@@ -13,18 +13,19 @@
                 <tr>
                     <th data-priority="1" class="text-xs">ID.</th>
                     <th data-priority="2" class="text-xs">TABLE</th>
-                    <th data-priority="3" class="text-xs">PURCHASED</th>
-                    <th data-priority="4" class="text-xs">TOTAL</th>
-                    <th data-priority="5" class="text-xs">DISCOUNT</th>
-                    <th data-priority="6" class="text-xs">AMOUNT DUE</th>
+                    <th data-priority="14" class="text-xs">PURCHASED</th>
+                    <th data-priority="3" class="text-xs">TOTAL</th>
+                    <th data-priority="4" class="text-xs">DISCOUNT</th>
+                    <th data-priority="5" class="text-xs">AMOUNT DUE</th>
+                    <th data-priority="6" class="text-xs">CASH</th>
                     <th data-priority="7" class="text-xs">BALANCE</th>
-                    <th data-priority="11" class="text-xs">SERVICE TYPE</th>
-                    <th data-priority="10" class="text-xs">ORDER STATUS</th>
+                    <th data-priority="8" class="text-xs">SERVICE TYPE</th>
+                    <th data-priority="9" class="text-xs">ORDER STATUS</th>
                     <th data-priority="8" class="text-xs">PAYMENT STATUS</th>
-                    <th data-priority="9" class="text-xs">RECEIPT</th>
-                    <th data-priority="12" class="text-xs">CREATED</th>
-                    <th data-priority="13" class="text-xs">UPDATED</th>
-                    <th data-priority="14" class="text-xs hidden">DATE</th>
+                    <th data-priority="10" class="text-xs">RECEIPT</th>
+                    <th data-priority="11" class="text-xs">CREATED</th>
+                    <th data-priority="12" class="text-xs">UPDATED</th>
+                    <th data-priority="13" class="text-xs hidden">DATE</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,6 +61,7 @@
                         <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= floatval($cust['total']) ?>
                         <td class="whitespace-nowrap"><span class="text-red-600">-</span> <?= floatval($cust['discount']) ?>
                         <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= floatval($cust['total_discount']) ?>
+                        <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= floatval($cust['payment']) ?>
                         <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= $cust['pay_change'] < $cust['total'] ? floatval($cust['pay_change']) : 0 ?>
                         <td>
                             <div class="font-medium bg-gradient-to-r <?= $cust['service'] == "TK" ? 'from-blue-400 to-gray-700' : 'from-orange-400 to-orange-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
@@ -77,14 +79,14 @@
                             </div>
                         </td>
                         <td class="whitespace-nowrap">
-                                <a href="#" data-modal-toggle="receipt-modal" data-row-data="<?= $cust['total'] . ', ' . $cust['order_id'] ?>" class="row flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                <a data-modal-toggle="receipt-modal" data-row-data="<?= $cust['total'] . ', ' . $cust['order_id'] ?>" class="row flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                                     </svg>
                                     Receipt
                                 </a>
-                                <?php if( $cust['payment_status'] == 'Paid' ) { ?>
-                                <a href="#" data-row-data="<?= $cust['order_id'] ?>" class="reissue-receipt flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 whitespace-nowrap">
+                                <?php if( $cust['payment_status'] == 'Paid' or $cust['payment_status'] == 'Balance' ) { ?>
+                                <a data-row-data="<?= $cust['order_id'] ?>" class="reissue-receipt flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 whitespace-nowrap hover:cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                                     </svg>
@@ -111,15 +113,17 @@
 <script>
     $(document).ready(function() {
         var table = $('#historytbl').DataTable({
+                // "lengthMenu": [20, 100, 200, 300, 500, 1000],
                 "paging": false,
                 responsive: true,
                 columns: [
                     { title: 'ID.' },
                     { title: 'TABLE' },
                     { title: 'PURCHASED' },
-                    { title: 'TOTAL' },
+                    { title: 'SUBTOTAL' },
                     { title: 'DISCOUNT' },
-                    { title: 'AMOUNT DUE' },
+                    { title: 'TOTAL DUE' },
+                    { title: 'CASH' },
                     { title: 'BALANCE & CHANGE' },
                     { title: 'SERVICE TYPE' },
                     { title: 'ORDER STATUS' },
@@ -139,7 +143,7 @@
         $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
                 var searchDate = $('#search_date').val();
-                var date = data[13]; // assuming the date is in the first column
+                var date = data[14]; // assuming the date is in the first column
                 if (searchDate === '') {
                     return true;
                 }

@@ -7,13 +7,10 @@ require('core/functions.php');
 
 require(core('connection'));
 require(core('auth'));
-require(core('settings'));
 require(core('menu'));
 require(core('history'));
+require(core('settings'));
 require(core('dashboard'));
-
-// Always update prduct information
-$menu->update_sale();
 
 require(view('partial/head'));
 if ( Auth::isAuth() ) {

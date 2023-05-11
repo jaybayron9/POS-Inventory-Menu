@@ -17,8 +17,8 @@
                     case urlIs('p=add-ons'):
                         echo 'Add-ons';
                         break;
-                    case urlIs('p=other'):
-                        echo 'Other';
+                    case urlIs('p=supplies'):
+                        echo 'Supplies';
                         break;
                 }
                 ?>
@@ -38,7 +38,7 @@
                         <a href="?p=add-ons" id="drinksbtn" class="block px-4 py-2 hover:bg-gray-600 hover:text-white">Add-ons</a>
                     </li>
                     <li>
-                        <a href="?p=other" id="other" class="block px-4 py-2 hover:bg-gray-600 hover:text-white">Other</a>
+                        <a href="?p=supplies" id="suppliesbtn" class="block px-4 py-2 hover:bg-gray-600 hover:text-white">Supplies</a>
                     </li>
                 </ul>
             </div>
@@ -70,8 +70,8 @@
                                 case urlIs('p=add-ons'):
                                     $category = 'Add-ons';
                                     break;
-                                case urlIs('p=other'):
-                                    $category = 'Other';
+                                case urlIs('p=supplies'):
+                                    $category = 'upplies';
                                     break;
                             }
                         ?>
@@ -150,13 +150,13 @@
                                 <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productmeals['create_at'])) ?></td>
                                 <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productmeals['update_at'])) ?></td>
                                 <td class="whitespace-nowrap">
-                                    <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $productmeals['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-modal-toggle="in-modal" data-row-data="<?= $productmeals['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         IN
                                     </a>
-                                    <a href="#" data-modal-toggle="out-modal" data-row-data="<?=$productmeals['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-modal-toggle="out-modal" data-row-data="<?=$productmeals['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         OUT
                                     </a>
-                                    <a href="#" data-row-data="<?= $productmeals['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-row-data="<?= $productmeals['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         EDIT
                                     </a>
                                 </td>
@@ -200,13 +200,13 @@
                                 <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productdrinks['create_at'])) ?></td>
                                 <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($productdrinks['update_at'])) ?></td>
                                 <td class="whitespace-nowrap">
-                                    <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $productdrinks['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-modal-toggle="in-modal" data-row-data="<?= $productdrinks['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         IN
                                     </a>
-                                    <a href="#" data-modal-toggle="out-modal" data-row-data="<?=$productdrinks['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-modal-toggle="out-modal" data-row-data="<?=$productdrinks['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         OUT
                                     </a>
-                                    <a href="#" data-row-data="<?= $productdrinks['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-row-data="<?= $productdrinks['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         EDIT
                                     </a>
                                 </td>
@@ -250,13 +250,13 @@
                                 <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($addons['create_at'])) ?></td>
                                 <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($addons['update_at'])) ?></td>
                                 <td class="whitespace-nowrap">
-                                    <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $addons['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-modal-toggle="in-modal" data-row-data="<?= $addons['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         IN
                                     </a>
-                                    <a href="#" data-modal-toggle="out-modal" data-row-data="<?=$addons['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-modal-toggle="out-modal" data-row-data="<?=$addons['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         OUT
                                     </a>
-                                    <a href="#" data-row-data="<?= $addons['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-row-data="<?= $addons['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         EDIT
                                     </a>
                                 </td>
@@ -272,10 +272,10 @@
                             </tr>
                         <?php } ?>
                     </tbody>
-                <?php } else if (urlIs('p=other')) { ?>
+                <?php } else if (urlIs('p=supplies')) { ?>
                     <tbody>
                         <?php
-                        foreach ($menu->products_menu('other') as $other) { ?>
+                        foreach ($menu->products_menu('supplies') as $other) { ?>
                             <tr>
                                 <td><?= $id++ ?></td>
                                 <td class="text-center">
@@ -300,13 +300,13 @@
                                 <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($other['create_at'])) ?></td>
                                 <td class="whitespace-nowrap"><?= date('F j, Y', strtotime($other['update_at'])) ?></td>
                                 <td class="whitespace-nowrap">
-                                    <a href="#" data-modal-toggle="in-modal" data-row-data="<?= $other['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-modal-toggle="in-modal" data-row-data="<?= $other['product_id'] ?>" class="in flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         IN
                                     </a>
-                                    <a href="#" data-modal-toggle="out-modal" data-row-data="<?= $other['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-modal-toggle="out-modal" data-row-data="<?= $other['product_id'] ?>" class="out flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         OUT
                                     </a>
-                                    <a href="#" data-row-data="<?= $other['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">
+                                    <a data-row-data="<?= $other['product_id'] ?>" class="modal-open update-product flex bg-gradient-to-r from-gray-500 to-gray-700 text-gray-50 hover:text-gray-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100 hover:cursor-pointer">
                                         EDIT
                                     </a>
                                 </td>

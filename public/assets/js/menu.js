@@ -359,9 +359,9 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (response) {
                     if (response.status == 'success') {
-                        $("body").append("<iframe src='receipt.php' style='display: none;' ></iframe>");
-                        var iframeElement = document.querySelector("iframe");
-                        iframeElement.contentWindow.print();
+                        // $("body").append("<iframe src='receipt.php' style='display: none;' ></iframe>");
+                        // var iframeElement = document.querySelector("iframe");
+                        // iframeElement.contentWindow.print();
                         $('#menu-list').html('<object data="receipt.php" type="application/pdf" class="w-full h-full">');
                         
                         $('#print-receipt').slideUp();
@@ -406,18 +406,13 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (response) {
                     if (response.status == 'success') {
-                        swal({
-                            icon: "success",
-                            text: "Order Placed",
-                            buttons: false,
-                            timer: 1500,
-                        }).then(() => location.reload());
+                        location.reload();
                     }else {
                         swal({
                             icon: "error",
                             text: response.msg,
-                            buttons: false,
-                            timer: 1500,
+                            confirmationbutton: true,
+                            dangerMode: true,
                         });
                     }
                 }
@@ -508,7 +503,7 @@ $(document).ready(function () {
                     quantity: quantity,
                     price: price
                 });
-            });
+            }); 
     
             $.ajax({
                 url: 'index.php?a=addons',

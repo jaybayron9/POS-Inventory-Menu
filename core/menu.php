@@ -1,6 +1,10 @@
 <?php 
 
 class Menu extends Connection {
+    public function __construct() {
+        $this->update_sale();
+        $this->update_orders();
+    }
 
     public function products_menu($column) {
         return parent::$conn->query("SELECT * FROM products where category = '{$column}' ORDER BY CAST(price AS UNSIGNED) ASC");
@@ -366,9 +370,10 @@ class Menu extends Connection {
                     $newQuantity = $quantity . $row['quantity'] ;
                     $newTotal = $row['total'] + $_POST['total'];
                     $newTotalDiscount = $row['total_discount'] + $_POST['final_total'];
-                    
+
                     foreach ($count as $row) {
                         $count_update = $row['count_update'] + 1;
+
 
                         $updateOrder = parent::$conn->query("
                             update orders
@@ -550,9 +555,13 @@ class Menu extends Connection {
     }
 
     public function update_sale() {
-        parent::$conn->query("update products set total = price * quantity");
+        parent::$conn->query("UPDATE products SET total = price * quantity");
         parent::$conn->query("UPDATE products SET status = 'Unavailable' WHERE quantity < 1");
         parent::$conn->query("UPDATE products SET status = 'Available' WHERE quantity > 0");
+    }
+
+    public function update_orders() {
+        parent::$conn->query("UPDATE orders SET pay_change = payment - total_discount");
     }
 
     public function checkProductQuantity() {

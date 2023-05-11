@@ -121,15 +121,15 @@
                             dataType: 'json',
                             success: function(response) {
                                 if (response.status == 'success') {
-                                    swal(response.msg, {
-                                        icon: "success",
-                                        buttons: false,
-                                        timer: 2000,
-                                    });
-                                    refreshOrder(2000);
+                                    location.reload() 
                                 } else {
-                                    location.reload();
-                                    alert(response.msg);
+                                    swal({
+                                        title: "Error",
+                                        text: response.msg,
+                                        icon: "error",
+                                        confirmationbutton: true,
+                                        dangerMode: true,
+                                    }).swal(() => { location.reload() });
                                 }
                             }
                         });
@@ -156,14 +156,15 @@
                             dataType: 'json',
                             success: function(response) {
                                 if (response.status == 'success') {
-                                    swal("Order cancelled", {
-                                        icon: "success",
-                                        buttons: false,
-                                        timer: 2000,
-                                    });
-                                    refreshOrder(1000);
+                                    location.reload();
                                 } else {
-                                    alert(response.msg);
+                                    swal({
+                                        title: "Error",
+                                        text: response.msg,
+                                        icon: "error",
+                                        confirmationbutton: true,
+                                        dangerMode: true,
+                                    }).swal(() => { location.reload() });
                                 }
                             }
                         });
@@ -192,12 +193,9 @@
             }
         });
 
-        function refreshOrder(time = 12000) {
-            setInterval(function() {
-                location.reload();
-            }, time);
-        }
-        refreshOrder();
+        setInterval(function() {
+            location.reload();
+        }, 12000);
 
         function getCookie(name) {
             var value = "; " + document.cookie;

@@ -1,5 +1,4 @@
 <?php 
-require('core/mailer.php');
 
 class Auth extends Connection {
 
