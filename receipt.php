@@ -4,6 +4,7 @@ require('core/functions.php');
 require(core('connection'));
 require(core('auth'));
 require(core('settings'));
+require("public/receipt/fpdf.php");
 
 date_default_timezone_set("Asia/Manila");
 
