@@ -11,7 +11,7 @@ class PDF extends FPDF {
         // Line break
         $this->SetFont('Arial','B',15);
         $this->Cell(15);
-        $this->Cell(0,10,'DAILY ORDER HISTORY',0,0,'C');
+        $this->Cell(0,10,'DAILY TRANSACTION HISTORY',0,0,'C');
         $this->Ln(-3);
         
         $this->SetCol(2);
@@ -337,7 +337,7 @@ if (true) {
         $pdf->AddPage();
     }
 
-    $pdf->Output(pdfOutputPath('his_report_', 'ORDERS HISTORY'), 'F');
+    $pdf->Output(pdfOutputPath('trans_report_', 'TRANSACTION HISTORY'), 'F');
 }
 
 if (true) {

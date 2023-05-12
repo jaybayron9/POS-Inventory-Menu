@@ -15,7 +15,7 @@ class PDF extends FPDF {
         // Line break
         $this->SetFont('Arial','B',15);
         $this->Cell(15);
-        $this->Cell(0,10,'ORDER HISTORY',0,0,'C');
+        $this->Cell(0,10,'TRANSACTION HISTORY',0,0,'C');
         $this->Ln(-3);
         
         $this->SetCol(2);

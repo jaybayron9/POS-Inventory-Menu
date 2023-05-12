@@ -57,7 +57,7 @@ class Settings extends Connection {
         
             if (!file_exists($folderPath)) {
                 // Create 2 additional folders
-                $subFolderPath1 = $folderPath . DIRECTORY_SEPARATOR . 'ORDERS HISTORY';
+                $subFolderPath1 = $folderPath . DIRECTORY_SEPARATOR . 'TRANSACTION HISTORY';
                 $subFolderPath2 = $folderPath . DIRECTORY_SEPARATOR . 'SALES AND INVENTORY';
                 
                 mkdir($folderPath, 0777, true);
@@ -69,7 +69,7 @@ class Settings extends Connection {
 
     public function daily_report() {
         $currentDateTime = date('Y-m-d H:i:s');
-        $endOfDay = date('Y-m-d 02:29:59');
+        $endOfDay = date('Y-m-d 23:29:59');
 
         if ($currentDateTime >= $endOfDay) {
             require('pdf-daily-report.php');
