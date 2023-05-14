@@ -329,7 +329,7 @@ if (true) {
     $pdf->SetLineWidth(.3);
     $pdf->SetFont('','B');
     $pdf->Cell(121,7,'TOTAL',1,0,'C',true);
-    $pdf->Cell(23,7,number_format($pdf->getTotal('total')),1,0,'C',true);
+    $pdf->Cell(23,7,number_format($pdf->getTotal('total'),2),1,0,'C',true);
     $pdf->Cell(23,7,number_format($pdf->getTotal('discount'),2),1,0,'C',true);
     $pdf->Cell(23,7,number_format($pdf->getTotal('total_discount'),2),1,0,'C',true);
     

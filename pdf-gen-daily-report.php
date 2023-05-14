@@ -128,9 +128,9 @@ class GenDailyReport extends FPDF {
                     $this->Cell($w[0], 6, $order['Invoice_no'], 'LR', 0, 'L', $fill);
                     $this->Cell($w[1], 6, $order['purchase'], 'LR', 0, 'L', $fill);
                     $this->Cell($w[2], 6, $order['service'], 'LR', 0, 'C', $fill);
-                    $this->Cell($w[3], 6, number_format($order['cash']), 'LR', 0, 'R', $fill);
-                    $this->Cell($w[4], 6, number_format($order['change']), 'LR', 0, 'R', $fill);
-                    $this->Cell($w[5], 6, number_format($order['subtotal']), 'LR', 0, 'R', $fill);
+                    $this->Cell($w[3], 6, number_format($order['cash'],2), 'LR', 0, 'R', $fill);
+                    $this->Cell($w[4], 6, number_format($order['change'],2), 'LR', 0, 'R', $fill);
+                    $this->Cell($w[5], 6, number_format($order['subtotal'],2), 'LR', 0, 'R', $fill);
                     $this->Cell($w[6], 6, number_format($order['discount'],2), 'LR', 0, 'R', $fill);
                     $this->Cell($w[7], 6, number_format($order['totaldue'],2), 'LR', 0, 'R', $fill);
                     $this->Ln();
@@ -230,30 +230,29 @@ class GenDailyReport extends FPDF {
 }
 
 $pdf = new GenDailyReport();
+$pdf->AddPage();
+
+$pdf->PHeader("TRANSACTION HISTORY");
+$header = array('INV#', 'PURCHASE','TYPE', 'CASH', 'CHANGE', 'SUBTOTAL', 'DISCOUNT', 'TOTALDUE');
+
+$pdf->SetFont('Courier', '', 10);
+$tableHeight = $pdf->GetPageHeight() - $pdf->GetY() - 1;
+$pdf->Table('TransactionHistory', $header, 'Sales');
+
+$pdf->SetCol(0);
+$pdf->SetFillColor(255,0,0);
+$pdf->SetTextColor(255);
+$pdf->SetDrawColor(128,0,0);
+$pdf->SetLineWidth(.3);
+$pdf->SetFont('','B');
+$pdf->Cell(121,7,'TOTAL',1,0,'C',true);
+$pdf->Cell(23,7,number_format($pdf->getTotal('orders', 'total', 'payment_status', 'Paid', 'create_at'),2),1,0,'C',true);
+$pdf->Cell(23,7,number_format($pdf->getTotal('orders', 'discount', 'payment_status', 'Paid', 'create_at'),2),1,0,'C',true);
+$pdf->Cell(23,7,number_format($pdf->getTotal('orders', 'total_discount', 'payment_status', 'Paid', 'create_at'),2),1,0,'C',true);
+
+if ($pdf->GetY() + 20 > $pdf->GetPageHeight()) {
     $pdf->AddPage();
-
-    $pdf->PHeader("TRANSACTION HISTORY");
-    $header = array('INV#', 'PURCHASE','TYPE', 'CASH', 'CHANGE', 'SUBTOTAL', 'DISCOUNT', 'TOTALDUE');
-
-    $pdf->SetFont('Courier', '', 10);
-    $tableHeight = $pdf->GetPageHeight() - $pdf->GetY() - 1;
-    $pdf->Table('TransactionHistory', $header, 'Sales');
-
-    $pdf->SetCol(0);
-    $pdf->SetFillColor(255,0,0);
-    $pdf->SetTextColor(255);
-    $pdf->SetDrawColor(128,0,0);
-    $pdf->SetLineWidth(.3);
-    $pdf->SetFont('','B');
-    $pdf->Cell(121,7,'TOTAL',1,0,'C',true);
-    $pdf->Cell(23,7,number_format($pdf->getTotal('orders', 'total', 'payment_status', 'Paid', 'create_at')),1,0,'C',true);
-    $pdf->Cell(23,7,number_format($pdf->getTotal('orders', 'discount', 'payment_status', 'Paid', 'create_at'),2),1,0,'C',true);
-    $pdf->Cell(23,7,number_format($pdf->getTotal('orders', 'total_discount', 'payment_status', 'Paid', 'create_at'),2),1,0,'C',true);
-
-    if ($pdf->GetY() + 20 > $pdf->GetPageHeight()) {
-        $pdf->AddPage();
-    }
-
+}
 
 // ---------------------------------------------------------
 
