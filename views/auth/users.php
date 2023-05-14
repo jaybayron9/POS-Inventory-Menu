@@ -10,11 +10,11 @@
             <table id="userstbl" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" name="" id="checkAll"></th>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Created_at</th>
+                        <th class="text-xs"><input type="checkbox" name="" id="checkAll"></th>
+                        <th class="text-xs">#</th>
+                        <th class="text-xs">NAME</th>
+                        <th class="text-xs">POSITION</th>
+                        <th class="text-xs">CREATED</th>
                     </tr>
                 </thead>
                 <tbody>
