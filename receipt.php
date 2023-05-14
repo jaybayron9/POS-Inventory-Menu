@@ -52,11 +52,13 @@ $cashier = Connection::$conn->query("SELECT * FROM users WHERE user_id = '{$_SES
 $pdf->SetFont('Courier','',8);
 $pdf->Cell(10,4,mysqli_fetch_array($cashier)['name'],0,1,'');
 
+$table = str_replace("Table ", "#", $_SESSION['customer']);
+
 $pdf->SetFont('Courier','',10);
 $pdf->Cell(20,4,'Bill To: ',0,0,'');
 
 $pdf->SetFont('Courier','B',15);
-$pdf->Cell(10,4,$_SESSION['customer'],0,1,'');
+$pdf->Cell(10,4,$table,0,1,'');
 
 $pdf->SetFont('Courier','',8);
 $pdf->Cell(20,4,'Type : ',0,0,'');
@@ -162,11 +164,11 @@ $pdf->SetFont('Courier','',12);
 $pdf->Cell(75,5,"Hope you liked it!",0,1,'C');
 
 $pdf->SetX(3);
-$pdf->SetFont('Courier','',8);
+$pdf->SetFont('Courier','',6);
 $pdf->Cell(75,5,'Developed : fb.com/jay.bayron900',0,1,'C');
 
 $pdf->SetX(3);
-$pdf->SetFont('Courier','',8);
+$pdf->SetFont('Courier','',6);
 $pdf->Cell(75,3,'Contact at : +62 9504523523',0,1,'C');
 
 $pdf->Output();

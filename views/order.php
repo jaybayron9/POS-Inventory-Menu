@@ -58,11 +58,12 @@
                                     $quantity = array_filter($fquantity);
                                     
                                     for ($i = 0; $i < count($name); $i++) {
+                                        $cookieProductName = str_replace(' ', '', $name[$i]);
                                         if (strpos($order['name'], '+') !== false) {
                                         ?>
                                             <tr class="<?= $no % 2 !== 0 ? 'bg-gray-200' : '' ?> border-b hover:bg-green-200 capitalize">
                                                 <th scope="row" class="px-1 font-light hidden"><?= $no++ ?></th>
-                                                <th scope="row" class="px-1 font-light"><input type="checkbox" id="<?= $order['order_id'] . $name[$i] . $quantity[$i] ?>"></th>
+                                                <th scope="row" class="px-1 font-light"><input type="checkbox" id="<?= $cookieProductName . $order['order_id'] . $quantity[$i] ?>"></th>
                                                 <th scope="row" class="<?= strpos($name[$i], '+') !== false ? '' : 'line-through decoration-2 decoration-double decoration-red-500' ?> pl-6 py-1 font-medium text-gray-900 whitespace-nowrap">
                                                     <?= str_replace('+', '<span class=" bg-blue-500 px-1 rounded-full mr-1 font-extrabold text-1x text-white">+</span>', $name[$i]); ?>
                                                 </th>
@@ -75,7 +76,7 @@
                                             ?>
                                             <tr class="<?= $no % 2 !== 0 ? 'bg-gray-200' : '' ?> border-b hover:bg-green-200 capitalize">
                                                 <th scope="row" class="px-1 font-light hidden"><?= $no++ ?></th>
-                                                <th scope="row" class="px-1 font-light"><input type="checkbox" id="<?= $order['order_id'] . $name[$i] . $quantity[$i]  ?>"></th>
+                                                <th scope="row" class="px-1 font-light"><input type="checkbox" id="<?= $cookieProductName . $order['order_id'] . $quantity[$i]  ?>"></th>
                                                 <th scope="row" class="pl-6 py-1 font-medium text-gray-900 whitespace-nowrap">
                                                     <?= $name[$i] ?>
                                                 </th>

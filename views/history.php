@@ -97,10 +97,10 @@
                             <td class="text-gray-700"><?= $cust['invoice_no'] ?></td>
                             <td class="text-center"><input type="checkbox" data-row-data="<?= $cust['order_id'] ?>" id="" class="select " value="<?= $cust['order_id'] ?>"></td>
                             <td class="capitalize whitespace-nowrap"><?= $cust['customer'] !== '' ? $cust['customer'] : $cust['invoice_no'] ?></td>
-                            <td><span class="text-green-600">₱</span><span class="text-red-600">-</span><?= floatval($cust['discount']) ?></td>
-                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= floatval($cust['total_discount']) ?></td>
-                            <td><span class="text-green-600">₱</span> <?= floatval($cust['payment']) ?></td>
-                            <td><span class="text-green-600">₱</span> <?= floatval($cust['pay_change']) ?></td>
+                            <td><span class="text-green-600">₱</span><span class="text-red-600">-</span><?= number_format($cust['discount'], 2) ?></td>
+                            <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($cust['total_discount'], 2) ?></td>
+                            <td><span class="text-green-600">₱</span> <?= number_format($cust['payment'], 2) ?></td>
+                            <td><span class="text-green-600">₱</span> <?= number_format($cust['pay_change'], 2) ?></td>
                             <td>
                                 <div class="font-medium bg-gradient-to-r <?= $cust['service'] == "TK" ? 'from-blue-400 to-gray-700' : 'from-orange-400 to-orange-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
                                     <?= $cust['service'] == "TK" ? 'TAKE OUT' : 'DINE IN' ?>
@@ -110,10 +110,10 @@
                                 <?= date('Y-m-d', strtotime($cust['create_at'])) ?>
                             </td>
                             <td class="whitespace-nowrap">
-                                <?= date('g: i A', strtotime($cust['update_at'])) ?>
+                                <?= date('g: i A', strtotime($cust['create_at']))?>
                             </td>
                             <td class="whitespace-nowrap">
-                                <?= date('g: i A', strtotime($cust['create_at']))?>
+                                <?= date('g: i A', strtotime($cust['update_at'])) ?>
                             </td>
                             <td class="whitespace-nowrap">
                                 <?php

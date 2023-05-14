@@ -1,7 +1,7 @@
 <?php 
 require("public/receipt/fpdf.php");
 
-class PDF extends FPDF {
+class Trasaction extends FPDF {
     protected $col = 0; // Current column
     protected $y0; 
 
@@ -146,7 +146,7 @@ class PDF extends FPDF {
     }
 }
 
-class Inventory extends FPDF {
+class SalesInventory extends FPDF {
     protected $col = 0; // Current column
     protected $y0; 
 
@@ -214,7 +214,7 @@ class Inventory extends FPDF {
         $this->SetLineWidth(.3);
         $this->SetFont('','B');
         // Header
-        $w = array(13, 40, 23, 23, 25, 28, 38);
+        $w = array(13, 40, 14, 23, 23, 25, 28, 24);
         for($i=0;$i<count($header);$i++)
             $this->Cell($w[$i],7,$header[$i],1,0,'C',true);
         $this->Ln();
@@ -243,11 +243,12 @@ class Inventory extends FPDF {
 
             $this->Cell($w[0], 6, $row['product_id'], 'LR', 0, 'L', $fill);
             $this->Cell($w[1], 6, $row['name'], 'LR', 0, 'L', $fill);
-            $this->Cell($w[2], 6, $row['quantity'], 'LR', 0, 'R', $fill);
-            $this->Cell($w[3], 6, $row['reorder_level'], 'R', 0, 'R', $fill);
-            $this->Cell($w[4], 6, number_format($row['total']), 'LR', 0, 'R', $fill);
-            $this->Cell($w[5], 6, number_format($row['sale']), 'LR', 0, 'R', $fill);
-            $this->Cell($w[6], 6,  date("d/m/Y", strtotime($row['update_at'])), 'LR', 0, 'R', $fill);
+            $this->Cell($w[2], 6, $row['orig_quantity'], 'LR', 0, 'R', $fill);
+            $this->Cell($w[3], 6, $row['quantity'], 'LR', 0, 'R', $fill);
+            $this->Cell($w[4], 6, $row['reorder_level'], 'R', 0, 'R', $fill);
+            $this->Cell($w[5], 6, number_format($row['total'], 2), 'LR', 0, 'R', $fill);
+            $this->Cell($w[6], 6, number_format($row['sale'], 2), 'LR', 0, 'R', $fill);
+            $this->Cell($w[7], 6,  date("d/m/Y", strtotime($row['update_at'])), 'LR', 0, 'R', $fill);
             $this->Ln();
             $fill = !$fill;
         }
@@ -266,7 +267,7 @@ class Inventory extends FPDF {
     }
 
     function pages($category) {
-        $header = array('PID.', 'NAME', 'ON HAND','REORDER', 'TOTAL', 'SALES', 'MODIFIED');
+        $header = array('PID.', 'NAME', 'QTY', 'ON HAND','RE-ORDER', 'TOTAL', 'SALES', 'MODIFIED');
         $this->SetFont('Courier', '', 10);
 
         // Calculate the height of the table based on the number of rows
@@ -280,10 +281,10 @@ class Inventory extends FPDF {
         $this->SetDrawColor(128,0,0);
         $this->SetLineWidth(.3);
         $this->SetFont('','B');
-        $this->Cell(99,7,'TOTAL',1,0,'C',true);
-        $this->Cell(25,7,number_format($this->getTotal($category, 'total')),1,0,'C',true);
-        $this->Cell(28,7,$this->getTotal($category, 'sale'),1,0,'C',true);
-        $this->Cell(38,7,'',1,0,'C',true);
+        $this->Cell(113,7,'TOTAL',1,0,'C',true);
+        $this->Cell(25,7,number_format($this->getTotal($category, 'total'), 2),1,0,'C',true);
+        $this->Cell(28,7,number_format($this->getTotal($category, 'sale'), 2),1,0,'C',true);
+        $this->Cell(24,7,'Php',1,0,'C',true);
 
         // Check if there is enough space for the next content
         if ($this->GetY() + 20 > $this->GetPageHeight()) { // Adjust the value 20 as needed
@@ -310,7 +311,7 @@ function pdfOutputPath($name, $folder) {
 }
 
 if (true) {
-    $pdf = new PDF();
+    $pdf = new Trasaction();
     $pdf->AddPage();
     
     $header = array('INV#', 'PURCHASE','TYPE', 'CASH', 'CHANGE', 'SUBTOTAL', 'DISCOUNT', 'TOTALDUE');
@@ -341,7 +342,7 @@ if (true) {
 }
 
 if (true) {
-    $pdf = new Inventory();
+    $pdf = new SalesInventory();
 
     $pdf->outPages('Meals', 'meals');
     $pdf->outPages('Drinks', 'drinks');

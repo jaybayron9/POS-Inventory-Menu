@@ -1,9 +1,14 @@
 <section class="h-screen">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:px-6">
-        <div class="max-w-screen-md mb-8">
-            <h2 class="text-4xl tracking-tight font-extrabold text-gray-900"> <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900">HOTPLATE</span> SIZZLING HOUSE</h2>
+        <div class="sm:flex">
+            <a href="./" class="max-w-screen-md mb-8">
+                <h2 class="text-4xl tracking-tight font-extrabold text-gray-900"> <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900">HOTPLATE</span> SIZZLING HOUSE</h2>
+            </a>
+            <div class="ml-auto mb-4 text-right">
+                <button type="button" id="daily-report-btn" class="whitespace-nowrap px-2 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">Daily Report</button>
+            </div>
         </div>
-        <div class="space-y-8 grid lg:grid-cols-4 md:grid-cols-2 gap-6 space-y-0">
+        <div id="show-daily-report" class="space-y-8 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6 space-y-0">
             <div class="p-2 rounded shadow-md bg-white">
                 <div id="sale" class="text-2xl font-bold"></div>
                 <div class="lg:flex gap-x-3">
@@ -34,7 +39,7 @@
             </div>
             <div class="p-2 rounded shadow-md bg-white">
                 <div id="aov" class="text-2xl font-bold"></div>
-                <label class="mb-2 text-xl font-semibold whitespace-nowrap">Average Order Value</label>
+                <label class="mb-2 text-xl font-semibold">Average Order Value</label>
             </div>
             <div class="p-2 rounded shadow-md bg-white">
                 <div id="thebest" class="text-2xl font-bold"></div>
@@ -146,5 +151,9 @@
         $('#aov').load('index.php?d=aov');
         $('#unvailable').load('index.php?d=unvailable');
         $('#available').load('index.php?d=available');
+
+        $('#daily-report-btn').click(function() {
+            $('#show-daily-report').html('<object data="pdf-gen-daily-report.php" type="application/pdf" class="w-full h-screen">').removeClass("space-y-8 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6 space-y-0");
+        });
     });
 </script>

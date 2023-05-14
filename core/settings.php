@@ -17,6 +17,7 @@ class Settings extends Connection {
                 contact_no = '{$_POST['business_phone']}',
                 email = '{$_POST['business_email']}',
                 URL = '{$_POST['business_fb']}',
+                daily_report_hr = '{$_POST['end_date']}',
                 logo = '{$newImage}'
             ") ;
 
@@ -32,6 +33,7 @@ class Settings extends Connection {
                 address = '{$_POST['business_address']}',
                 contact_no = '{$_POST['business_phone']}',
                 email = '{$_POST['business_email']}',
+                daily_report_hr = '{$_POST['end_date']}',
                 URL = '{$_POST['business_fb']}'
             ") ;
 
@@ -67,12 +69,25 @@ class Settings extends Connection {
         }
     }
 
+    public function expireOrdersCookie() {
+        foreach ($_COOKIE as $cookieName => $cookieValue) {
+            if ($cookieValue === "true" || $cookieValue === "false") {
+                setcookie($cookieName, '', time() - 3600, '/');
+                unset($_COOKIE[$cookieName]);
+            }
+        }
+    }
+
     public function daily_report() {
+        $time = parent::$conn->query("SELECT daily_report_hr AS timer FROM settings")->fetch_assoc()['timer'];
+
         $currentDateTime = date('Y-m-d H:i:s');
-        $endOfDay = date('Y-m-d 23:29:59');
+        $endOfDay = date("Y-m-d {$time}");
 
         if ($currentDateTime >= $endOfDay) {
             require('pdf-daily-report.php');
+            parent::$conn->query("update products set orig_quantity = quantity");
+            self::expireOrdersCookie();
         }
     }
 }

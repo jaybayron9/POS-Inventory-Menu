@@ -74,7 +74,7 @@ class PDF extends FPDF {
         $this->SetLineWidth(.3);
         $this->SetFont('','B');
         // Header
-        $w = array(13, 40, 23, 23, 25, 28, 38);
+        $w = array(13, 40, 14, 23, 23, 25, 28, 24);
         for($i=0;$i<count($header);$i++)
             $this->Cell($w[$i],7,$header[$i],1,0,'C',true);
         $this->Ln();
@@ -89,11 +89,12 @@ class PDF extends FPDF {
             foreach ($query as $row) {
                 $this->Cell($w[0], 6, $row['product_id'], 'LR', 0, 'L', $fill);
                 $this->Cell($w[1], 6, $row['name'], 'LR', 0, 'L', $fill);
-                $this->Cell($w[2], 6, $row['quantity'], 'LR', 0, 'R', $fill);
-                $this->Cell($w[3], 6, $row['reorder_level'], 'R', 0, 'R', $fill);
-                $this->Cell($w[4], 6, number_format($row['total']), 'LR', 0, 'R', $fill);
-                $this->Cell($w[5], 6, number_format($row['sale']), 'LR', 0, 'R', $fill);
-                $this->Cell($w[6], 6,  date("d/m/Y", strtotime($row['update_at'])), 'LR', 0, 'R', $fill);
+                $this->Cell($w[2], 6, $row['orig_quantity'], 'LR', 0, 'R', $fill);
+                $this->Cell($w[3], 6, $row['quantity'], 'LR', 0, 'R', $fill);
+                $this->Cell($w[4], 6, $row['reorder_level'], 'R', 0, 'R', $fill);
+                $this->Cell($w[5], 6, number_format($row['total'], 2), 'LR', 0, 'R', $fill);
+                $this->Cell($w[6], 6, number_format($row['sale'], 2), 'LR', 0, 'R', $fill);
+                $this->Cell($w[7], 6,  date("d/m/Y", strtotime($row['update_at'])), 'LR', 0, 'R', $fill);
                 $this->Ln();
                 $fill = !$fill;
             }
@@ -112,7 +113,7 @@ class PDF extends FPDF {
 $pdf = new PDF();
 $pdf->AddPage();
 
-$header = array('PID.', 'NAME', 'ON HAND','REORDER', 'TOTAL', 'SALES', 'MODIFIED');
+$header = array('PID.', 'NAME', 'QTY', 'ON HAND','RE-ORDER', 'TOTAL', 'SALES', 'MODIFIED');
 $pdf->SetFont('Courier', '', 10);
 $pdf->FancyTable($header, $_SESSION['product_id']);
 
@@ -122,12 +123,12 @@ $pdf->SetTextColor(255);
 $pdf->SetDrawColor(128,0,0);
 $pdf->SetLineWidth(.3);
 $pdf->SetFont('','B');
-$pdf->Cell(99,7,'TOTAL',1,0,'C',true);
-$pdf->Cell(25,7,number_format($dash->onHandTotalProduct($_SESSION['product_id'])),1,0,'C',true);
-$pdf->Cell(28,7,$dash->totalProductSale($_SESSION['product_id']),1,0,'C',true);
-$pdf->Cell(38,7,'',1,0,'C',true);
+$pdf->Cell(113,7,'TOTAL',1,0,'C',true);
+$pdf->Cell(25,7,number_format($dash->onHandTotalProduct($_SESSION['product_id']), 2),1,0,'C',true);
+$pdf->Cell(28,7,number_format($dash->totalProductSale($_SESSION['product_id']), 2),1,0,'C',true);
+$pdf->Cell(24,7,'Php',1,0,'C',true);
 
 $pdf->Output();
 
-$pdf->unsetSession();
+// $pdf->unsetSession();
 ?>

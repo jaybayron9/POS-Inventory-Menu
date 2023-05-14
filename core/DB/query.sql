@@ -14,6 +14,7 @@ CREATE TABLE settings (
     URL VARCHAR(100),
     logo LONGTEXT,
     auth VARCHAR(255),
+    daily_report_hr VARCHAR(20),
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
 );
@@ -64,6 +65,7 @@ CREATE TABLE products (
     status VARCHAR(50),
     picture LONGTEXT,
     description LONGTEXT,
+    orig_quantity INT(11) DEFAULT 0, 
     quantity INT(11),
     reorder_level INT(11),
     total DECIMAL(10, 2),

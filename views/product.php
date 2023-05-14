@@ -111,7 +111,8 @@
                         <th data-priority="3" class="text-xs">NAME</th>
                         <th data-priority="6" class="text-xs">STATUS</th>
                         <th data-priority="5" class="text-xs">PRICE</th>
-                        <th data-priority="7" class="text-xs">QTY</th>
+                        <th data-priority="7" class="text-xs">QUANTITY</th>
+                        <th data-priority="7" class="text-xs">ON HAND</th>
                         <th data-priority="8" class="text-xs">REORDER LEVEL</th>
                         <th data-priority="9" class="text-xs">TOTAL</th>
                         <th data-priority="10" class="text-xs">SALE</th>
@@ -143,6 +144,7 @@
                                     </select>
                                 </td>
                                 <td><span class="text-green-600">₱</span> <?= $productmeals['price'] ?></td>
+                                <td><?= $productmeals['orig_quantity'] ?></td>
                                 <td class="<?= $productmeals['quantity'] <= $productmeals['reorder_level'] ? 'text-red-500' : '' ?>"><?= $productmeals['quantity'] ?></td>
                                 <td><input type="text" value="<?= $productmeals['reorder_level'] ?>" data-row-data="<?= $productmeals['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
                                 <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($productmeals['total']) ?></td>
@@ -193,6 +195,7 @@
                                     </select>
                                 </td>
                                 <td><span class="text-green-600">₱</span> <?= $productdrinks['price'] ?></td>
+                                <td><?= $productdrinks['orig_quantity'] ?></td>
                                 <td class="<?= $productdrinks['quantity'] <= $productdrinks['reorder_level'] ? 'text-red-500' : '' ?>"><?= $productdrinks['quantity'] ?></td>
                                 <td><input type="text" value="<?= $productdrinks['reorder_level'] ?>" data-row-data="<?= $productdrinks['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
                                 <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($productdrinks['total']) ?></td>
@@ -243,6 +246,7 @@
                                     </select>
                                 </td>
                                 <td><span class="text-green-600">₱</span> <?= $addons['price'] ?></td>
+                                <td><?= $addons['orig_quantity'] ?></td>
                                 <td class="<?= $addons['quantity'] <= $addons['reorder_level'] ? 'text-red-500' : '' ?>"><?= $addons['quantity'] ?></td>
                                 <td><input type="text" value="<?= $addons['reorder_level'] ?>" data-row-data="<?= $addons['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
                                 <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($addons['total']) ?></td>
@@ -293,6 +297,7 @@
                                     </select>
                                 </td>
                                 <td><span class="text-green-600">₱</span> <?= $other['price'] ?></td>
+                                <td><?= $other['orig_quantity'] ?></td>
                                 <td class="<?= $other['quantity'] <= $other['reorder_level'] ? 'text-red-500' : '' ?>"><?= $other['quantity'] ?></td>
                                 <td><input type="text" value="<?= $other['reorder_level'] ?>" data-row-data="<?= $other['product_id'] ?>" class="reorder myInput bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block px-2 py-1 text-center"></td>
                                 <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($other['total']) ?></td>
@@ -348,6 +353,7 @@ require(view('components/form-product'));
                 { title: 'NAME' },
                 { title: 'STATUS' },
                 { title: 'PRICE' },
+                { title: 'QTY' },
                 { title: 'ON HAND' },
                 { title: 'REORDER LEVEL' },
                 { title: 'TOTAL' },

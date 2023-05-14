@@ -34,6 +34,18 @@
                     <input id="bustin" type="text" name="business_tin" maxlength="30" placeholder="1234567810-000" value="<?= mysqli_fetch_array($set->settings())['bussiness_tin'] ?>" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
                 </div>
                 <div class="col-span-full sm:col-span-3">
+                    <label for="Bus TIN" class="font-semibold text-sm text-gray-700">Auto Daily Report (24 hours format)</label>
+                    <select id="end_date" name="end_date" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        <option value="<?= mysqli_fetch_array($set->settings())['daily_report_hr'] ?>" selected hidden><?= mysqli_fetch_array($set->settings())['daily_report_hr'] ?>
+                        <?php   
+                        for ($i = 00; $i <= 23; $i++) {
+                            $hour = $i < 10 ? '0' . $i : $i;
+                            echo "<option value='$hour : 00 : 00'>$hour : 00 : 00</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="col-span-full sm:col-span-3">
                     <label for="Business logo" class="font-semibold text-sm text-gray-700">Business logo</label>
                     <div class="flex items-center space-x-2">
                         <img src="public/storage/eximage/<?= mysqli_fetch_array($set->settings())['logo'] !== Null ? mysqli_fetch_array($set->settings())['logo'] : 'icon.jpg' ?>" alt="" class="w-10 h-10 rounded-full bg-gray-200 p-1">
@@ -71,6 +83,14 @@
                 },
             });
         });
+
+        // $('#end_date').click(function() {
+        //     $(this).attr('size', 24);
+        // }).on('change', function() {
+        //     $(this).attr('size', 1);
+        // }).blur(function() {
+        //     $(this).attr('size', 1);
+        // });
     });
 </script>
 
