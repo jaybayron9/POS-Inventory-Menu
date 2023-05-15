@@ -566,7 +566,7 @@ class Menu extends Connection {
     }
 
     public function checkProductQuantity() {
-        $get_quantity = parent::$conn->query("SELECT * FROM products WHERE product_id = '{$_POST['p_id']}'");
+        $get_quantity = parent::$conn->query("select quantity from products where product_id = '{$_POST['p_id']}'");
         foreach ($get_quantity as $row) {
             if ($_POST['p_quantity'] >= $row['quantity']) {
                 echo 'true';
