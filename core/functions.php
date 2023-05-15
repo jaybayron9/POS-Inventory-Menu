@@ -31,6 +31,10 @@ function core($dir) {
     return 'core/'.$dir.'.php';
 }
 
+function public($dir) {
+    return 'public/'.$dir.'.php';
+}
+
 function method($action, $exfunc) {
     if (array_key_exists($action, $exfunc)) {
         echo call_user_func_array([
