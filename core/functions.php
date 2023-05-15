@@ -1,12 +1,12 @@
-<?php 
+<?php
 
-// function dd($value) {
-//    echo '<pre>';
-//        var_dump($value);
-//    echo '</pre>';
-    
-//    die();
-// }
+function dd($value) {
+    echo '<pre>';
+    var_dump($value);
+    echo '</pre>';
+
+    die();
+}
 
 function urlIs($value) {
     return parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) === $value;
@@ -29,10 +29,6 @@ function view($dir) {
 
 function core($dir) {
     return 'core/'.$dir.'.php';
-}
-
-function public($dir) {
-    return 'public/'.$dir.'.php';
 }
 
 function method($action, $exfunc) {
