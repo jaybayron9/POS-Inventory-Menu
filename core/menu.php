@@ -557,7 +557,8 @@ class Menu extends Connection {
     public function update_sale() {
         parent::$conn->query("UPDATE products SET total = price * quantity");
         parent::$conn->query("UPDATE products SET status = 'Unavailable' WHERE quantity < 1");
-        parent::$conn->query("UPDATE products SET status = 'Available' WHERE quantity > 0");
+        parent::$conn->query("UPDATE orders SET payment_status = 'Paid' WHERE pay_change = 0"); 
+        // parent::$conn->query("UPDATE products SET status = 'Available' WHERE quantity > 0");
     }
 
     public function update_orders() {
@@ -565,12 +566,12 @@ class Menu extends Connection {
     }
 
     public function checkProductQuantity() {
-        $get_quantity = parent::$conn->query("select quantity from products where product_id = '{$_POST['p_id']}'");
+        $get_quantity = parent::$conn->query("SELECT * FROM products WHERE product_id = '{$_POST['p_id']}'");
         foreach ($get_quantity as $row) {
             if ($_POST['p_quantity'] >= $row['quantity']) {
                 echo 'true';
-            } else {
-                echo 'false';
+            } elseif ($row['status'] === 'Unavailable') {
+                echo 'true';
             }
         }
     }

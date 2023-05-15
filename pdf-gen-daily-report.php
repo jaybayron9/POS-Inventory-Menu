@@ -128,7 +128,7 @@ class GenDailyReport extends FPDF {
                     $this->Cell($w[0], 6, $order['Invoice_no'], 'LR', 0, 'L', $fill);
                     $this->Cell($w[1], 6, $order['purchase'], 'LR', 0, 'L', $fill);
                     $this->Cell($w[2], 6, $order['service'], 'LR', 0, 'C', $fill);
-                    $this->Cell($w[3], 6, number_format($order['cash'],2), 'LR', 0, 'R', $fill);
+                    $this->Cell($w[3], 6, $order['cash'], 'LR', 0, 'R', $fill);
                     $this->Cell($w[4], 6, number_format($order['change'],2), 'LR', 0, 'R', $fill);
                     $this->Cell($w[5], 6, number_format($order['subtotal'],2), 'LR', 0, 'R', $fill);
                     $this->Cell($w[6], 6, number_format($order['discount'],2), 'LR', 0, 'R', $fill);

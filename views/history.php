@@ -99,7 +99,7 @@
                             <td class="capitalize whitespace-nowrap"><?= $cust['customer'] !== '' ? $cust['customer'] : $cust['invoice_no'] ?></td>
                             <td><span class="text-green-600">₱</span><span class="text-red-600">-</span><?= number_format($cust['discount'], 2) ?></td>
                             <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($cust['total_discount'], 2) ?></td>
-                            <td><span class="text-green-600">₱</span> <?= number_format($cust['payment'], 2) ?></td>
+                            <td><span class="text-green-600">₱</span> <?= $cust['payment'] ?></td>
                             <td><span class="text-green-600">₱</span> <?= number_format($cust['pay_change'], 2) ?></td>
                             <td>
                                 <div class="font-medium bg-gradient-to-r <?= $cust['service'] == "TK" ? 'from-blue-400 to-gray-700' : 'from-orange-400 to-orange-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">

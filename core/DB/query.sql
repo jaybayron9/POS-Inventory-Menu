@@ -42,7 +42,7 @@ CREATE TABLE orders (
     discount VARCHAR(20),
     total_discount VARCHAR(20),
     pay_type VARCHAR(20),
-    payment INT DEFAULT 0,
+    payment VARCHAR(20) DEFAULT 0,
     pay_change VARCHAR(20),
     service VARCHAR(20) NOT NULL,
     status VARCHAR(20) NOT NULL,

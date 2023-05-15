@@ -1,8 +1,8 @@
 <section class="pt-5 pb-8">
     <div class="grid md:grid-cols-3">
         <div id="menu-list" class="col-span-2 ml-4 mb-8 rounded-md shadow-lg bg-gray-50" data-drawer-hide="drawer-backdrop" aria-controls="drawer-backdrop">
-            <div class="flex py-4">
-                <ol class="inline-flex items-center mx-auto">
+            <div class="md:flex py-4">
+                <ol class="inline-flex items-center ml-4">
                     <li class="inline-flex items-center mr-2">
                         🥘
                         <a id="nav-meals" href="#" class="inline-flex font-bold text-xl	 items-center text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-red-700 to-gray-900 hover:text-red-700 pr-2">
@@ -17,19 +17,21 @@
                     </li>
                     <li class="flex items-center ">
                         🍚
-                        <a id="nav-add-ons" href="#" class="inline-flex font-bold text-xl items-center text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-gray-900 hover:text-green-700">
+                        <a id="nav-add-ons" href="#" class="inline-flex font-bold text-xl items-center text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-gray-900 hover:text-green-700 whitespace-nowrap">
                             Add-ons
                         </a>
                     </li>
                 </ol>
-                <input type="search" name="" maxlength="35" placeholder="Search" class="search mx-auto text-center ml-auto h-8 rounded-md shadow bg-gray-50 w-1/3 font-medium border-gray-400">
+                <div class="md:text-right md:ml-auto md:mx-auto ml-14 w-2/5">
+                    <input type="search" name="" maxlength="35" placeholder="Search" class="search text-center  h-8 rounded-md shadow bg-gray-50  font-medium border-gray-400">
+                </div>
             </div>
             <ul id="meals-menu" class="meal-list pr-3">
                 <div class="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-4 grid-cols-2 gap-3 ml-3 mb-4">
                     <?php
                     foreach ($menu->products_menu('meals') as $product) {
                     ?>
-                        <li class="meal">
+                        <li class="meal sm:mb-0 mb-10">
                             <div class="bg-cover bg-center bg-no-repeat rounded-md shadow-xl " style="background-image: url('public/storage/uploads/<?= $product['picture'] !== Null ? $product['picture'] : 'default.jpg' ?>'); height: 130px; width: 130px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute w-10 h-9 text-red-500">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
@@ -57,11 +59,11 @@
                 </div>
             </ul>
             <ul id="drinks-menu" class="meal-list hidden pr-3">
-                <div class="grid xl:grid-cols-6 md:grid-cols-4 sm:grid-cols-4 grid-cols-4 gap-3 ml-3 mb-4">
+                <div class="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-4 grid-cols-2 gap-3 ml-3 mb-4">
                     <?php
                     foreach ($menu->products_menu('drinks') as $product) {
                     ?>
-                        <li class="meal">
+                        <li class="meal sm:mb-0 mb-10">
                             <div class="bg-cover bg-center bg-no-repeat rounded-md shadow-xl" style="background-image: url('public/storage/uploads/<?= $product['picture'] !== Null ? $product['picture'] : 'default.jpg' ?>'); height: 130px; width: 130px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute w-10 h-9 text-red-500">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
@@ -89,11 +91,11 @@
                 </div>
             </ul>
             <ul id="add-ons-menu" class="meal-list hidden pr-3">
-                <div class="grid xl:grid-cols-6 md:grid-cols-4 sm:grid-cols-4 grid-cols-4 gap-3 ml-3 mb-4">
+                <div class="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-4 grid-cols-2 gap-3 ml-3 mb-4">
                     <?php
                     foreach ($menu->products_menu('add-ons') as $product) {
                     ?>
-                        <li class="meal">
+                        <li class="meal sm:mb-0 mb-10">
                             <div class="bg-cover bg-center bg-no-repeat rounded-md shadow-xl" style="background-image: url('public/storage/uploads/<?= $product['picture'] !== Null ? $product['picture'] : 'default.jpg' ?>'); height: 130px; width: 130px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute w-10 h-9 text-red-500">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />

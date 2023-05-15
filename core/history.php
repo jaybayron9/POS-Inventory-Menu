@@ -3,7 +3,9 @@
 class History extends Connection {
     public static function getHistory() {
         return parent::$conn->query("SELECT * FROM orders 
-            WHERE payment_status = 'Paid'
+            WHERE 
+                payment_status = 'Paid' OR
+                payment_status = 'Balance'
             ORDER BY status, update_at;
         ");
     }
