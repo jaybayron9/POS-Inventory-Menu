@@ -54,10 +54,12 @@ class Menu extends Connection {
             $payment_status = 'Balance';
         }
 
+        $payment_amount = $_SESSION['payment_amount'] == '' ? 0 : $_SESSION['payment_amount'];
+
         $save = parent::$conn->query("INSERT INTO orders (
             customer, name, price, quantity, total, total_discount, discount, service, invoice_no, note, payment_status, payment, pay_change
         ) VALUES (
-            '{$_SESSION['customer']}', '{$name}', '{$price}', '{$quantity}', '{$_SESSION['total']}', '{$grandtotal}', '{$discount}', '{$_SESSION['service']}', '{$_SESSION['invoice_no']}', '{$_SESSION['note']}', '{$payment_status}', '{$_SESSION['payment_amount']}', '{$_SESSION['payment_change']}'
+            '{$_SESSION['customer']}', '{$name}', '{$price}', '{$quantity}', '{$_SESSION['total']}', '{$grandtotal}', '{$discount}', '{$_SESSION['service']}', '{$_SESSION['invoice_no']}', '{$_SESSION['note']}', '{$payment_status}', '{$payment_amount}', '{$_SESSION['payment_change']}'
         )");
 
         if ($save) {
@@ -557,12 +559,13 @@ class Menu extends Connection {
     public function update_sale() {
         parent::$conn->query("UPDATE products SET total = price * quantity");
         parent::$conn->query("UPDATE products SET status = 'Unavailable' WHERE quantity < 1");
-        parent::$conn->query("UPDATE orders SET payment_status = 'Paid' WHERE pay_change = 0"); 
         // parent::$conn->query("UPDATE products SET status = 'Available' WHERE quantity > 0");
     }
-
+    
     public function update_orders() {
         parent::$conn->query("UPDATE orders SET pay_change = payment - total_discount");
+        parent::$conn->query("UPDATE orders SET payment_status = 'Unpaid' WHERE payment = 0"); 
+        parent::$conn->query("UPDATE orders SET payment_status = 'Paid' WHERE total_discount = payment"); 
     }
 
     public function checkProductQuantity() {

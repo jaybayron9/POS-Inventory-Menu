@@ -80,13 +80,13 @@ class Settings extends Connection {
 
     public function daily_report() {
         $time = parent::$conn->query("SELECT daily_report_hr AS timer FROM settings")->fetch_assoc()['timer'];
-
+        
         $currentDateTime = date('Y-m-d H:i:s');
         $endOfDay = date("Y-m-d {$time}");
-
+        
         if ($currentDateTime >= $endOfDay) {
             require('pdf-daily-report.php');
-            parent::$conn->query("update products set orig_quantity = quantity");
+            parent::$conn->query("UPDATE products SET orig_quantity = quantity, sale = 0");
             self::expireOrdersCookie();
         }
     }

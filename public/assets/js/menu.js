@@ -471,24 +471,17 @@ $(document).ready(function () {
         var payment = $('#payment-amount').val();
         var add_ons = $('#add-ons-to').val().trim();
         
-        if (add_ons == '') {
+        if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
             swal({
                 icon: "warning",
-                text: "Provide the table number.",
+                text: "No add-ons made.",
                 confirmationbutton: true,
                 dangerMode: true,
             });
-        } else if (($('tbody tr').length === 1 && $('tbody tr').text() === "No Orders Made")) {
+        } else if ($('#customer').val() == '' || add_ons == ''){
             swal({
                 icon: "warning",
-                text: "No Add-ons Made",
-                confirmationbutton: true,
-                dangerMode: true,
-            });
-        } else if ($('#customer').val() == ''){
-            swal({
-                icon: "warning",
-                text: "Please provide table no. or customer name.",
+                text: "Table number not found.",
                 buttons: false,
                 timer: 2000,
             });
@@ -524,12 +517,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (resp) {
                     if (resp.status == 'success') {
-                        swal({
-                            icon: "success",
-                            text: resp.msg,
-                            buttons: false,
-                            timer: 1500,
-                        }).then(() => location.reload());
+                        location.reload();
                     } else {
                         swal({
                             icon: "warning",
