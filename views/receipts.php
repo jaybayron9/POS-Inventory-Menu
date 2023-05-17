@@ -61,7 +61,7 @@
                         <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($cust['total'], 2) ?>
                         <td class="whitespace-nowrap"><span class="text-red-600">-</span> <?= number_format($cust['discount'], 2) ?>
                         <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($cust['total_discount'], 2) ?>
-                        <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= number_format($cust['payment'], 2) ?>
+                        <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= $cust['payment'] ?>
                         <td class="whitespace-nowrap"><span class="text-green-600">₱</span> <?= $cust['pay_change'] < $cust['total'] ? number_format($cust['pay_change'], 2) : 0 ?>
                         <td>
                             <div class="font-medium bg-gradient-to-r <?= $cust['service'] == "TK" ? 'from-blue-400 to-gray-700' : 'from-orange-400 to-orange-700' ?> px-1 text-white px-2 rounded text-center whitespace-nowrap">
