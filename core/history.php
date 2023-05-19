@@ -25,7 +25,7 @@ class History extends Connection {
     }
 
     public function clear_history() {
-        parent::$conn->query("DELETE FROM orders");
+        parent::$conn->query("DELETE FROM orders WHERE payment_status = 'Paid' OR payment_status = 'Balance'");
         return parent::alert('success', '');
     }
 
