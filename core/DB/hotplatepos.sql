@@ -35,7 +35,7 @@ CREATE TABLE `orders` (
   `discount` varchar(20) DEFAULT NULL,
   `total_discount` varchar(20) DEFAULT NULL,
   `pay_type` varchar(20) DEFAULT NULL,
-  `payment` int(11) DEFAULT 0,
+  `payment` varchar(20) DEFAULT '0',
   `pay_change` varchar(20) DEFAULT NULL,
   `service` varchar(20) NOT NULL,
   `status` varchar(20) NOT NULL,

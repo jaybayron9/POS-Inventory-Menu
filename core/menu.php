@@ -115,39 +115,82 @@ class Menu extends Connection {
         ");
 
         if ($result) {
-            $query = parent::$conn->query("SELECT * FROM orders WHERE order_id = '{$_POST['order_id']}'");
-                foreach ($query as $row) {
-                    $data = explode(', ', $row['name']);
-                    $price = explode(', ', $row['price']);
-                    $quantity = explode(', ', $row['quantity']);
+            $orders = parent::$conn->query("SELECT * FROM orders WHERE order_id = '{$_POST['order_id']}'");
+            foreach ($orders as $order) {
+                $data = explode(', ', $order['name']);
+                $quantity = explode(', ', $order['quantity']);
 
-                    for ($i = 0; $i < count($data); $i++) {
-                        $prices = parent::$conn->query("select * from products");
+                for ($i = 0; $i < count($data); $i++) {
+                    $products = parent::$conn->query("select * from products");
 
-                        foreach ($prices as $price) {
-                            if ($data[$i] == $price['name']) {
-                                $newSale = (int)$price['sale'] + ((int)$price['price'] * (int)$quantity[$i]);
-                                $newQuantity = (int)$price['quantity'] - (int)$quantity[$i];
-                                $newTotal = $price['price'] * $newQuantity;
-                
-                                parent::$conn->query("
-                                    update products 
-                                    set 
-                                        sale = '{$newSale}',
-                                        quantity = '{$newQuantity}',
-                                        total = '{$newTotal}'
-                                    where 
-                                        name = '{$data[$i]}'
-                                ");
+                    foreach ($products as $product) {
+                        if (strpos($order['name'], '+') !== false) { 
+                            $filteredOrderNameArray = [];
+                            $filteredOrderQuantityArray = [];
+                            $filteredOrderPriceArray = [];
+
+                            foreach (explode(", ", $order['name']) as $index => $name) {
+                                if (strpos($name, '+') === 0) {
+                                    $filteredOrderNameArray[] = $name;
+                                    $filteredOrderQuantityArray[] = explode(", ", $order['quantity'])[$index];
+                                    $filteredOrderPriceArray[] = explode(", ", $order['price'])[$index];
+                                }
                             }
+
+                            $filteredOrderNameArray = explode(", ", implode(", ", $filteredOrderNameArray));
+                            $filteredOrderNameArray = array_map(function($item) {
+                                return ltrim($item, '+');
+                            }, $filteredOrderNameArray);
+
+                            for ($i = 0; $i < count($filteredOrderNameArray); $i++) {
+                                if ($filteredOrderNameArray[$i] == rtrim($product['name'])) {
+                                    $newSale = (int)$product['sale'] + ((int)$product['price'] * (int)$filteredOrderQuantityArray[$i]);
+                                    $newQuantity = (int)$product['quantity'] - (int)$filteredOrderQuantityArray[$i];
+                                    $newTotal = $product['price'] * $newQuantity;
+
+                                    $newSale = strval($newSale);
+                                    $newQuantity = strval($newQuantity);
+                                    $newTotal = strval($newTotal);
+
+                                    
+                                    parent::$conn->query("
+                                        update products 
+                                        set 
+                                            sale = '{$newSale}',
+                                            quantity = '{$newQuantity}',
+                                            total = '{$newTotal}'
+                                            where 
+                                            name = '{$filteredOrderNameArray[$i]}'
+                                    ");
+                                        
+                                    return parent::alert('success', 'Order mark as served');
+                                }
+                            }
+                        } 
+                            
+                        if ($data[$i] == $product['name']) {
+                            $newSale = (int)$product['sale'] + ((int)$product['price'] * (int)$quantity[$i]);
+                            $newQuantity = (int)$product['quantity'] - (int)$quantity[$i];
+                            $newTotal = $product['price'] * $newQuantity;
+                            
+                            parent::$conn->query("
+                                update products 
+                                set 
+                                    sale = '{$newSale}',
+                                    quantity = '{$newQuantity}',
+                                    total = '{$newTotal}'
+                                where 
+                                    name = '{$data[$i]}'
+                            ");
+
+                            return parent::alert('success', 'Order served');
                         }
                     }
                 }
-
-            return parent::alert('success', 'Order served');
+            }
         }
-
-        return parent::alert('failed', 'There\'s a problem.');
+        
+        return parent::alert('error', 'There\'s a problem.');
     }
 
     public function add_product() {

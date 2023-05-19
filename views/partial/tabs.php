@@ -138,6 +138,6 @@
 
         setInterval(function() {
             load_unseen_notification();
-        }, 5000);
+        }, 3000);
     });
 </script>

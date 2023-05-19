@@ -1,5 +1,4 @@
 <?php 
-require("public/receipt/fpdf.php");
 
 class Trasaction extends FPDF {
     protected $col = 0; // Current column

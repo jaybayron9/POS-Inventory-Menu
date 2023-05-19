@@ -2,6 +2,7 @@
 
 class Settings extends Connection {
     public function __construct() {
+        require("public/receipt/fpdf.php");
         $this->create_POS_records_folder('HOTPLATE Reports');
         $this->daily_report();
     }
@@ -79,6 +80,7 @@ class Settings extends Connection {
     }
 
     public function daily_report() {
+        
         $time = parent::$conn->query("SELECT daily_report_hr AS timer FROM settings")->fetch_assoc()['timer'];
         
         $currentDateTime = date('Y-m-d H:i:s');
