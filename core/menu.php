@@ -157,10 +157,9 @@ class Menu extends Connection {
                                         where 
                                         name = '{$filteredOrderNameArray[$i]}'
                                 ");
-                                    
+                                return parent::alert('success', 'Order mark as served'); 
                             }
                         }
-                        return parent::alert('success', 'Order mark as served');
                     }
                 } 
 
@@ -380,7 +379,7 @@ class Menu extends Connection {
                     'ordered_list' => $order_list,
                     'total' => $row['total'],
                     'total_discount' => $row['total_discount'],
-                    'status' => $row['status'],
+                    'status1' => $row['status'],
                     'create_at' => date('F j, Y \a\t g:i A', strtotime($row['create_at'])),
                     'order_seen' => $row['order_seen'],
                 ));

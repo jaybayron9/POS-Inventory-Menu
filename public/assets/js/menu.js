@@ -342,7 +342,7 @@ $(document).ready(function () {
                     quantity: quantity
                 });
             });
-
+ 
             $.ajax({
                 type: "POST",
                 url: "index.php?a=print",

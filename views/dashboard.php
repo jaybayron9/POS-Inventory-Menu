@@ -2,7 +2,8 @@
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:px-6">
         <div class="sm:flex">
             <a href="./" class="max-w-screen-md mb-8">
-                <h2 class="text-4xl tracking-tight font-extrabold text-gray-900"> <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900">HOTPLATE</span> SIZZLING HOUSE</h2>
+                <h2 class="text-4xl tracking-tight font-extrabold text-gray-900"> <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-900">
+                    HOTPLATE</span> SIZZLING HOUSE</h2>
             </a>
             <div class="ml-auto mb-4 text-right">
                 <button type="button" id="daily-report-btn" class="whitespace-nowrap px-2 bg-gradient-to-r from-red-500 to-gray-700 text-white hover:text-red-200 font-medium text-sm px-3 py-1 text-center inline-flex items-center border border-gray-500 hover:border-gray-100">Daily Report</button>
